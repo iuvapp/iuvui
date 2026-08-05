@@ -147,7 +147,8 @@ All components, including complex components, are free. Styles and variants have
 
 - Expand validated primitives based on real product use instead of component count.
 - Establish an independent icon ecosystem and visual regression baseline.
-- Build `@iuvui/cli` and the registry for source installation, diffing, and safe upgrades.
+- Adapt the initial MIT-licensed shadcn component set into iuvui contracts, styles, tests, and dual package/Registry outputs.
+- Build `@iuvui/cli` and the registry for source installation into `components/iuv-ui`, diffing, and safe upgrades.
 - Record upstream versions and file provenance in `iuvui.lock` while protecting user-owned variants.
 - Evaluate future Blocks and Pro products without creating commercial packages prematurely.
 - Improve compatibility, migration tooling, and deprecation telemetry from consumer evidence.

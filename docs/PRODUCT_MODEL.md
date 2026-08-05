@@ -62,7 +62,19 @@ pnpm dlx @iuvui/cli add button
 
 The first path minimizes migration cost. The second adds `iuvui.lock`, provenance, semantic diffs, migration rules, and three-way merging. iuvui's differentiation comes from its coherent styles, tokens, icons, and ongoing source maintenance rather than a proprietary installation protocol.
 
-Compatibility does not mean copying component implementations. iuvui independently defines behavior, accessibility, visual language, variants, and upgrade contracts.
+### V0 implementation strategy
+
+V0 may use MIT-licensed shadcn component source as an implementation starting point. Each imported component is adapted into iuvui's canonical component model rather than redistributed under a different package name without modification. The adaptation establishes:
+
+- iuvui-owned public APIs, compound anatomy, semantic variants, and stable contracts;
+- HeroUI-inspired package structure and product delivery without copying HeroUI source;
+- shared package and Registry outputs from the same canonical component;
+- iuvui styles, tokens, icons, tests, Storybook stories, and lifecycle metadata;
+- explicit upstream provenance, version or commit, source path, license, and modification history.
+
+The shadcn copyright and MIT license notice must be retained whenever copied source or a substantial portion is distributed. A third-party notices file must be introduced with the first imported component and kept current as additional upstream sources are adopted. Paid third-party source and design assets are never valid implementation inputs.
+
+This strategy accelerates the initial component catalog while leaving room to replace internal primitives later. Public APIs must not expose Radix, Base UI, or another behavior primitive as a permanent iuvui contract.
 
 ## Ownership boundary
 
@@ -106,7 +118,7 @@ iuvui add button
 
 ## Principles
 
-- Independently implement on open infrastructure and public specifications.
+- Build on permissively licensed open-source implementations when they accelerate delivery, while preserving licenses, provenance, and independent iuvui contracts.
 - Never use third-party paid source or design assets as component-library implementation input.
 - Keep behavior primitives replaceable and outside the public API.
 - Treat DOM anatomy, props, CSS variables, `data-slot`, and migrations as stable contracts.
