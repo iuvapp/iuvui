@@ -44,6 +44,8 @@ iuvui update --interactive
 
 These commands describe the roadmap and must not be presented as released until implemented.
 
+The CLI installs source components into `components/iuv-ui` by default. This namespace keeps iuvui-managed source distinct from shadcn's conventional `components/ui` directory. Project configuration may override the target directory, while initialization, installation, provenance, diffing, and updates must all resolve the same configured path.
+
 The CLI is publicly installable and its basic workflows do not require login. Free artifact commands work anonymously. Login is requested only when the selected source, Style Pack, variant, or managed service is explicitly classified as protected by its Registry manifest.
 
 ## shadcn ecosystem interoperability

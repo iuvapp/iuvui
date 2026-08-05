@@ -37,6 +37,14 @@ iuvui check
 iuvui update button
 ```
 
+By default, source components will be installed into `components/iuv-ui`:
+
+```text
+components/iuv-ui/button.tsx
+```
+
+This intentionally keeps iuvui source separate from shadcn's conventional `components/ui` directory. A future project configuration may override the target directory, but `components/iuv-ui` remains the CLI default.
+
 React components, styles, tokens, and icons will be published separately under the `@iuvui` scope.
 
 ## Authentication boundary

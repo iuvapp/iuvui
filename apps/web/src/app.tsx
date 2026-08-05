@@ -187,7 +187,7 @@ export function App() {
                   </Card.Description>
                 </Card.Header>
                 <Card.Content>
-                  <code>components/ui</code>
+                  <code>components/iuv-ui</code>
                 </Card.Content>
               </Card>
             </div>
