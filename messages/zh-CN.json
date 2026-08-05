@@ -13,7 +13,7 @@
   "web_primary_navigation": "主导航",
   "web_nav_model": "模式",
   "web_nav_system": "系统",
-  "web_pro_console": "Pro 控制台",
+  "web_dashboard": "控制台",
   "web_package_mode": "包模式",
   "web_package_mode_description": "在应用中使用持续维护的运行时。",
   "web_source_mode": "源码模式",

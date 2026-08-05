@@ -63,4 +63,4 @@ The artifact manifest determines whether entitlement is required, so the CLI doe
 
 The alpha package currently provides `--help`, `--version`, and `doctor`. The `init`, `add`, authentication, and Registry commands intentionally return a clear “coming soon” error until their workflows are ready.
 
-See the [iuvui repository](https://github.com/tcitry/iuvui) for development progress.
+See the [iuvui repository](https://github.com/iuv-tech/iuvui) for development progress.

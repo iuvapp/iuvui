@@ -66,7 +66,7 @@ export function App() {
   }
 
   function openGitHub() {
-    window.open("https://github.com/tcitry/iuvui", "_blank", "noreferrer");
+    window.open("https://github.com/iuv-tech/iuvui", "_blank", "noreferrer");
   }
 
   return (
@@ -83,7 +83,7 @@ export function App() {
             <Link href="#model">{m.web_nav_model()}</Link>
             <Link href="#system">{m.web_nav_system()}</Link>
             <Link
-              href="https://github.com/tcitry/iuvui"
+              href="https://github.com/iuv-tech/iuvui"
               rel="noreferrer"
               target="_blank"
             >
@@ -91,7 +91,7 @@ export function App() {
             </Link>
           </nav>
           <div className="flex items-center gap-2">
-            <Link href="https://app.iuvui.com">{m.web_pro_console()}</Link>
+            <Link href="https://app.iuvui.com">{m.web_dashboard()}</Link>
             <LanguageToggle />
           </div>
         </div>

@@ -48,7 +48,7 @@ function printDoctor() {
 function printComingSoon(name) {
   process.stderr.write(
     `The \`${name}\` command is not available in this alpha release yet.\n` +
-      "Follow https://github.com/tcitry/iuvui for updates.\n",
+      "Follow https://github.com/iuv-tech/iuvui for updates.\n",
   );
   process.exitCode = 1;
 }

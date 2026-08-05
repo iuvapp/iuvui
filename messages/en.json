@@ -13,7 +13,7 @@
   "web_primary_navigation": "Primary navigation",
   "web_nav_model": "Model",
   "web_nav_system": "System",
-  "web_pro_console": "Pro console",
+  "web_dashboard": "Dashboard",
   "web_package_mode": "Package mode",
   "web_package_mode_description": "Use the maintained runtime in your application.",
   "web_source_mode": "Source mode",
