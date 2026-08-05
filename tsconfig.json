@@ -1,0 +1,7 @@
+{
+  "extends": "@iuvui/typescript-config/base.json",
+  "compilerOptions": {
+    "noEmit": true
+  },
+  "include": ["scripts/**/*.mjs"]
+}

@@ -1,0 +1,51 @@
+{
+  "name": "iuvui",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Accessible, themeable React components maintained by iuvui.",
+  "type": "module",
+  "packageManager": "pnpm@10.14.0",
+  "engines": {
+    "node": ">=20.19"
+  },
+  "scripts": {
+    "build": "turbo run build",
+    "changeset": "changeset",
+    "clean": "turbo run clean",
+    "dev": "turbo run dev --parallel",
+    "dashboard": "pnpm --filter @iuvui/dashboard dev",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "language:check": "node scripts/check-language.mjs",
+    "lint": "turbo run lint",
+    "pack:check": "pnpm build && node scripts/verify-pack.mjs",
+    "storybook": "pnpm --filter @iuvui/storybook storybook",
+    "test": "turbo run test",
+    "test:e2e": "pnpm --filter @iuvui/storybook test:e2e",
+    "typecheck": "turbo run typecheck",
+    "version-packages": "changeset version",
+    "web": "pnpm --filter @iuvui/web dev"
+  },
+  "devDependencies": {
+    "@changesets/cli": "latest",
+    "@eslint/js": "latest",
+    "@inlang/paraglide-js": "2.23.1",
+    "@inlang/plugin-message-format": "4.4.1",
+    "@iuvui/eslint-config": "workspace:*",
+    "@iuvui/typescript-config": "workspace:*",
+    "@types/node": "latest",
+    "eslint": "latest",
+    "eslint-plugin-react-hooks": "latest",
+    "eslint-plugin-react-refresh": "latest",
+    "globals": "latest",
+    "prettier": "latest",
+    "turbo": "latest",
+    "typescript": "latest",
+    "typescript-eslint": "latest"
+  },
+  "pnpm": {
+    "overrides": {
+      "typescript": "5.9.3"
+    }
+  }
+}

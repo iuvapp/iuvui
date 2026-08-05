@@ -1,0 +1,7 @@
+{
+  "extends": "@iuvui/typescript-config/react-library.json",
+  "compilerOptions": {
+    "types": ["vitest/globals", "@testing-library/jest-dom"]
+  },
+  "include": ["src", "tests", "vitest.config.ts", "tsup.config.ts"]
+}

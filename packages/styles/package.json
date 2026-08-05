@@ -1,0 +1,38 @@
+{
+  "name": "@iuvui/styles",
+  "version": "0.0.0",
+  "description": "Precompiled themes and component styles for iuvui.",
+  "type": "module",
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "files": [
+    "*.css",
+    "components"
+  ],
+  "style": "./index.css",
+  "exports": {
+    ".": "./index.css",
+    "./theme.css": "./theme.css",
+    "./base.css": "./base.css",
+    "./components/button.css": "./components/button.css",
+    "./components/text-field.css": "./components/text-field.css",
+    "./components/dialog.css": "./components/dialog.css"
+  },
+  "scripts": {
+    "build": "node -e \"import('node:fs').then(fs=>{if(!fs.existsSync('index.css'))process.exit(1)})\"",
+    "clean": "node -e \"\"",
+    "lint": "node -e \"\"",
+    "test": "node -e \"\"",
+    "typecheck": "node -e \"\""
+  },
+  "dependencies": {
+    "@iuvui/tokens": "workspace:^"
+  },
+  "devDependencies": {
+    "tailwindcss": "^4.3.3"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

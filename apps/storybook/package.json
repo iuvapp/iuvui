@@ -1,0 +1,39 @@
+{
+  "name": "@iuvui/storybook",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "storybook build",
+    "clean": "rm -rf storybook-static test-results playwright-report",
+    "dev": "storybook dev -p 6006 --no-open",
+    "lint": "eslint .storybook src e2e",
+    "storybook": "storybook dev -p 6006 --no-open",
+    "test": "vitest run --passWithNoTests --exclude e2e/**",
+    "test:e2e": "playwright test",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@iuvui/icons": "workspace:^",
+    "@iuvui/react": "workspace:^",
+    "@iuvui/styles": "workspace:^",
+    "@iuvui/tokens": "workspace:^",
+    "react": "latest",
+    "react-dom": "latest"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "latest",
+    "@iuvui/eslint-config": "workspace:*",
+    "@iuvui/typescript-config": "workspace:*",
+    "@playwright/test": "latest",
+    "@storybook/addon-a11y": "latest",
+    "@storybook/addon-docs": "latest",
+    "@storybook/react-vite": "latest",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "storybook": "latest",
+    "typescript": "latest",
+    "vite": "latest",
+    "vitest": "latest"
+  }
+}

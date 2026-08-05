@@ -1,0 +1,97 @@
+@layer ui-components {
+  .ui-button {
+    --ui-button-background: var(--ui-accent);
+    --ui-button-foreground: var(--ui-accent-foreground);
+    display: inline-flex;
+    min-height: 2.5rem;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border: 1px solid transparent;
+    border-radius: var(--ui-radius-md);
+    background: var(--ui-button-background);
+    color: var(--ui-button-foreground);
+    padding: 0.55rem 1rem;
+    font-weight: 650;
+    line-height: 1;
+    text-decoration: none;
+    cursor: pointer;
+    transition:
+      transform 140ms ease,
+      filter 140ms ease,
+      background-color 140ms ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .ui-button[data-hovered] {
+    filter: brightness(1.07);
+  }
+  .ui-button[data-pressed] {
+    transform: translateY(1px) scale(0.985);
+  }
+  .ui-button[data-focus-visible] {
+    outline: 3px solid
+      color-mix(in oklch, var(--ui-focus-ring), transparent 55%);
+    outline-offset: 2px;
+  }
+  .ui-button[data-disabled] {
+    cursor: not-allowed;
+    opacity: 0.52;
+    filter: none;
+  }
+  .ui-button[data-pending] {
+    cursor: wait;
+  }
+  .ui-button[data-variant="secondary"] {
+    --ui-button-background: var(--ui-muted);
+    --ui-button-foreground: var(--ui-foreground);
+  }
+  .ui-button[data-variant="outline"] {
+    --ui-button-background: transparent;
+    --ui-button-foreground: var(--ui-foreground);
+    border-color: var(--ui-border);
+  }
+  .ui-button[data-variant="ghost"] {
+    --ui-button-background: transparent;
+    --ui-button-foreground: var(--ui-foreground);
+  }
+  .ui-button[data-color="danger"] {
+    --ui-button-background: var(--ui-danger);
+    --ui-button-foreground: var(--ui-danger-foreground);
+  }
+  .ui-button[data-color="neutral"] {
+    --ui-button-background: var(--ui-foreground);
+    --ui-button-foreground: var(--ui-background);
+  }
+  .ui-button[data-size="sm"] {
+    min-height: 2rem;
+    padding: 0.4rem 0.7rem;
+    font-size: 0.8125rem;
+  }
+  .ui-button[data-size="lg"] {
+    min-height: 3rem;
+    padding: 0.75rem 1.25rem;
+    font-size: 1rem;
+  }
+  .ui-button[data-radius="sm"] {
+    border-radius: var(--ui-radius-sm);
+  }
+  .ui-button[data-radius="lg"] {
+    border-radius: var(--ui-radius-lg);
+  }
+  .ui-button[data-radius="full"] {
+    border-radius: 999px;
+  }
+  .ui-button__spinner {
+    width: 1em;
+    height: 1em;
+    border: 2px solid currentColor;
+    border-inline-end-color: transparent;
+    border-radius: 50%;
+    animation: ui-spin 650ms linear infinite;
+  }
+  @keyframes ui-spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "name": "@iuvui/utils",
+  "version": "0.0.0",
+  "description": "Class name and typed variant utilities for iuvui.",
+  "type": "module",
+  "sideEffects": false,
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./variants": {
+      "types": "./dist/variants.d.ts",
+      "import": "./dist/variants.js"
+    }
+  },
+  "scripts": {
+    "build": "tsup src/index.ts src/variants.ts --format esm --dts --sourcemap --clean --splitting",
+    "clean": "rm -rf dist coverage",
+    "lint": "eslint src tests",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "clsx": "^2.1.1",
+    "tailwind-merge": "^3.6.0"
+  },
+  "devDependencies": {
+    "@iuvui/eslint-config": "workspace:*",
+    "@iuvui/typescript-config": "workspace:*",
+    "tsup": "latest",
+    "typescript": "latest",
+    "vitest": "latest"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "name": "@iuvui/cli",
+  "version": "0.0.0",
+  "description": "The CLI for the iuvui React UI system.",
+  "type": "module",
+  "license": "UNLICENSED",
+  "bin": {
+    "iuvui": "bin/iuvui.js"
+  },
+  "files": [
+    "bin",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "node --check bin/iuvui.js",
+    "clean": "node -e \"process.exit(0)\"",
+    "lint": "eslint bin tests",
+    "test": "node --test",
+    "typecheck": "node --check bin/iuvui.js"
+  },
+  "engines": {
+    "node": ">=20.19"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tcitry/iuvui.git",
+    "directory": "packages/cli"
+  },
+  "homepage": "https://github.com/tcitry/iuvui#readme",
+  "bugs": {
+    "url": "https://github.com/tcitry/iuvui/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "@iuvui/eslint-config": "workspace:*"
+  }
+}

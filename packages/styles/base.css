@@ -1,0 +1,14 @@
+@layer ui-base {
+  :where([data-ui-root]) {
+    color: var(--ui-foreground);
+    font-family: var(--ui-font-sans);
+  }
+
+  :where([data-ui-root], [data-ui-root] *) {
+    box-sizing: border-box;
+  }
+
+  :where([data-ui-root] button, [data-ui-root] input) {
+    font: inherit;
+  }
+}

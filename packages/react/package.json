@@ -1,0 +1,70 @@
+{
+  "name": "@iuvui/react",
+  "version": "0.0.0",
+  "description": "Accessible React components for iuvui.",
+  "type": "module",
+  "sideEffects": false,
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./button": {
+      "types": "./dist/button.d.ts",
+      "import": "./dist/button.js"
+    },
+    "./text-field": {
+      "types": "./dist/text-field.d.ts",
+      "import": "./dist/text-field.js"
+    },
+    "./dialog": {
+      "types": "./dist/dialog.d.ts",
+      "import": "./dist/dialog.js"
+    },
+    "./extend-variants": {
+      "types": "./dist/extend-variants.d.ts",
+      "import": "./dist/extend-variants.js"
+    }
+  },
+  "scripts": {
+    "build": "tsup",
+    "clean": "rm -rf dist coverage",
+    "lint": "eslint src tests",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@iuvui/icons": "workspace:^",
+    "@iuvui/utils": "workspace:^",
+    "react-aria-components": "^1.20.0"
+  },
+  "peerDependencies": {
+    "react": ">=18.3.0",
+    "react-dom": ">=18.3.0"
+  },
+  "devDependencies": {
+    "@axe-core/react": "latest",
+    "axe-core": "latest",
+    "@iuvui/eslint-config": "workspace:*",
+    "@iuvui/internal": "workspace:*",
+    "@iuvui/typescript-config": "workspace:*",
+    "@testing-library/jest-dom": "latest",
+    "@testing-library/dom": "latest",
+    "@testing-library/react": "latest",
+    "@testing-library/user-event": "latest",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "jsdom": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "tsup": "latest",
+    "typescript": "latest",
+    "vitest": "latest"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

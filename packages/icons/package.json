@@ -1,0 +1,46 @@
+{
+  "name": "@iuvui/icons",
+  "version": "0.0.0",
+  "description": "Tree-shakeable React icons for iuvui.",
+  "type": "module",
+  "sideEffects": false,
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./search": {
+      "types": "./dist/search.d.ts",
+      "import": "./dist/search.js"
+    },
+    "./close": {
+      "types": "./dist/close.d.ts",
+      "import": "./dist/close.js"
+    }
+  },
+  "scripts": {
+    "build": "tsup src/index.ts src/search.tsx src/close.tsx --format esm --dts --sourcemap --clean --splitting --external react",
+    "clean": "rm -rf dist",
+    "lint": "eslint src",
+    "test": "vitest run --passWithNoTests",
+    "typecheck": "tsc --noEmit"
+  },
+  "peerDependencies": {
+    "react": ">=18.3.0"
+  },
+  "devDependencies": {
+    "@iuvui/eslint-config": "workspace:*",
+    "@iuvui/typescript-config": "workspace:*",
+    "@types/react": "latest",
+    "react": "latest",
+    "tsup": "latest",
+    "typescript": "latest",
+    "vitest": "latest"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

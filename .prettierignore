@@ -1,0 +1,7 @@
+node_modules
+dist
+coverage
+storybook-static
+playwright-report
+pnpm-lock.yaml
+**/src/paraglide
