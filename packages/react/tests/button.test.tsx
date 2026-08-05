@@ -12,6 +12,7 @@ describe("Button", () => {
         className="consumer"
         style={{ opacity: 0.9 }}
         startContent={<span data-testid="start" />}
+        endContent={<span data-testid="end" />}
       >
         Save
       </Button>,
@@ -21,7 +22,17 @@ describe("Button", () => {
     expect(button).toHaveAttribute("data-variant", "outline");
     expect(button).toHaveClass("ui-button", "consumer");
     expect(button).toHaveStyle({ opacity: "0.9" });
-    expect(screen.getByTestId("start")).toBeInTheDocument();
+    expect(screen.getByTestId("start").parentElement).toHaveAttribute(
+      "data-slot",
+      "button-start-content",
+    );
+    expect(screen.getByTestId("end").parentElement).toHaveAttribute(
+      "data-slot",
+      "button-end-content",
+    );
+    expect(
+      button.querySelector("[data-slot='button-label']"),
+    ).toHaveTextContent("Save");
   });
 
   it("supports keyboard press and reports the stable event shape", async () => {
@@ -32,6 +43,20 @@ describe("Button", () => {
     expect(onPress).toHaveBeenCalledWith({ pointerType: "keyboard" });
   });
 
+  it("supports Space and pointer activation", async () => {
+    const onPress = vi.fn();
+    const user = userEvent.setup();
+    render(<Button onPress={onPress}>Save</Button>);
+    const button = screen.getByRole("button", { name: "Save" });
+
+    button.focus();
+    await user.keyboard(" ");
+    await user.click(button);
+
+    expect(onPress).toHaveBeenNthCalledWith(1, { pointerType: "keyboard" });
+    expect(onPress).toHaveBeenNthCalledWith(2, { pointerType: "mouse" });
+  });
+
   it("does not trigger repeatedly while pending", () => {
     const onPress = vi.fn();
     render(
@@ -40,8 +65,10 @@ describe("Button", () => {
       </Button>,
     );
     const button = screen.getByRole("button", { name: "Save" });
-    expect(button).toBeDisabled();
+    expect(button).not.toBeDisabled();
+    expect(button).toHaveAttribute("aria-disabled", "true");
     expect(button).toHaveAttribute("data-pending", "true");
+    expect(button.querySelector("[data-slot='button-spinner']")).not.toBeNull();
     fireEvent.click(button);
     expect(onPress).not.toHaveBeenCalled();
   });
@@ -52,5 +79,17 @@ describe("Button", () => {
       "href",
       "/docs",
     );
+  });
+
+  it("exposes full-width and icon-only layout contracts", () => {
+    render(
+      <Button aria-label="Search" fullWidth isIconOnly>
+        <span aria-hidden="true">⌕</span>
+      </Button>,
+    );
+
+    const button = screen.getByRole("button", { name: "Search" });
+    expect(button).toHaveAttribute("data-full-width", "true");
+    expect(button).toHaveAttribute("data-icon-only", "true");
   });
 });

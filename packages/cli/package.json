@@ -9,14 +9,15 @@
   },
   "files": [
     "bin",
+    "src",
     "README.md"
   ],
   "scripts": {
-    "build": "node --check bin/iuvui.js",
+    "build": "node --check bin/iuvui.js && node --check src/config.js && node --check src/install.js && node --check src/main.js && node --check src/registry.js",
     "clean": "node -e \"process.exit(0)\"",
-    "lint": "eslint bin tests",
+    "lint": "eslint bin src tests",
     "test": "node --test",
-    "typecheck": "node --check bin/iuvui.js"
+    "typecheck": "pnpm build"
   },
   "engines": {
     "node": ">=20.19"

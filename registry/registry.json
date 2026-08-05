@@ -1,0 +1,54 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "iuvui",
+  "homepage": "https://iuvui.com",
+  "items": [
+    {
+      "name": "button",
+      "type": "registry:ui",
+      "title": "Button",
+      "description": "An accessible action component with semantic variants and link support.",
+      "dependencies": [
+        "@iuvui/styles@latest",
+        "@iuvui/utils@latest",
+        "react-aria-components@^1.20.0"
+      ],
+      "files": [
+        {
+          "path": "registry/default/button.tsx",
+          "type": "registry:ui",
+          "target": "button.tsx"
+        },
+        {
+          "path": "registry/default/types.ts",
+          "type": "registry:lib",
+          "target": "types.ts"
+        }
+      ],
+      "meta": {
+        "iuvui": {
+          "schemaVersion": 1,
+          "version": "0.1.0",
+          "availability": "free",
+          "style": "default",
+          "provenance": {
+            "kind": "independent",
+            "repository": "https://github.com/iuv-tech/iuvui",
+            "path": "packages/react/src/button.tsx"
+          },
+          "references": [
+            {
+              "name": "shadcn/ui Button",
+              "registry": "https://ui.shadcn.com/r/styles/new-york-v4/button.json",
+              "repository": "https://github.com/shadcn-ui/ui",
+              "revision": "607e8a9717fe6ff0d374ba74c651012f9c052534",
+              "path": "apps/v4/registry/new-york-v4/ui/button.tsx",
+              "license": "MIT",
+              "relationship": "architectural-reference"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

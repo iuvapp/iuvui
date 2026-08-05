@@ -2,7 +2,7 @@
 
 The command-line entry point for the iuvui React UI system.
 
-> The package is under active development and has not been published yet. Component installation and managed source updates are planned capabilities.
+> The package is under active development and has not been published yet. Project initialization and Button source installation are implemented in the repository; managed source updates remain planned.
 
 ## Usage
 
@@ -29,10 +29,16 @@ iuvui --help
 iuvui add button
 ```
 
-The planned source workflow is:
+The available V0 source workflow is:
 
 ```bash
+pnpm dlx @iuvui/cli init
 pnpm dlx @iuvui/cli add button
+```
+
+Planned lifecycle commands include:
+
+```bash
 iuvui check
 iuvui update button
 ```
@@ -43,7 +49,9 @@ By default, source components will be installed into `components/iuv-ui`:
 components/iuv-ui/button.tsx
 ```
 
-This intentionally keeps iuvui source separate from shadcn's conventional `components/ui` directory. A future project configuration may override the target directory, but `components/iuv-ui` remains the CLI default.
+This intentionally keeps iuvui source separate from shadcn's conventional `components/ui` directory. Pass `--source-dir` to `iuvui init` to override the target directory; `components/iuv-ui` remains the default.
+
+`add` verifies Registry integrity, refuses to overwrite consumer changes, and records installed file hashes in `iuvui.lock`. It prints the required package-manager command but does not install dependencies automatically.
 
 React components, styles, tokens, and icons will be published separately under the `@iuvui` scope.
 
@@ -69,6 +77,6 @@ The artifact manifest determines whether entitlement is required, so the CLI doe
 
 ## Status
 
-The alpha package currently provides `--help`, `--version`, and `doctor`. The `init`, `add`, authentication, and Registry commands intentionally return a clear “coming soon” error until their workflows are ready.
+The alpha package currently provides `--help`, `--version`, `doctor`, `init`, and `add button`. Authentication, inspection, diffing, updates, and protected Registry artifacts remain planned.
 
 See the [iuvui repository](https://github.com/iuv-tech/iuvui) for development progress.

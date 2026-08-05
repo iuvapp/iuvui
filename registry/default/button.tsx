@@ -1,3 +1,6 @@
+// Installed from the iuvui canonical source. This copy belongs to your project.
+import "@iuvui/styles";
+
 import {
   forwardRef,
   type AnchorHTMLAttributes,
@@ -7,11 +10,11 @@ import {
   type Ref,
 } from "react";
 import {
-  AriaButton,
-  AriaLink,
-  type AriaButtonRenderProps,
-  type AriaLinkRenderProps,
-} from "@iuvui/internal";
+  Button as AriaButton,
+  Link as AriaLink,
+  type ButtonRenderProps as AriaButtonRenderProps,
+  type LinkRenderProps as AriaLinkRenderProps,
+} from "react-aria-components";
 import { cn } from "@iuvui/utils";
 import type { InteractiveState, PressEvent, StateClassName } from "./types";
 

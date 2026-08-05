@@ -45,6 +45,10 @@
     --ui-button-background: var(--ui-muted);
     --ui-button-foreground: var(--ui-foreground);
   }
+  .ui-button[data-variant="tertiary"] {
+    --ui-button-background: var(--ui-background);
+    --ui-button-foreground: var(--ui-foreground);
+  }
   .ui-button[data-variant="outline"] {
     --ui-button-background: transparent;
     --ui-button-foreground: var(--ui-foreground);
@@ -54,13 +58,16 @@
     --ui-button-background: transparent;
     --ui-button-foreground: var(--ui-foreground);
   }
-  .ui-button[data-color="danger"] {
+  .ui-button[data-variant="danger"] {
     --ui-button-background: var(--ui-danger);
     --ui-button-foreground: var(--ui-danger-foreground);
   }
-  .ui-button[data-color="neutral"] {
-    --ui-button-background: var(--ui-foreground);
-    --ui-button-foreground: var(--ui-background);
+  .ui-button[data-full-width] {
+    width: 100%;
+  }
+  .ui-button[data-icon-only] {
+    width: 2.5rem;
+    padding-inline: 0;
   }
   .ui-button[data-size="sm"] {
     min-height: 2rem;
@@ -71,6 +78,12 @@
     min-height: 3rem;
     padding: 0.75rem 1.25rem;
     font-size: 1rem;
+  }
+  .ui-button[data-icon-only][data-size="sm"] {
+    width: 2rem;
+  }
+  .ui-button[data-icon-only][data-size="lg"] {
+    width: 3rem;
   }
   .ui-button[data-radius="sm"] {
     border-radius: var(--ui-radius-sm);
@@ -93,5 +106,15 @@
     to {
       transform: rotate(360deg);
     }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ui-button {
+    transition-duration: 0.01ms !important;
+  }
+
+  .ui-button__spinner {
+    animation: none !important;
   }
 }

@@ -13,3 +13,7 @@ export {
   Text as AriaText,
   TextField as AriaTextField,
 } from "react-aria-components";
+export type {
+  ButtonRenderProps as AriaButtonRenderProps,
+  LinkRenderProps as AriaLinkRenderProps,
+} from "react-aria-components";

@@ -1,0 +1,58 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "button",
+  "type": "registry:ui",
+  "title": "Button",
+  "description": "An accessible action component with semantic variants and link support.",
+  "dependencies": [
+    "@iuvui/styles@latest",
+    "@iuvui/utils@latest",
+    "react-aria-components@^1.20.0"
+  ],
+  "files": [
+    {
+      "path": "registry/default/button.tsx",
+      "type": "registry:ui",
+      "target": "button.tsx",
+      "content": "// Installed from the iuvui canonical source. This copy belongs to your project.\nimport \"@iuvui/styles\";\n\nimport {\n  forwardRef,\n  type AnchorHTMLAttributes,\n  type ButtonHTMLAttributes,\n  type ComponentProps,\n  type ReactNode,\n  type Ref,\n} from \"react\";\nimport {\n  Button as AriaButton,\n  Link as AriaLink,\n  type ButtonRenderProps as AriaButtonRenderProps,\n  type LinkRenderProps as AriaLinkRenderProps,\n} from \"react-aria-components\";\nimport { cn } from \"@iuvui/utils\";\nimport type { InteractiveState, PressEvent, StateClassName } from \"./types\";\n\nconst InternalButton = AriaButton;\nconst InternalLink = AriaLink;\n\nexport type ButtonVariant =\n  \"primary\" | \"secondary\" | \"tertiary\" | \"outline\" | \"ghost\" | \"danger\";\nexport type ButtonSize = \"sm\" | \"md\" | \"lg\";\nexport type ButtonRadius = \"sm\" | \"md\" | \"lg\" | \"full\";\n\ninterface ButtonOwnProps {\n  children?: ReactNode;\n  className?: StateClassName<InteractiveState>;\n  endContent?: ReactNode;\n  fullWidth?: boolean;\n  isDisabled?: boolean;\n  isIconOnly?: boolean;\n  isPending?: boolean;\n  onPress?: (event: PressEvent) => void;\n  radius?: ButtonRadius;\n  startContent?: ReactNode;\n  variant?: ButtonVariant;\n  size?: ButtonSize;\n}\n\ntype NativeButtonProps = Omit<\n  ButtonHTMLAttributes<HTMLButtonElement>,\n  keyof ButtonOwnProps | \"onClick\" | \"disabled\"\n> & {\n  href?: undefined;\n};\ntype NativeLinkProps = Omit<\n  AnchorHTMLAttributes<HTMLAnchorElement>,\n  keyof ButtonOwnProps | \"onClick\" | \"href\"\n> & {\n  href: string;\n};\nexport type ButtonProps = ButtonOwnProps &\n  (NativeButtonProps | NativeLinkProps);\n\nconst stateFromRender = (\n  state: AriaButtonRenderProps | AriaLinkRenderProps,\n  pending: boolean,\n): InteractiveState => ({\n  isDisabled: Boolean(state.isDisabled),\n  isFocusVisible: Boolean(state.isFocusVisible),\n  isFocused: Boolean(state.isFocused),\n  isHovered: Boolean(state.isHovered),\n  isPressed: Boolean(state.isPressed),\n  isPending: pending,\n});\n\nexport const Button = forwardRef<\n  HTMLButtonElement | HTMLAnchorElement,\n  ButtonProps\n>(function Button(\n  {\n    children,\n    className,\n    endContent,\n    fullWidth = false,\n    isDisabled = false,\n    isIconOnly = false,\n    isPending = false,\n    onPress,\n    radius = \"md\",\n    size = \"md\",\n    startContent,\n    variant = \"primary\",\n    ...props\n  },\n  ref,\n) {\n  const common = {\n    \"data-full-width\": fullWidth || undefined,\n    \"data-icon-only\": isIconOnly || undefined,\n    \"data-pending\": isPending || undefined,\n    \"data-radius\": radius,\n    \"data-slot\": \"button\",\n    \"data-size\": size,\n    \"data-ui-root\": \"\",\n    \"data-variant\": variant,\n    isDisabled: isDisabled || isPending,\n    isPending,\n    onPress: (event: { pointerType: PressEvent[\"pointerType\"] }) => {\n      if (!isPending) onPress?.({ pointerType: event.pointerType });\n    },\n    className: (state: AriaButtonRenderProps | AriaLinkRenderProps) =>\n      cn(\n        \"ui-button\",\n        typeof className === \"function\"\n          ? className(stateFromRender(state, isPending))\n          : className,\n      ),\n    children: (\n      <>\n        {isPending ? (\n          <span\n            className=\"ui-button__spinner\"\n            data-slot=\"button-spinner\"\n            aria-hidden=\"true\"\n          />\n        ) : startContent ? (\n          <span data-slot=\"button-start-content\">{startContent}</span>\n        ) : null}\n        <span data-slot=\"button-label\">{children}</span>\n        {endContent ? (\n          <span data-slot=\"button-end-content\">{endContent}</span>\n        ) : null}\n      </>\n    ),\n  };\n\n  if (\"href\" in props && props.href) {\n    return (\n      <InternalLink\n        {...(props as unknown as ComponentProps<typeof InternalLink>)}\n        {...common}\n        ref={ref as Ref<HTMLAnchorElement>}\n        href={props.href}\n      />\n    );\n  }\n  return (\n    <InternalButton\n      {...(props as unknown as ComponentProps<typeof InternalButton>)}\n      {...common}\n      isDisabled={isDisabled}\n      ref={ref as Ref<HTMLButtonElement>}\n    />\n  );\n});\n"
+    },
+    {
+      "path": "registry/default/types.ts",
+      "type": "registry:lib",
+      "target": "types.ts",
+      "content": "// Installed from the iuvui canonical source. This copy belongs to your project.\nimport type { CSSProperties } from \"react\";\n\nexport type DataAttributes = {\n  [Key in `data-${string}`]?: string | number | boolean | undefined;\n};\nexport type AriaAttributes = {\n  [Key in `aria-${string}`]?: string | number | boolean | undefined;\n};\n\nexport interface InteractiveState {\n  isDisabled: boolean;\n  isFocusVisible: boolean;\n  isFocused: boolean;\n  isHovered: boolean;\n  isPressed: boolean;\n  isPending: boolean;\n}\n\nexport type StateClassName<State> = string | ((state: State) => string);\n\nexport interface PartStyleProps<State = never>\n  extends DataAttributes, AriaAttributes {\n  className?: [State] extends [never] ? string : StateClassName<State>;\n  style?: CSSProperties;\n  \"data-slot\"?: string;\n}\n\nexport interface PressEvent {\n  pointerType: \"keyboard\" | \"mouse\" | \"pen\" | \"touch\" | \"virtual\";\n}\n"
+    }
+  ],
+  "meta": {
+    "iuvui": {
+      "schemaVersion": 1,
+      "version": "0.1.0",
+      "availability": "free",
+      "style": "default",
+      "provenance": {
+        "kind": "independent",
+        "repository": "https://github.com/iuv-tech/iuvui",
+        "path": "packages/react/src/button.tsx"
+      },
+      "references": [
+        {
+          "name": "shadcn/ui Button",
+          "registry": "https://ui.shadcn.com/r/styles/new-york-v4/button.json",
+          "repository": "https://github.com/shadcn-ui/ui",
+          "revision": "607e8a9717fe6ff0d374ba74c651012f9c052534",
+          "path": "apps/v4/registry/new-york-v4/ui/button.tsx",
+          "license": "MIT",
+          "relationship": "architectural-reference"
+        }
+      ],
+      "integrity": {
+        "algorithm": "sha256",
+        "item": "sha256-9V8gqg4Ia0yEcvCcU43oawRarGMpoUotaSMXrV5EXck=",
+        "files": {
+          "registry/default/button.tsx": "sha256-nLqUrKUkxOpv2sINDaGq7JTDJXo8qFpKxVttB7ix6R0=",
+          "registry/default/types.ts": "sha256-ZbIYvJutc3RmNYshk/Z9wIzgaRNxnQhmM1MQDIlGUYY="
+        }
+      }
+    }
+  }
+}

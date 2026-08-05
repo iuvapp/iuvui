@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "build": "pnpm build:prod",
-    "build:dev": "CLOUDFLARE_ENV=dev vite build --mode development",
-    "build:prod": "CLOUDFLARE_ENV=prod vite build --mode production",
+    "build:dev": "pnpm --workspace-root registry:build && CLOUDFLARE_ENV=dev vite build --mode development",
+    "build:prod": "pnpm --workspace-root registry:build && CLOUDFLARE_ENV=prod vite build --mode production",
     "clean": "rm -rf dist .wrangler",
     "deploy": "pnpm deploy:prod",
     "deploy:dev": "pnpm build:dev && wrangler deploy",

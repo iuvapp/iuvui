@@ -60,7 +60,7 @@ pnpm dlx shadcn@latest add @iuvui/button
 pnpm dlx @iuvui/cli add button
 ```
 
-The first path minimizes migration cost. The second adds `iuvui.lock`, provenance, semantic diffs, migration rules, and three-way merging. iuvui's differentiation comes from its coherent styles, tokens, icons, and ongoing source maintenance rather than a proprietary installation protocol.
+The first path minimizes migration cost. The second currently adds verified source files, `iuvui.lock`, and provenance. Semantic diffs, migration rules, and three-way merging are later lifecycle stages. iuvui's differentiation comes from its coherent styles, tokens, icons, and ongoing source maintenance rather than a proprietary installation protocol.
 
 ### V0 implementation strategy
 

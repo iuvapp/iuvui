@@ -4,7 +4,7 @@ import { join, resolve } from "node:path";
 import { spawnSync } from "node:child_process";
 
 const root = resolve(import.meta.dirname, "..");
-const packages = ["tokens", "styles", "utils", "icons", "react"];
+const packages = ["tokens", "styles", "utils", "icons", "react", "cli"];
 const forbidden = [
   /(^|\/)src\//,
   /(^|\/)tests?\//,
@@ -29,8 +29,10 @@ try {
     });
     if (listing.status !== 0) throw new Error(`Failed to inspect ${tarball}`);
     const files = listing.stdout.trim().split("\n");
+    const packageForbidden =
+      name === "cli" ? forbidden.filter((_, index) => index !== 0) : forbidden;
     const leaked = files.filter((file) =>
-      forbidden.some((pattern) => pattern.test(file)),
+      packageForbidden.some((pattern) => pattern.test(file)),
     );
     if (leaked.length)
       throw new Error(`${name} leaks unpublished files:\n${leaked.join("\n")}`);
@@ -46,8 +48,11 @@ try {
     if (manifest.private) throw new Error(`${name} is unexpectedly private`);
     if (manifest.dependencies?.["@iuvui/internal"])
       throw new Error(`${name} exposes the private @iuvui/internal package`);
+    if (name === "cli" && !files.includes("package/bin/iuvui.js")) {
+      throw new Error("cli package is missing bin/iuvui.js");
+    }
     if (
-      name !== "styles" &&
+      !["styles", "cli"].includes(name) &&
       !files.some((file) => file.endsWith("dist/index.js"))
     ) {
       throw new Error(`${name} package is missing dist/index.js`);

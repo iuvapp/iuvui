@@ -89,7 +89,6 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .ui-button,
   .ui-dialog__backdrop,
   .ui-dialog__content {
     animation: none !important;

@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://iuvui.com/schema/iuvui.json",
+  "title": "iuvui project configuration",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["$schema", "version", "sourceDirectory", "style"],
+  "properties": {
+    "$schema": {
+      "const": "https://iuvui.com/schema/iuvui.json"
+    },
+    "version": {
+      "const": 1
+    },
+    "sourceDirectory": {
+      "type": "string",
+      "minLength": 1,
+      "default": "components/iuv-ui"
+    },
+    "style": {
+      "const": "default"
+    }
+  }
+}

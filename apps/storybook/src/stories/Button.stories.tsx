@@ -22,9 +22,29 @@ export const Default: Story = { args: { children: "Continue" } };
 export const AllVariants: Story = {
   render: () => (
     <div className="story-row">
-      {(["solid", "secondary", "outline", "ghost"] as const).map((variant) => (
+      {(
+        [
+          "primary",
+          "secondary",
+          "tertiary",
+          "outline",
+          "ghost",
+          "danger",
+        ] as const
+      ).map((variant) => (
         <Button key={variant} variant={variant}>
           {variant}
+        </Button>
+      ))}
+    </div>
+  ),
+};
+export const AllSizes: Story = {
+  render: () => (
+    <div className="story-row">
+      {(["sm", "md", "lg"] as const).map((size) => (
+        <Button key={size} size={size}>
+          {size}
         </Button>
       ))}
     </div>
@@ -37,7 +57,24 @@ export const Loading: Story = {
   args: { children: "Publishing", isPending: true },
 };
 export const WithContent: Story = {
-  args: { children: "Search", startContent: <SearchIcon size={17} /> },
+  args: {
+    children: "Search",
+    endContent: <SearchIcon size={17} />,
+    startContent: <SearchIcon size={17} />,
+  },
+};
+export const IconOnly: Story = {
+  args: {
+    "aria-label": "Search",
+    children: <SearchIcon size={17} />,
+    isIconOnly: true,
+  },
+};
+export const FullWidth: Story = {
+  args: { children: "Continue", fullWidth: true },
+};
+export const Link: Story = {
+  args: { children: "Documentation", href: "#documentation" },
 };
 export const DarkTheme: Story = {
   decorators: [

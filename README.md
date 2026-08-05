@@ -42,7 +42,7 @@ export function Form() {
         </TextField.ErrorMessage>
       </TextField.Root>
 
-      <Button variant="solid" color="accent" onPress={() => undefined}>
+      <Button variant="primary" onPress={() => undefined}>
         Save
       </Button>
 
@@ -132,7 +132,7 @@ pnpm test:e2e
 ## Web platform
 
 - `iuvui.com` is the public brand, component, and documentation site.
-- `app.iuvui.com` is the Clerk-authenticated Pro dashboard maintained in the private `iuvui-pro` repository.
+- `app.iuvui.com` is the Clerk-authenticated dashboard maintained in the private `iuvui-pro` repository, where Pro capabilities and billing are presented.
 - Both applications deploy independently to Cloudflare Workers.
 - HeroUI OSS is the production UI baseline until iuvui can safely bootstrap itself. Licensed HeroUI Pro assets may later be used only in the private website implementation.
 - Paraglide provides the shared localization foundation. English and Simplified Chinese are enabled, with English as the canonical source locale.
@@ -148,7 +148,7 @@ All components, including complex components, are free. Styles and variants have
 - Expand validated primitives based on real product use instead of component count.
 - Establish an independent icon ecosystem and visual regression baseline.
 - Adapt the initial MIT-licensed shadcn component set into iuvui contracts, styles, tests, and dual package/Registry outputs.
-- Build `@iuvui/cli` and the registry for source installation into `components/iuv-ui`, diffing, and safe upgrades.
+- Expand `@iuvui/cli` from verified source installation into inspection, diffing, and safe upgrades.
 - Record upstream versions and file provenance in `iuvui.lock` while protecting user-owned variants.
 - Evaluate future Blocks and Pro products without creating commercial packages prematurely.
 - Improve compatibility, migration tooling, and deprecation telemetry from consumer evidence.
