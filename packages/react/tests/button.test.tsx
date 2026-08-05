@@ -49,7 +49,7 @@ describe("Button", () => {
     render(<Button onPress={onPress}>Save</Button>);
     const button = screen.getByRole("button", { name: "Save" });
 
-    button.focus();
+    await user.tab();
     await user.keyboard(" ");
     await user.click(button);
 

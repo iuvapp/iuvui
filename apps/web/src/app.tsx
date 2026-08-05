@@ -107,7 +107,7 @@ export function App() {
               {m.web_eyebrow()}
             </p>
             <h1 className="mt-3 max-w-3xl text-5xl font-semibold tracking-tight sm:text-6xl">
-              {m.web_headline_first()} {m.web_headline_second()}
+              {m.web_slogan()}
             </h1>
             <p className="mt-6 max-w-2xl text-lg leading-8 text-muted">
               {m.web_summary()}
@@ -233,10 +233,13 @@ export function App() {
       </main>
 
       <footer className="border-t border-divider">
-        <div className="mx-auto flex max-w-6xl flex-col gap-2 px-6 py-8 text-sm text-muted sm:flex-row sm:items-center sm:justify-between">
-          <span className="font-medium text-foreground">iuvui</span>
-          <span>{m.web_footer_description()}</span>
-          <span>© 2026 iuvui</span>
+        <div className="mx-auto max-w-6xl px-6 py-8 text-sm text-muted">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+            <span className="font-medium text-foreground">iuvui</span>
+            <span>{m.web_footer_description()}</span>
+            <span>© 2026 iuvui</span>
+          </div>
+          <p className="mt-4 text-xs">{m.web_independence_notice()}</p>
         </div>
       </footer>
     </div>

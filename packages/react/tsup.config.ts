@@ -6,6 +6,7 @@ export default defineConfig({
     button: "src/button.tsx",
     "text-field": "src/text-field.tsx",
     dialog: "src/dialog.tsx",
+    separator: "src/separator.tsx",
     "extend-variants": "src/extend-variants.tsx",
   },
   format: ["esm"],

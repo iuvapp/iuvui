@@ -1,0 +1,69 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "separator",
+  "type": "registry:ui",
+  "title": "Separator",
+  "description": "A visual or semantic boundary with horizontal and vertical orientations.",
+  "dependencies": [
+    "@iuvui/styles@0.0.1",
+    "@iuvui/utils@0.0.1",
+    "react-aria-components@^1.20.0"
+  ],
+  "files": [
+    {
+      "path": "registry/default/separator.tsx",
+      "type": "registry:ui",
+      "target": "separator.tsx",
+      "content": "// Installed from the iuvui canonical source. This copy belongs to your project.\nimport \"@iuvui/styles\";\n\nimport { forwardRef, type ComponentProps, type HTMLAttributes } from \"react\";\nimport { Separator as AriaSeparator } from \"react-aria-components\";\nimport { cn } from \"@iuvui/utils\";\n\nconst InternalSeparator = AriaSeparator;\n\nexport type SeparatorOrientation = \"horizontal\" | \"vertical\";\nexport interface SeparatorProps extends Omit<\n  HTMLAttributes<HTMLElement>,\n  \"children\" | \"className\"\n> {\n  className?: string;\n  elementType?: \"div\" | \"hr\";\n  orientation?: SeparatorOrientation;\n}\n\n// Derived from shadcn/ui Separator under the MIT license. Immutable upstream\n// provenance and local deviations are recorded in the iuvui Registry item.\nexport const Separator = forwardRef<HTMLElement, SeparatorProps>(\n  function Separator({ className, orientation = \"horizontal\", ...props }, ref) {\n    return (\n      <InternalSeparator\n        {...(props as ComponentProps<typeof InternalSeparator>)}\n        ref={ref}\n        className={cn(\"ui-separator\", className)}\n        data-orientation={orientation}\n        data-slot=\"separator\"\n        data-ui-root=\"\"\n        orientation={orientation}\n      />\n    );\n  },\n);\n"
+    },
+    {
+      "path": "registry/default/THIRD_PARTY_NOTICES.md",
+      "type": "registry:file",
+      "target": "THIRD_PARTY_NOTICES.md",
+      "content": "# Third-Party Notices\n\n## shadcn/ui\n\nThe iuvui Separator component is derived from the shadcn/ui Separator\nimplementation at:\n\n- Repository: https://github.com/shadcn-ui/ui\n- Revision: 607e8a9717fe6ff0d374ba74c651012f9c052534\n- Source: apps/v4/registry/bases/aria/ui/separator.tsx\n- License: MIT\n\nMIT License\n\nCopyright (c) 2023 shadcn\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.\n"
+    }
+  ],
+  "meta": {
+    "iuvui": {
+      "schemaVersion": 1,
+      "version": "0.0.1",
+      "availability": "free",
+      "style": "default",
+      "provenance": {
+        "kind": "derived",
+        "repository": "https://github.com/iuv-tech/iuvui",
+        "path": "packages/react/src/separator.tsx"
+      },
+      "references": [
+        {
+          "name": "shadcn/ui Separator",
+          "component": "separator",
+          "base": "aria",
+          "style": "nova",
+          "registry": "https://ui.shadcn.com/r/styles/aria-nova/separator.json",
+          "repository": "https://github.com/shadcn-ui/ui",
+          "revision": "607e8a9717fe6ff0d374ba74c651012f9c052534",
+          "blob": "bc94e33d44e85b613eaccb9ffae7e2b9d0d45f72",
+          "source": "https://github.com/shadcn-ui/ui/blob/607e8a9717fe6ff0d374ba74c651012f9c052534/apps/v4/registry/bases/aria/ui/separator.tsx",
+          "path": "apps/v4/registry/bases/aria/ui/separator.tsx",
+          "syncedAt": "2026-08-05",
+          "license": "MIT",
+          "relationship": "derived",
+          "localChanges": [
+            "Routes the React Aria primitive through the private @iuvui/internal adapter.",
+            "Moves Nova utility styling into @iuvui/styles and maps the border color to --ui-border.",
+            "Adds stable data attributes and a forwardRef-based package API."
+          ]
+        }
+      ],
+      "integrity": {
+        "algorithm": "sha256",
+        "item": "sha256-hJtxZPbQ0oKuCuZbY8LKAe/QeJnGhCwrGcTUgfoKavA=",
+        "files": {
+          "registry/default/separator.tsx": "sha256-zzMYd9w+vSYuMn5SGwko+eBZA4xTRl5/N/W/Bh9MxzI=",
+          "registry/default/THIRD_PARTY_NOTICES.md": "sha256-FZV5A0w7xEZQ6yDxilvHjCIVdKGq5vzXU15M+ZEKeBQ="
+        }
+      }
+    }
+  }
+}

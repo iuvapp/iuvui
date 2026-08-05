@@ -149,9 +149,60 @@ test("installs Button source and a verified lock entry", () => {
       lock.items.button.files["components/iuv-ui/types.ts"],
       digest(readFileSync(typesPath, "utf8")),
     );
+    assert.equal(lock.items.button.provenance.canonical.kind, "independent");
+    assert.equal(
+      lock.items.button.provenance.upstreams[0].name,
+      "shadcn/ui Button",
+    );
+    assert.match(
+      lock.items.button.provenance.upstreams[0].revision,
+      /^[0-9a-f]{40}$/,
+    );
+    assert.match(
+      lock.items.button.provenance.upstreams[0].blob,
+      /^[0-9a-f]{40}$/,
+    );
+    assert.match(
+      lock.items.button.provenance.upstreams[0].source,
+      new RegExp(lock.items.button.provenance.upstreams[0].revision),
+    );
 
     const second = run(cwd, "add", "button");
     assert.equal(second.status, 0, second.stderr);
+  } finally {
+    rmSync(cwd, { recursive: true, force: true });
+  }
+});
+
+test("installs Separator source with its license and upstream identity", () => {
+  const cwd = createProject();
+  try {
+    assert.equal(run(cwd, "init").status, 0);
+    const result = run(cwd, "add", "separator");
+
+    assert.equal(result.status, 0, result.stderr);
+    const sourcePath = join(cwd, "components/iuv-ui/separator.tsx");
+    const noticePath = join(cwd, "components/iuv-ui/THIRD_PARTY_NOTICES.md");
+    const source = readFileSync(sourcePath, "utf8");
+    const notice = readFileSync(noticePath, "utf8");
+    const lock = JSON.parse(readFileSync(join(cwd, "iuvui.lock"), "utf8"));
+
+    assert.match(source, /Separator as AriaSeparator/);
+    assert.match(notice, /MIT License/);
+    assert.equal(lock.items.separator.provenance.canonical.kind, "derived");
+    assert.equal(lock.items.separator.provenance.upstreams[0].base, "aria");
+    assert.equal(
+      lock.items.separator.provenance.upstreams[0].blob,
+      "bc94e33d44e85b613eaccb9ffae7e2b9d0d45f72",
+    );
+    assert.equal(
+      lock.items.separator.files["components/iuv-ui/separator.tsx"],
+      digest(source),
+    );
+    assert.equal(
+      lock.items.separator.files["components/iuv-ui/THIRD_PARTY_NOTICES.md"],
+      digest(notice),
+    );
   } finally {
     rmSync(cwd, { recursive: true, force: true });
   }

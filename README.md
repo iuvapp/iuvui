@@ -2,9 +2,13 @@
 
 iuvui is an ownable, customizable, and continuously upgradeable React UI system. It combines a maintained design system, installable React packages, source delivery, and lifecycle tooling.
 
+**Use shadcn/ui like HeroUI.**
+
+iuvui is an independent project and is not affiliated with shadcn/ui or HeroUI. shadcn/ui is the design and source reference baseline, React Aria Components provide replaceable behavior behind an internal adapter, and the package API and delivery experience follow the convenience expected from a maintained component library.
+
 The repository currently implements package delivery first. Public packages use the `@iuvui/*` scope. Consumers customize components through stable props, CSS variables, `className`, and `extendVariants`. React Aria Components provide behavior behind a private adapter; their types, contexts, and DOM structure are not public API.
 
-Source delivery is a first-class product mode. `@iuvui/cli` will install component source into a consumer project, record provenance, compare local changes, and provide safe migration paths. The registry will follow public shadcn conventions where practical rather than introduce a closed distribution format. See [Product model](./docs/PRODUCT_MODEL.md).
+Source delivery is a first-class product mode. `@iuvui/cli` installs component source into a consumer project, records both iuvui and exact upstream provenance, compares local changes, and will provide safe migration paths. The registry follows public shadcn conventions where practical rather than introduce a closed distribution format. See [Product model](./docs/PRODUCT_MODEL.md).
 
 ## Install
 
@@ -28,7 +32,7 @@ Individual style entry points are also available:
 ## Components
 
 ```tsx
-import { Button, Dialog, TextField } from "@iuvui/react";
+import { Button, Dialog, Separator, TextField } from "@iuvui/react";
 
 export function Form() {
   return (
@@ -42,7 +46,9 @@ export function Form() {
         </TextField.ErrorMessage>
       </TextField.Root>
 
-      <Button variant="primary" onPress={() => undefined}>
+      <Separator />
+
+      <Button variant="default" onPress={() => undefined}>
         Save
       </Button>
 
@@ -73,8 +79,8 @@ Component styles live in the `ui-theme`, `ui-base`, `ui-components`, and `ui-uti
 
 ```css
 [data-brand="violet"] {
-  --ui-accent: oklch(0.62 0.25 310);
-  --ui-accent-foreground: oklch(0.99 0.01 310);
+  --ui-primary: oklch(0.62 0.25 310);
+  --ui-primary-foreground: oklch(0.99 0.01 310);
   --ui-radius-md: 0.85rem;
 }
 
@@ -113,7 +119,7 @@ The browser policy targets the current two stable releases of Chromium, Firefox,
 
 ## Versioning
 
-Public packages follow SemVer, with Changesets producing changelogs. Deprecated APIs remain for at least one minor cycle with migration guidance. Breaking behavior and stable selector changes require a major release. CI never publishes automatically; releases require an explicit human-controlled workflow.
+The current development channel is locked to `0.0.x`. Changesets use patch releases only, and no package is published unless the user explicitly authorizes that exact publication. The normal SemVer deprecation and breaking-change policy begins only after the `0.1.0` gate is explicitly unlocked. CI never publishes automatically.
 
 ## Development
 
@@ -121,6 +127,9 @@ Public packages follow SemVer, with Changesets producing changelogs. Deprecated 
 pnpm install
 pnpm language:check
 pnpm format:check
+pnpm release:check
+pnpm registry:check
+pnpm upstream:check
 pnpm lint
 pnpm typecheck
 pnpm test
@@ -133,6 +142,7 @@ pnpm test:e2e
 
 - `iuvui.com` is the public brand, component, and documentation site.
 - `app.iuvui.com` is the Clerk-authenticated dashboard maintained in the private `iuvui-pro` repository, where Pro capabilities and billing are presented.
+- `mcp.iuvui.com` is a separate, authentication-free MCP documentation service. It exposes public documentation and Pro capability metadata, never paid asset contents.
 - Both applications deploy independently to Cloudflare Workers.
 - HeroUI OSS is the production UI baseline until iuvui can safely bootstrap itself. Licensed HeroUI Pro assets may later be used only in the private website implementation.
 - Paraglide provides the shared localization foundation. English and Simplified Chinese are enabled, with English as the canonical source locale.
@@ -149,7 +159,7 @@ All components, including complex components, are free. Styles and variants have
 - Establish an independent icon ecosystem and visual regression baseline.
 - Adapt the initial MIT-licensed shadcn component set into iuvui contracts, styles, tests, and dual package/Registry outputs.
 - Expand `@iuvui/cli` from verified source installation into inspection, diffing, and safe upgrades.
-- Record upstream versions and file provenance in `iuvui.lock` while protecting user-owned variants.
+- Compare versioned shadcn upstream provenance against Registry and `iuvui.lock` records while protecting user-owned variants.
 - Evaluate future Blocks and Pro products without creating commercial packages prematurely.
 - Improve compatibility, migration tooling, and deprecation telemetry from consumer evidence.
 

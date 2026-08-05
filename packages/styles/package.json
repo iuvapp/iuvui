@@ -8,7 +8,8 @@
   ],
   "files": [
     "*.css",
-    "components"
+    "components",
+    "THIRD_PARTY_NOTICES.md"
   ],
   "style": "./index.css",
   "exports": {
@@ -17,7 +18,8 @@
     "./base.css": "./base.css",
     "./components/button.css": "./components/button.css",
     "./components/text-field.css": "./components/text-field.css",
-    "./components/dialog.css": "./components/dialog.css"
+    "./components/dialog.css": "./components/dialog.css",
+    "./components/separator.css": "./components/separator.css"
   },
   "scripts": {
     "build": "node -e \"import('node:fs').then(fs=>{if(!fs.existsSync('index.css'))process.exit(1)})\"",

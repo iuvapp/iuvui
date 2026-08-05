@@ -5,6 +5,8 @@ import { join, resolve } from "node:path";
 const DEFAULT_REGISTRY_URL = "https://iuvui.com/r";
 const MAX_REGISTRY_BYTES = 1_000_000;
 const COMPONENT_NAME = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+const COMMIT_REVISION = /^[0-9a-f]{40}$/;
+const SYNC_DATE = /^\d{4}-\d{2}-\d{2}$/;
 
 export function digest(content) {
   return `sha256-${createHash("sha256").update(content).digest("base64")}`;
@@ -13,6 +15,69 @@ export function digest(content) {
 export function validateComponentName(name) {
   if (!COMPONENT_NAME.test(name)) {
     throw new Error(`Invalid component name: ${name}`);
+  }
+}
+
+function isHttpsUrl(value) {
+  try {
+    return new URL(value).protocol === "https:";
+  } catch {
+    return false;
+  }
+}
+
+function validateProvenance(metadata) {
+  const provenance = metadata.provenance;
+  if (
+    !provenance ||
+    !["independent", "derived"].includes(provenance.kind) ||
+    !isHttpsUrl(provenance.repository) ||
+    typeof provenance.path !== "string" ||
+    provenance.path.length === 0
+  ) {
+    throw new Error("Registry item contains invalid canonical provenance.");
+  }
+
+  const references = metadata.references;
+  if (!Array.isArray(references)) {
+    throw new Error("Registry item is missing upstream references.");
+  }
+
+  for (const reference of references) {
+    if (
+      !reference ||
+      typeof reference.name !== "string" ||
+      typeof reference.component !== "string" ||
+      !isHttpsUrl(reference.repository) ||
+      !COMMIT_REVISION.test(reference.revision) ||
+      !COMMIT_REVISION.test(reference.blob) ||
+      !isHttpsUrl(reference.source) ||
+      !reference.source.includes(reference.revision) ||
+      typeof reference.path !== "string" ||
+      reference.path.length === 0 ||
+      reference.path.startsWith("/") ||
+      reference.path.split("/").includes("..") ||
+      !SYNC_DATE.test(reference.syncedAt) ||
+      typeof reference.license !== "string" ||
+      !["derived", "architectural-reference"].includes(
+        reference.relationship,
+      ) ||
+      !Array.isArray(reference.localChanges) ||
+      reference.localChanges.length === 0 ||
+      reference.localChanges.some(
+        (change) => typeof change !== "string" || change.length === 0,
+      ) ||
+      (reference.registry !== undefined && !isHttpsUrl(reference.registry))
+    ) {
+      throw new Error("Registry item contains invalid upstream provenance.");
+    }
+  }
+
+  if (
+    provenance.kind === "derived" &&
+    !references.some((reference) => reference.relationship === "derived")
+  ) {
+    throw new Error("Derived Registry items must identify a derived upstream.");
   }
 }
 
@@ -34,6 +99,8 @@ export function validateRegistryItem(item, expectedName) {
     throw new Error("Registry item uses an unsupported iuvui schema.");
   }
 
+  validateProvenance(item.meta.iuvui);
+
   const integrity = item.meta?.iuvui?.integrity;
   if (!integrity || integrity.algorithm !== "sha256") {
     throw new Error("Registry item is missing SHA-256 integrity metadata.");
@@ -46,7 +113,7 @@ export function validateRegistryItem(item, expectedName) {
       typeof file.path !== "string" ||
       typeof file.target !== "string" ||
       typeof file.content !== "string" ||
-      !["registry:ui", "registry:lib"].includes(file.type)
+      !["registry:ui", "registry:lib", "registry:file"].includes(file.type)
     ) {
       throw new Error("Registry item contains an invalid file.");
     }

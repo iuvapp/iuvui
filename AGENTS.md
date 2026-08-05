@@ -30,3 +30,17 @@
 - Run `pnpm language:check` before committing.
 - Run formatting, linting, type checks, tests, and builds appropriate to the changed scope.
 - Commit messages must be in English.
+
+## Release safety
+
+- Never publish an npm package unless the user explicitly requests publication in the current conversation.
+- Until the user explicitly unlocks `0.1.0`, every public package and Registry item version must remain in the `0.0.x` range.
+- Changesets must use `patch` releases while the `0.1.0` lock is active. Do not add `minor` or `major` Changesets.
+- Run `pnpm release:check` before versioning packages, committing release metadata, or publishing.
+
+## Upstream traceability
+
+- Treat shadcn/ui as the design and source reference baseline, React Aria Components as a replaceable behavior implementation behind `@iuvui/internal`, and HeroUI as a product and delivery experience reference.
+- Every component derived from or architecturally referenced against shadcn/ui must record the upstream repository, exact commit revision, immutable source URL, source path, sync date, license, relationship, and local deviations in Registry metadata.
+- Never use a mutable branch, `latest`, or an unversioned Registry URL as the sole provenance for component source.
+- Preserve upstream provenance in generated Registry items and in `iuvui.lock` so future checks and upgrades can distinguish upstream changes from consumer-owned changes.

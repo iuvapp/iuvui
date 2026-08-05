@@ -1,9 +1,9 @@
 @layer ui-components {
   .ui-button {
-    --ui-button-background: var(--ui-accent);
-    --ui-button-foreground: var(--ui-accent-foreground);
+    --ui-button-background: var(--ui-primary);
+    --ui-button-foreground: var(--ui-primary-foreground);
     display: inline-flex;
-    min-height: 2.5rem;
+    min-height: 2.25rem;
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
@@ -11,62 +11,91 @@
     border-radius: var(--ui-radius-md);
     background: var(--ui-button-background);
     color: var(--ui-button-foreground);
-    padding: 0.55rem 1rem;
-    font-weight: 650;
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 500;
     line-height: 1;
     text-decoration: none;
     cursor: pointer;
     transition:
-      transform 140ms ease,
-      filter 140ms ease,
-      background-color 140ms ease;
+      background-color 150ms ease,
+      border-color 150ms ease,
+      color 150ms ease,
+      box-shadow 150ms ease;
     -webkit-tap-highlight-color: transparent;
   }
   .ui-button[data-hovered] {
-    filter: brightness(1.07);
-  }
-  .ui-button[data-pressed] {
-    transform: translateY(1px) scale(0.985);
+    --ui-button-background: color-mix(
+      in oklch,
+      var(--ui-primary),
+      var(--ui-background) 10%
+    );
   }
   .ui-button[data-focus-visible] {
-    outline: 3px solid
-      color-mix(in oklch, var(--ui-focus-ring), transparent 55%);
+    outline: 3px solid color-mix(in oklch, var(--ui-ring), transparent 55%);
     outline-offset: 2px;
   }
   .ui-button[data-disabled] {
     cursor: not-allowed;
-    opacity: 0.52;
-    filter: none;
+    opacity: 0.5;
   }
   .ui-button[data-pending] {
     cursor: wait;
   }
   .ui-button[data-variant="secondary"] {
-    --ui-button-background: var(--ui-muted);
-    --ui-button-foreground: var(--ui-foreground);
+    --ui-button-background: var(--ui-secondary);
+    --ui-button-foreground: var(--ui-secondary-foreground);
   }
-  .ui-button[data-variant="tertiary"] {
-    --ui-button-background: var(--ui-background);
-    --ui-button-foreground: var(--ui-foreground);
+  .ui-button[data-variant="secondary"][data-hovered] {
+    --ui-button-background: color-mix(
+      in oklch,
+      var(--ui-secondary),
+      var(--ui-foreground) 8%
+    );
   }
   .ui-button[data-variant="outline"] {
-    --ui-button-background: transparent;
+    --ui-button-background: var(--ui-background);
     --ui-button-foreground: var(--ui-foreground);
-    border-color: var(--ui-border);
+    border-color: var(--ui-input);
+  }
+  .ui-button[data-variant="outline"][data-hovered] {
+    --ui-button-background: var(--ui-accent);
+    --ui-button-foreground: var(--ui-accent-foreground);
   }
   .ui-button[data-variant="ghost"] {
     --ui-button-background: transparent;
     --ui-button-foreground: var(--ui-foreground);
   }
-  .ui-button[data-variant="danger"] {
-    --ui-button-background: var(--ui-danger);
-    --ui-button-foreground: var(--ui-danger-foreground);
+  .ui-button[data-variant="ghost"][data-hovered] {
+    --ui-button-background: var(--ui-accent);
+    --ui-button-foreground: var(--ui-accent-foreground);
+  }
+  .ui-button[data-variant="destructive"] {
+    --ui-button-background: var(--ui-destructive);
+    --ui-button-foreground: var(--ui-destructive-foreground);
+  }
+  .ui-button[data-variant="destructive"][data-hovered] {
+    --ui-button-background: color-mix(
+      in oklch,
+      var(--ui-destructive),
+      var(--ui-background) 10%
+    );
+  }
+  .ui-button[data-variant="link"] {
+    --ui-button-background: transparent;
+    --ui-button-foreground: var(--ui-primary);
+    padding-inline: 0;
+    text-underline-offset: 0.25rem;
+  }
+  .ui-button[data-variant="link"][data-hovered] {
+    --ui-button-background: transparent;
+    text-decoration: underline;
   }
   .ui-button[data-full-width] {
     width: 100%;
   }
   .ui-button[data-icon-only] {
-    width: 2.5rem;
+    width: 2.25rem;
     padding-inline: 0;
   }
   .ui-button[data-size="sm"] {
@@ -75,15 +104,14 @@
     font-size: 0.8125rem;
   }
   .ui-button[data-size="lg"] {
-    min-height: 3rem;
-    padding: 0.75rem 1.25rem;
-    font-size: 1rem;
+    min-height: 2.5rem;
+    padding: 0.625rem 1.5rem;
   }
   .ui-button[data-icon-only][data-size="sm"] {
     width: 2rem;
   }
   .ui-button[data-icon-only][data-size="lg"] {
-    width: 3rem;
+    width: 2.5rem;
   }
   .ui-button[data-radius="sm"] {
     border-radius: var(--ui-radius-sm);

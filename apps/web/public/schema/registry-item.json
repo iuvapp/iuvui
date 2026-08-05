@@ -27,7 +27,9 @@
         "required": ["path", "type", "target", "content"],
         "properties": {
           "path": { "type": "string" },
-          "type": { "enum": ["registry:ui", "registry:lib"] },
+          "type": {
+            "enum": ["registry:ui", "registry:lib", "registry:file"]
+          },
           "target": { "type": "string" },
           "content": { "type": "string" }
         }
@@ -44,8 +46,74 @@
             "version",
             "availability",
             "style",
+            "provenance",
+            "references",
             "integrity"
-          ]
+          ],
+          "properties": {
+            "provenance": { "$ref": "#/$defs/canonicalProvenance" },
+            "references": {
+              "type": "array",
+              "items": { "$ref": "#/$defs/upstreamReference" }
+            }
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "canonicalProvenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "repository", "path"],
+      "properties": {
+        "kind": { "enum": ["independent", "derived"] },
+        "repository": { "type": "string", "format": "uri" },
+        "path": { "type": "string", "minLength": 1 }
+      }
+    },
+    "upstreamReference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "component",
+        "repository",
+        "revision",
+        "blob",
+        "source",
+        "path",
+        "syncedAt",
+        "license",
+        "relationship",
+        "localChanges"
+      ],
+      "properties": {
+        "name": { "type": "string", "minLength": 1 },
+        "component": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+        },
+        "base": { "enum": ["aria", "base", "radix"] },
+        "style": { "type": "string", "minLength": 1 },
+        "registry": { "type": "string", "format": "uri" },
+        "repository": { "type": "string", "format": "uri" },
+        "revision": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
+        "blob": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
+        "source": {
+          "type": "string",
+          "pattern": "^https://github\\.com/[^/]+/[^/]+/blob/[0-9a-f]{40}/.+$"
+        },
+        "path": { "type": "string", "minLength": 1 },
+        "syncedAt": { "type": "string", "format": "date" },
+        "license": { "type": "string", "minLength": 1 },
+        "relationship": {
+          "enum": ["derived", "architectural-reference"]
+        },
+        "localChanges": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 }
         }
       }
     }

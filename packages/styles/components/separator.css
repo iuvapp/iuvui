@@ -1,0 +1,19 @@
+@layer ui-components {
+  .ui-separator {
+    display: block;
+    flex-shrink: 0;
+    border: 0;
+    background: var(--ui-border);
+  }
+
+  .ui-separator[data-orientation="horizontal"] {
+    width: 100%;
+    height: 1px;
+  }
+
+  .ui-separator[data-orientation="vertical"] {
+    align-self: stretch;
+    width: 1px;
+    height: 100%;
+  }
+}

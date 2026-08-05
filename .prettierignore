@@ -5,3 +5,4 @@ storybook-static
 playwright-report
 pnpm-lock.yaml
 **/src/paraglide
+**/src/routeTree.gen.ts

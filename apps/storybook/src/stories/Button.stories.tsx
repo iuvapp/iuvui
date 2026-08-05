@@ -24,12 +24,12 @@ export const AllVariants: Story = {
     <div className="story-row">
       {(
         [
-          "primary",
+          "default",
           "secondary",
-          "tertiary",
+          "destructive",
           "outline",
           "ghost",
-          "danger",
+          "link",
         ] as const
       ).map((variant) => (
         <Button key={variant} variant={variant}>
@@ -92,7 +92,7 @@ export const DarkTheme: Story = {
 export const CustomVariables: Story = {
   render: () => (
     <div
-      style={{ "--ui-accent": "oklch(0.62 0.25 320)" } as React.CSSProperties}
+      style={{ "--ui-primary": "oklch(0.62 0.25 320)" } as React.CSSProperties}
     >
       <Button>Token override</Button>
     </div>

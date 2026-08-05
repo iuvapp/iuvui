@@ -59,8 +59,28 @@ function generateButtonSource() {
   )}`;
 }
 
+function generateSeparatorSource() {
+  const canonicalImport = `import { AriaSeparator } from "@iuvui/internal";`;
+  const registryImport = `import { Separator as AriaSeparator } from "react-aria-components";`;
+  const canonical = read("packages/react/src/separator.tsx");
+
+  if (!canonical.includes(canonicalImport)) {
+    throw new Error("The canonical Separator internal import has changed");
+  }
+
+  return `${generatedHeader}import "@iuvui/styles";\n\n${canonical.replace(
+    canonicalImport,
+    registryImport,
+  )}`;
+}
+
 const generatedFiles = new Map([
   ["registry/default/button.tsx", generateButtonSource()],
+  ["registry/default/separator.tsx", generateSeparatorSource()],
+  [
+    "registry/default/THIRD_PARTY_NOTICES.md",
+    read("packages/react/THIRD_PARTY_NOTICES.md"),
+  ],
   [
     "registry/default/types.ts",
     `${generatedHeader}${read("packages/react/src/types.ts")}`,

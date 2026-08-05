@@ -5,8 +5,9 @@
   "common_switch_language": "切换语言",
   "web_status": "React UI 基础设施 · 早期版本",
   "web_eyebrow": "持续维护的源码系统",
-  "web_headline_first": "拥有代码。",
-  "web_headline_second": "持续升级。",
+  "web_slogan": "像使用 HeroUI 一样使用 shadcn/ui。",
+  "web_meta_title": "iuvui — 像使用 HeroUI 一样使用 shadcn/ui。",
+  "web_meta_description": "iuvui 是一套可拥有、可定制并提供持续升级能力的 React UI 系统。",
   "web_summary": "iuvui 将组件包的一致性与源码级控制结合起来。按你的方式安装组件，保留自定义 variants，同时持续获得上游改进。",
   "web_primary_action": "了解产品模型",
   "web_secondary_action": "查看源码",
@@ -40,5 +41,6 @@
   "web_promise_contracts": "包模式和源码模式共享相同契约。",
   "web_promise_variants": "用户拥有的 variants 不会被静默覆盖。",
   "web_promise_core": "Pro 产品扩展整个系统，但不会封闭核心。",
-  "web_footer_description": "为长期产品公开构建。"
+  "web_footer_description": "为长期产品公开构建。",
+  "web_independence_notice": "iuvui 是独立项目，与 shadcn/ui 或 HeroUI 没有隶属或关联关系。"
 }

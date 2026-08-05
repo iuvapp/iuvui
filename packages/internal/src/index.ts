@@ -10,6 +10,7 @@ export {
   Link as AriaLink,
   Modal as AriaModal,
   ModalOverlay as AriaModalOverlay,
+  Separator as AriaSeparator,
   Text as AriaText,
   TextField as AriaTextField,
 } from "react-aria-components";

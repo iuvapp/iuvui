@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://iuvui.com/schema/release-policy.json",
+  "title": "iuvui release policy",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "channel",
+    "allowedVersionPattern",
+    "allowedChangesetBumps",
+    "publicationRequiresExplicitApproval"
+  ],
+  "properties": {
+    "$schema": { "type": "string" },
+    "schemaVersion": { "const": 1 },
+    "channel": { "const": "development" },
+    "allowedVersionPattern": { "type": "string" },
+    "allowedChangesetBumps": {
+      "type": "array",
+      "items": { "enum": ["patch", "minor", "major"] },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "publicationRequiresExplicitApproval": { "const": true }
+  }
+}

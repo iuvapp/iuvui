@@ -23,15 +23,14 @@
     overflow: auto;
     border: 1px solid var(--ui-border);
     border-radius: var(--ui-radius-lg);
-    background: var(--ui-surface);
-    color: var(--ui-surface-foreground);
+    background: var(--ui-card);
+    color: var(--ui-card-foreground);
     box-shadow: var(--ui-shadow-md);
     padding: 1.5rem;
     outline: none;
   }
   .ui-dialog__content[data-focus-visible] {
-    outline: 3px solid
-      color-mix(in oklch, var(--ui-focus-ring), transparent 55%);
+    outline: 3px solid color-mix(in oklch, var(--ui-ring), transparent 55%);
     outline-offset: 2px;
   }
   .ui-dialog__title {
@@ -63,7 +62,7 @@
     background: var(--ui-muted);
   }
   .ui-dialog__close[data-focus-visible] {
-    outline: 2px solid var(--ui-focus-ring);
+    outline: 2px solid var(--ui-ring);
     outline-offset: 2px;
   }
   .ui-dialog__backdrop[data-entering],

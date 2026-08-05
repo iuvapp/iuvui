@@ -74,6 +74,20 @@ V0 may use MIT-licensed shadcn component source as an implementation starting po
 
 The shadcn copyright and MIT license notice must be retained whenever copied source or a substantial portion is distributed. A third-party notices file must be introduced with the first imported component and kept current as additional upstream sources are adopted. Paid third-party source and design assets are never valid implementation inputs.
 
+### Upstream synchronization contract
+
+Source provenance is machine-readable product data, not a prose-only attribution. Each shadcn-derived or shadcn-referenced component records:
+
+- the upstream project and component name;
+- the repository and exact commit revision;
+- an immutable source URL and repository-relative source path;
+- the public Registry endpoint when one exists;
+- the date iuvui last reviewed that source;
+- the upstream license and whether the relationship is derived source or architectural reference;
+- the local behavior, API, styling, accessibility, and delivery changes applied by iuvui.
+
+Registry generation preserves the record, and `iuvui add` copies it into `iuvui.lock` together with both Registry and installed-file integrity. A scheduled maintainer check compares pinned Git blobs with the current upstream paths; future consumer checks compare the installed lock record with the current iuvui Registry. Neither path automatically overwrites consumer-owned code.
+
 This strategy accelerates the initial component catalog while leaving room to replace internal primitives later. Public APIs must not expose Radix, Base UI, or another behavior primitive as a permanent iuvui contract.
 
 ## Ownership boundary
@@ -105,7 +119,7 @@ The Registry layer handles delivery differences such as path rewriting, dependen
 @iuvui/tokens    Design tokens
 @iuvui/icons     Official icon system
 @iuvui/pro       Reserved for a future commercial product
-@iuvui/internal  Private repository package; never published
+@iuvui/internal  Private workspace package; never published
 ```
 
 All public packages use the `@iuvui` npm scope. `@iuvui/cli` is the package name and `iuvui` is its executable:

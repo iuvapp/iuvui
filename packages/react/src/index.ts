@@ -12,6 +12,8 @@ export type {
   DialogRootProps,
 } from "./dialog";
 export { extendVariants } from "./extend-variants";
+export { Separator } from "./separator";
+export type { SeparatorOrientation, SeparatorProps } from "./separator";
 export { TextField } from "./text-field";
 export type { TextFieldRootProps } from "./text-field";
 export type {

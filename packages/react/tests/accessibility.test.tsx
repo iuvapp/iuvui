@@ -2,6 +2,7 @@ import { render } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import axe from "axe-core";
 import { Button } from "../src/button";
+import { Separator } from "../src/separator";
 import { TextField } from "../src/text-field";
 
 describe("automated accessibility", () => {
@@ -9,6 +10,7 @@ describe("automated accessibility", () => {
     const { container } = render(
       <main>
         <Button>Save</Button>
+        <Separator />
         <TextField.Root>
           <TextField.Label>Name</TextField.Label>
           <TextField.Input />

@@ -52,11 +52,7 @@ export const DarkTheme: Story = {
 };
 export const CustomVariables: Story = {
   render: () => (
-    <div
-      style={
-        { "--ui-focus-ring": "oklch(0.68 0.22 145)" } as React.CSSProperties
-      }
-    >
+    <div style={{ "--ui-ring": "oklch(0.68 0.22 145)" } as React.CSSProperties}>
       <Example />
     </div>
   ),

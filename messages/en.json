@@ -5,8 +5,9 @@
   "common_switch_language": "Switch language",
   "web_status": "React UI infrastructure · early build",
   "web_eyebrow": "The maintained source system",
-  "web_headline_first": "Own the code.",
-  "web_headline_second": "Keep the upgrades.",
+  "web_slogan": "Use shadcn/ui like HeroUI.",
+  "web_meta_title": "iuvui — Use shadcn/ui like HeroUI.",
+  "web_meta_description": "iuvui is an ownable, customizable React UI system with managed upgrades.",
   "web_summary": "iuvui combines package-grade consistency with source-level control. Install components your way, keep custom variants, and stay connected to upstream improvements.",
   "web_primary_action": "Explore the model",
   "web_secondary_action": "Read the source",
@@ -40,5 +41,6 @@
   "web_promise_contracts": "Package and source modes share the same contracts.",
   "web_promise_variants": "User-owned variants are never silently overwritten.",
   "web_promise_core": "Pro products extend the system without closing the core.",
-  "web_footer_description": "Built in public for long-lived products."
+  "web_footer_description": "Built in public for long-lived products.",
+  "web_independence_notice": "iuvui is an independent project and is not affiliated with shadcn/ui or HeroUI."
 }

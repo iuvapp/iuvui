@@ -108,6 +108,10 @@ export async function installComponents(projectRoot, names) {
       version: item.meta.iuvui.version,
       source: `https://iuvui.com/r/${item.name}.json`,
       integrity: item.meta.iuvui.integrity.item,
+      provenance: {
+        canonical: item.meta.iuvui.provenance,
+        upstreams: item.meta.iuvui.references,
+      },
       files,
     };
   }

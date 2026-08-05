@@ -1,5 +1,5 @@
 import { expectTypeOf, it } from "vitest";
-import { Button, extendVariants, TextField } from "../src";
+import { Button, extendVariants, Separator, TextField } from "../src";
 
 it("keeps public variants type safe", () => {
   const BrandButton = extendVariants(Button, {
@@ -13,5 +13,8 @@ it("keeps public variants type safe", () => {
     <TextField.Root>
       <TextField.Input />
     </TextField.Root>,
+  ).toMatchTypeOf<React.ReactElement>();
+  expectTypeOf(
+    <Separator orientation="vertical" />,
   ).toMatchTypeOf<React.ReactElement>();
 });

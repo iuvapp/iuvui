@@ -10,6 +10,7 @@ export default tseslint.config(
       "**/dist/**",
       "**/coverage/**",
       "**/src/paraglide/**",
+      "**/src/routeTree.gen.ts",
       "**/storybook-static/**",
     ],
   },

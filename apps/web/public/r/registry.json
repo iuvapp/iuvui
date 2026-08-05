@@ -9,8 +9,8 @@
       "title": "Button",
       "description": "An accessible action component with semantic variants and link support.",
       "dependencies": [
-        "@iuvui/styles@latest",
-        "@iuvui/utils@latest",
+        "@iuvui/styles@0.0.1",
+        "@iuvui/utils@0.0.1",
         "react-aria-components@^1.20.0"
       ],
       "files": [
@@ -28,7 +28,7 @@
       "meta": {
         "iuvui": {
           "schemaVersion": 1,
-          "version": "0.1.0",
+          "version": "0.0.1",
           "availability": "free",
           "style": "default",
           "provenance": {
@@ -39,12 +39,80 @@
           "references": [
             {
               "name": "shadcn/ui Button",
+              "component": "button",
+              "style": "new-york-v4",
               "registry": "https://ui.shadcn.com/r/styles/new-york-v4/button.json",
               "repository": "https://github.com/shadcn-ui/ui",
               "revision": "607e8a9717fe6ff0d374ba74c651012f9c052534",
+              "blob": "4d38506cee5430d95a59ec6a2a0cef2b79217e7a",
+              "source": "https://github.com/shadcn-ui/ui/blob/607e8a9717fe6ff0d374ba74c651012f9c052534/apps/v4/registry/new-york-v4/ui/button.tsx",
               "path": "apps/v4/registry/new-york-v4/ui/button.tsx",
+              "syncedAt": "2026-08-05",
               "license": "MIT",
-              "relationship": "architectural-reference"
+              "relationship": "architectural-reference",
+              "localChanges": [
+                "Uses React Aria Components instead of the upstream Radix Slot composition.",
+                "Preserves the upstream variant vocabulary while adding pending state, content slots, and link semantics.",
+                "Moves component styling into the @iuvui/styles CSS package."
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "separator",
+      "type": "registry:ui",
+      "title": "Separator",
+      "description": "A visual or semantic boundary with horizontal and vertical orientations.",
+      "dependencies": [
+        "@iuvui/styles@0.0.1",
+        "@iuvui/utils@0.0.1",
+        "react-aria-components@^1.20.0"
+      ],
+      "files": [
+        {
+          "path": "registry/default/separator.tsx",
+          "type": "registry:ui",
+          "target": "separator.tsx"
+        },
+        {
+          "path": "registry/default/THIRD_PARTY_NOTICES.md",
+          "type": "registry:file",
+          "target": "THIRD_PARTY_NOTICES.md"
+        }
+      ],
+      "meta": {
+        "iuvui": {
+          "schemaVersion": 1,
+          "version": "0.0.1",
+          "availability": "free",
+          "style": "default",
+          "provenance": {
+            "kind": "derived",
+            "repository": "https://github.com/iuv-tech/iuvui",
+            "path": "packages/react/src/separator.tsx"
+          },
+          "references": [
+            {
+              "name": "shadcn/ui Separator",
+              "component": "separator",
+              "base": "aria",
+              "style": "nova",
+              "registry": "https://ui.shadcn.com/r/styles/aria-nova/separator.json",
+              "repository": "https://github.com/shadcn-ui/ui",
+              "revision": "607e8a9717fe6ff0d374ba74c651012f9c052534",
+              "blob": "bc94e33d44e85b613eaccb9ffae7e2b9d0d45f72",
+              "source": "https://github.com/shadcn-ui/ui/blob/607e8a9717fe6ff0d374ba74c651012f9c052534/apps/v4/registry/bases/aria/ui/separator.tsx",
+              "path": "apps/v4/registry/bases/aria/ui/separator.tsx",
+              "syncedAt": "2026-08-05",
+              "license": "MIT",
+              "relationship": "derived",
+              "localChanges": [
+                "Routes the React Aria primitive through the private @iuvui/internal adapter.",
+                "Moves Nova utility styling into @iuvui/styles and maps the border color to --ui-border.",
+                "Adds stable data attributes and a forwardRef-based package API."
+              ]
             }
           ]
         }

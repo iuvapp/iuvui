@@ -6,7 +6,7 @@
   "type": "module",
   "packageManager": "pnpm@10.14.0",
   "engines": {
-    "node": ">=20.19"
+    "node": ">=22.12"
   },
   "scripts": {
     "build": "turbo run build",
@@ -18,6 +18,7 @@
     "language:check": "node scripts/check-language.mjs",
     "lint": "turbo run lint",
     "pack:check": "pnpm build && node scripts/verify-pack.mjs",
+    "release:check": "node scripts/check-release-policy.mjs",
     "registry:build": "node scripts/build-registry.mjs",
     "registry:check": "node scripts/build-registry.mjs --check",
     "storybook": "pnpm --filter @iuvui/storybook storybook",
@@ -25,7 +26,8 @@
     "test": "turbo run test",
     "test:e2e": "pnpm --filter @iuvui/storybook test:e2e",
     "typecheck": "turbo run typecheck",
-    "version-packages": "changeset version",
+    "upstream:check": "node scripts/check-upstream-provenance.mjs",
+    "version-packages": "pnpm release:check && changeset version && pnpm release:check",
     "web": "pnpm --filter @iuvui/web dev",
     "web:build:dev": "pnpm --filter @iuvui/web build:dev",
     "web:build:prod": "pnpm --filter @iuvui/web build:prod",

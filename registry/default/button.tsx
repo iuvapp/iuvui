@@ -22,7 +22,7 @@ const InternalButton = AriaButton;
 const InternalLink = AriaLink;
 
 export type ButtonVariant =
-  "primary" | "secondary" | "tertiary" | "outline" | "ghost" | "danger";
+  "default" | "secondary" | "destructive" | "outline" | "ghost" | "link";
 export type ButtonSize = "sm" | "md" | "lg";
 export type ButtonRadius = "sm" | "md" | "lg" | "full";
 
@@ -84,7 +84,7 @@ export const Button = forwardRef<
     radius = "md",
     size = "md",
     startContent,
-    variant = "primary",
+    variant = "default",
     ...props
   },
   ref,

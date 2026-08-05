@@ -34,6 +34,7 @@ The available V0 source workflow is:
 ```bash
 pnpm dlx @iuvui/cli init
 pnpm dlx @iuvui/cli add button
+pnpm dlx @iuvui/cli add separator
 ```
 
 Planned lifecycle commands include:
@@ -47,6 +48,7 @@ By default, source components will be installed into `components/iuv-ui`:
 
 ```text
 components/iuv-ui/button.tsx
+components/iuv-ui/separator.tsx
 ```
 
 This intentionally keeps iuvui source separate from shadcn's conventional `components/ui` directory. Pass `--source-dir` to `iuvui init` to override the target directory; `components/iuv-ui` remains the default.
@@ -77,6 +79,6 @@ The artifact manifest determines whether entitlement is required, so the CLI doe
 
 ## Status
 
-The alpha package currently provides `--help`, `--version`, `doctor`, `init`, and `add button`. Authentication, inspection, diffing, updates, and protected Registry artifacts remain planned.
+The alpha package currently provides `--help`, `--version`, `doctor`, `init`, `add button`, and `add separator`. Authentication, inspection, diffing, updates, and protected Registry artifacts remain planned.
 
 See the [iuvui repository](https://github.com/iuv-tech/iuvui) for development progress.
