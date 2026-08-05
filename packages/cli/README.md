@@ -39,8 +39,28 @@ iuvui update button
 
 React components, styles, tokens, and icons will be published separately under the `@iuvui` scope.
 
+## Authentication boundary
+
+Installing and using the CLI does not require an account. Help, diagnostics, project initialization, inspection, and access to free artifacts remain available while signed out.
+
+Authentication is requested only when a command needs a protected artifact or paid service:
+
+```bash
+iuvui style add base
+# No login required for a free artifact.
+
+iuvui style add editorial-pro
+# The CLI asks the user to sign in when this artifact requires entitlement.
+
+iuvui login
+iuvui whoami
+iuvui logout
+```
+
+The artifact manifest determines whether entitlement is required, so the CLI does not maintain separate free and paid command implementations. Interactive login returns a user-scoped token. The Clerk Secret Key remains on the iuvui backend and is never included in this package.
+
 ## Status
 
-The alpha package currently provides `--help`, `--version`, and `doctor`. The `init` and `add` commands intentionally return a clear “coming soon” error until the Registry workflow is ready.
+The alpha package currently provides `--help`, `--version`, and `doctor`. The `init`, `add`, authentication, and Registry commands intentionally return a clear “coming soon” error until their workflows are ready.
 
 See the [iuvui repository](https://github.com/tcitry/iuvui) for development progress.

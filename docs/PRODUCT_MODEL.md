@@ -44,6 +44,8 @@ iuvui update --interactive
 
 These commands describe the roadmap and must not be presented as released until implemented.
 
+The CLI is publicly installable and its basic workflows do not require login. Free artifact commands work anonymously. Login is requested only when the selected source, Style Pack, variant, or managed service is explicitly classified as protected by its Registry manifest.
+
 ## shadcn ecosystem interoperability
 
 Source delivery should follow public shadcn Registry protocols, directory conventions, and familiar workflows where practical instead of inventing a closed format.
@@ -117,7 +119,7 @@ Obtaining source is the beginning, not the end. Consumers own their final code a
 
 ## Commercial boundary
 
-All components remain free, including complex components. Base styles and base variants are free. Pro monetization focuses on maintained advanced Style Packs, premium visual variants, authenticated CLI source delivery and upgrades, MCP workflows, and team services. Free users receive the complete behavior layer plus supported base styles, base variants, and semantic-token customization.
+All components remain free, including complex components. Styles and variants have both free and paid offerings; only selected premium design assets are monetized. MCP is currently free and is not gated by a Pro subscription. Authenticated CLI source delivery and managed upgrades remain a separate commercial decision. Free users receive the complete behavior layer plus supported styles, variants, and semantic-token customization.
 
 Because shipped CSS is observable in a browser, premium protection applies to authorized distribution, updates, and service access rather than runtime DRM. See [Commercial model](./COMMERCIAL_MODEL.md) for the Style Pack contract, entitlement flow, and licensing principles.
 
