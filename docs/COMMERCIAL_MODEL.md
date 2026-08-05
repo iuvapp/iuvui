@@ -11,7 +11,7 @@ Pro may sell selected maintained design outcomes and workflow leverage:
 - managed source downloads and upgrades through `@iuvui/cli`;
 - team workflows, project history, private Registry access, and support.
 
-MCP is currently a free capability and is not sold as part of Pro. Using MCP to discover or apply a paid artifact still requires entitlement to that artifact; the MCP transport and general workflow remain free.
+MCP is a free public documentation and capability-discovery service. Documentation for Free and Pro features is publicly readable. Pro pages clearly identify the required package and entitlement, but MCP does not return, proxy, or install paid artifacts.
 
 Component capability must never be split into a deliberately weak free implementation and a complete paid implementation. A data grid, editor, command palette, or other complex component remains free when it becomes part of the public component system.
 
@@ -95,7 +95,25 @@ Premium artifacts stay outside the public repository and public npm packages. Th
 
 Free and paid assets use the same commands. For example, `iuvui style add <name>` proceeds anonymously for a free Style Pack and starts login when the selected pack is protected. After login, the CLI sends a user-scoped access token to the Registry, which resolves the active user or Organization entitlement. The CLI never contains a Clerk Secret Key.
 
-The MCP server is free to use and shares the same artifact catalog as the CLI. It can recommend components, styles, variants, and animation options without a Pro subscription. When an MCP action requests a paid Style Pack, paid variant, or animation asset, the Registry verifies entitlement to that specific artifact; this protects the asset without turning MCP itself into a paid product.
+The MCP server provides documentation queries only. It can explain components, styles, variants, animation options, migration guidance, and the APIs exposed by `@iuvui/pro`. Every documented capability carries explicit availability metadata:
+
+```json
+{
+  "availability": "pro",
+  "package": "@iuvui/pro",
+  "feature": "editorial-motion"
+}
+```
+
+An agent using MCP must:
+
+1. State clearly when a requested feature is Pro.
+2. Check whether the project already depends on `@iuvui/pro` before generating Pro usage code.
+3. Explain the documented Pro API when the package is available.
+4. Direct the user to CLI login and installation when the package is absent.
+5. Never reproduce, synthesize, or return paid CSS, variant recipes, animation configuration, package tarballs, or signed download URLs.
+
+MCP does not perform entitlement verification and does not need a user login because all documentation is public. The CLI and Registry remain the only delivery and entitlement boundary for paid assets.
 
 Tokens must be revocable, hashed at rest, minimally scoped, and separated into interactive user tokens and project-specific CI tokens. Tokens never enter `iuvui.lock`, browser code, build output, or repository files.
 
