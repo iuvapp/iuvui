@@ -19,11 +19,16 @@
     "lint": "turbo run lint",
     "pack:check": "pnpm build && node scripts/verify-pack.mjs",
     "storybook": "pnpm --filter @iuvui/storybook storybook",
+    "storybook:deploy": "pnpm --filter @iuvui/storybook deploy",
     "test": "turbo run test",
     "test:e2e": "pnpm --filter @iuvui/storybook test:e2e",
     "typecheck": "turbo run typecheck",
     "version-packages": "changeset version",
-    "web": "pnpm --filter @iuvui/web dev"
+    "web": "pnpm --filter @iuvui/web dev",
+    "web:build:dev": "pnpm --filter @iuvui/web build:dev",
+    "web:build:prod": "pnpm --filter @iuvui/web build:prod",
+    "web:deploy:dev": "pnpm --filter @iuvui/web deploy:dev",
+    "web:deploy:prod": "pnpm --filter @iuvui/web deploy:prod"
   },
   "devDependencies": {
     "@changesets/cli": "latest",

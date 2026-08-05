@@ -5,8 +5,15 @@
   "assets": {
     "not_found_handling": "single-page-application",
   },
-  "routes": [{ "pattern": "iuvui.com", "custom_domain": true }],
   "observability": {
     "enabled": true,
+  },
+  "env": {
+    "dev": {
+      "routes": [{ "pattern": "ui.iuvdev.com", "custom_domain": true }],
+    },
+    "prod": {
+      "routes": [{ "pattern": "iuvui.com", "custom_domain": true }],
+    },
   },
 }

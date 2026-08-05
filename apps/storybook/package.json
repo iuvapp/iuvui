@@ -6,6 +6,7 @@
   "scripts": {
     "build": "storybook build",
     "clean": "rm -rf storybook-static test-results playwright-report",
+    "deploy": "pnpm build && wrangler deploy",
     "dev": "storybook dev -p 6006 --no-open",
     "lint": "eslint .storybook src e2e",
     "storybook": "storybook dev -p 6006 --no-open",
@@ -34,6 +35,7 @@
     "storybook": "latest",
     "typescript": "latest",
     "vite": "latest",
-    "vitest": "latest"
+    "vitest": "latest",
+    "wrangler": "4.118.0"
   }
 }

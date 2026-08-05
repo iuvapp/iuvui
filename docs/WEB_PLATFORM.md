@@ -2,10 +2,11 @@
 
 ## Product surfaces
 
-| Domain          | Role                                                             | Access                 |
-| --------------- | ---------------------------------------------------------------- | ---------------------- |
-| `iuvui.com`     | Brand, components, documentation, pricing, and public content    | Public, frontend-first |
-| `app.iuvui.com` | Pro dashboard, entitlements, downloads, teams, and account tools | Authenticated          |
+| Domain                | Role                                                             | Access                 |
+| --------------------- | ---------------------------------------------------------------- | ---------------------- |
+| `iuvui.com`           | Brand, components, documentation, pricing, and public content    | Public, frontend-first |
+| `app.iuvui.com`       | Pro dashboard, entitlements, downloads, teams, and account tools | Authenticated          |
+| `storybook.iuvui.com` | Component development and contract reference                     | Public                 |
 
 Both applications deploy to Cloudflare Workers with independent code, configuration, secrets, custom domains, and release processes. The public site never holds Pro user data or backend credentials.
 
@@ -50,11 +51,31 @@ English is the canonical source language and the default display language. Engli
 ## Cloudflare Workers
 
 ```text
-iuvui-web       -> iuvui.com
+iuvui-web-dev   -> ui.iuvdev.com
+iuvui-web-prod  -> iuvui.com
+iuvui-storybook -> storybook.iuvui.com
 iuvui-dashboard -> app.iuvui.com
 ```
 
-Each Worker owns its `wrangler.jsonc`, compatibility date, custom domain, preview and production environments, secrets, bindings, deployment, rollback, logs, and observability. Database or storage choices such as D1, R2, KV, or an external service will follow the eventual entitlement, order, Registry, and download data model rather than being selected prematurely.
+The public website is built separately for the `dev` and `prod` Cloudflare environments before deployment. The Vite plugin selects the environment at build time and produces the flattened Wrangler deployment configuration. Storybook has one production Worker. Each Worker owns its custom domain, deployment, rollback, logs, and observability. Database or storage choices such as D1, R2, KV, or an external service will follow the eventual entitlement, order, Registry, and download data model rather than being selected prematurely.
+
+### Manual deployment
+
+Authenticate Wrangler once from the repository root:
+
+```bash
+pnpm --filter @iuvui/web exec wrangler login
+```
+
+Deploy the development website first, verify it, and then deploy production and Storybook:
+
+```bash
+pnpm web:deploy:dev
+pnpm web:deploy:prod
+pnpm storybook:deploy
+```
+
+The deployment commands build each application before publishing it. No prebuilt output needs to be committed.
 
 ## Clerk authentication and organizations
 

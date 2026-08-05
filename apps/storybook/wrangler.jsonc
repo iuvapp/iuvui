@@ -1,0 +1,12 @@
+{
+  "$schema": "../../node_modules/wrangler/config-schema.json",
+  "name": "iuvui-storybook",
+  "compatibility_date": "2026-08-05",
+  "assets": {
+    "directory": "./storybook-static",
+  },
+  "routes": [{ "pattern": "storybook.iuvui.com", "custom_domain": true }],
+  "observability": {
+    "enabled": true,
+  },
+}
