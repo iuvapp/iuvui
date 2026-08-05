@@ -141,7 +141,7 @@ See [Web platform](./docs/WEB_PLATFORM.md) for the complete boundary and rollout
 
 ## Commercial model
 
-All components, including complex components, are free. Styles and variants have both free and paid offerings; only selected premium design assets are monetized. MCP is currently a free capability and is not part of the Pro paywall. Authenticated CLI source delivery and managed upgrades remain a separate commercial decision. See [Commercial model](./docs/COMMERCIAL_MODEL.md).
+All components, including complex components, are free. Styles and variants have both free and paid offerings; only selected premium design assets are monetized. Official animation configuration, motion presets, and transition recipes are Pro assets. Free components retain essential state feedback and reduced-motion accessibility. MCP is currently a free capability and is not part of the Pro paywall. Authenticated CLI source delivery and managed upgrades remain a separate commercial decision. See [Commercial model](./docs/COMMERCIAL_MODEL.md).
 
 ## Roadmap
 

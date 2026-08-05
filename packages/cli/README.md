@@ -57,7 +57,7 @@ iuvui whoami
 iuvui logout
 ```
 
-The artifact manifest determines whether entitlement is required, so the CLI does not maintain separate free and paid command implementations. Interactive login returns a user-scoped token. The Clerk Secret Key remains on the iuvui backend and is never included in this package.
+The artifact manifest determines whether entitlement is required, so the CLI does not maintain separate free and paid command implementations. Paid Style Packs, premium variants, and animation configuration use the same protected artifact flow. Interactive login returns a user-scoped token. The Clerk Secret Key remains on the iuvui backend and is never included in this package.
 
 ## Status
 

@@ -7,6 +7,7 @@ Every component is free, including complex components. Accessibility behavior, s
 Pro may sell selected maintained design outcomes and workflow leverage:
 
 - selected premium Style Packs and premium visual variants;
+- animation configuration, motion presets, easing systems, and transition recipes;
 - managed source downloads and upgrades through `@iuvui/cli`;
 - team workflows, project history, private Registry access, and support.
 
@@ -23,7 +24,8 @@ The supported free customization surface includes base styles, base variants, an
 - spacing and density;
 - radii;
 - borders and elevation;
-- focus, motion, and state tokens.
+- focus and state tokens;
+- reduced-motion safety and essential state feedback.
 
 Free users may always write their own CSS because iuvui runs in their application. The commercial boundary is therefore a product and distribution boundary, not an artificial technical restriction. iuvui provides free styles, variants, and basic token customization, while selected curated recipes, visual variants, and their ongoing maintenance may be Pro products. "Advanced" does not automatically mean "paid"; each asset has an explicit entitlement classification.
 
@@ -51,6 +53,12 @@ Base variants ship with the free components and remain sufficient for complete p
 
 Premium variant names should not be added to the fixed free component union and unlocked with a runtime license flag. Instead, each Style Pack exports a typed recipe layer that extends a free component through the public styling API. The generated wrapper or recipe supplies the additional TypeScript variant contract while reusing the unchanged free component implementation. This keeps entitlement checks out of application runtime and prevents an installed but unlicensed name from rendering an incomplete component.
 
+### Pro animation configuration
+
+Official animation configuration is a Pro product. This includes duration scales, easing systems, spring parameters, entrance and exit presets, orchestration, layout transitions, and component-specific motion recipes. Animation assets may be delivered as CSS, typed configuration, or framework adapters through the same protected Registry as paid Style Packs and variants.
+
+The free component layer must still provide accessible and functional state changes. Focus indication, loading feedback, overlay visibility, and `prefers-reduced-motion` behavior are free contracts and cannot depend on a Pro animation package. Without Pro assets, components use a neutral baseline with no configurable animation system. Pro changes presentation and choreography only; it never unlocks behavior.
+
 Style families should be designed as complete systems rather than isolated color themes. Useful families may emphasize editorial content, dense productivity software, data-heavy operations, consumer commerce, or expressive brand surfaces. Every family should define the same design axes:
 
 | Axis    | Examples                                                          |
@@ -72,7 +80,7 @@ Client-side CSS cannot be made secret after it is delivered to a browser. iuvui 
 1. A user signs in to `app.iuvui.com` through Clerk.
 2. The iuvui entitlement service resolves the active user or Organization subscription.
 3. The dashboard issues a short-lived user token or project-scoped CI token.
-4. `@iuvui/cli` requests a signed Style Pack and premium variant manifest from the private Registry.
+4. `@iuvui/cli` requests a signed Style Pack, premium variant, or animation manifest from the private Registry.
 5. The Registry verifies entitlement, records an audit event, and returns a short-lived artifact URL.
 6. The CLI verifies the artifact signature and checksum, stores it in a gitignored managed cache, and records only version and provenance in `iuvui.lock`.
 7. Vite or another build integration imports the managed artifact without a runtime network request.
@@ -87,7 +95,7 @@ Premium artifacts stay outside the public repository and public npm packages. Th
 
 Free and paid assets use the same commands. For example, `iuvui style add <name>` proceeds anonymously for a free Style Pack and starts login when the selected pack is protected. After login, the CLI sends a user-scoped access token to the Registry, which resolves the active user or Organization entitlement. The CLI never contains a Clerk Secret Key.
 
-The MCP server is free to use and shares the same artifact catalog as the CLI. It can recommend components, styles, and variants without a Pro subscription. When an MCP action requests a paid Style Pack or paid variant, the Registry verifies entitlement to that specific artifact; this protects the asset without turning MCP itself into a paid product.
+The MCP server is free to use and shares the same artifact catalog as the CLI. It can recommend components, styles, variants, and animation options without a Pro subscription. When an MCP action requests a paid Style Pack, paid variant, or animation asset, the Registry verifies entitlement to that specific artifact; this protects the asset without turning MCP itself into a paid product.
 
 Tokens must be revocable, hashed at rest, minimally scoped, and separated into interactive user tokens and project-specific CI tokens. Tokens never enter `iuvui.lock`, browser code, build output, or repository files.
 
