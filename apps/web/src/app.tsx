@@ -1,5 +1,4 @@
-import { Button, Link } from "@heroui/react";
-import { ActionLink, BrandLockup, CheckIcon, GridIcon } from "@iuvui/site-ui";
+import { Button, Card, Chip, Link } from "@heroui/react";
 import { useState } from "react";
 
 import * as m from "./paraglide/messages.js";
@@ -33,8 +32,10 @@ function CopyCommand({ command }: { command: string }) {
   }
 
   return (
-    <div className="command-line">
-      <code>{command}</code>
+    <div className="flex items-center justify-between gap-3 rounded-xl bg-surface-secondary px-4 py-2">
+      <code className="min-w-0 overflow-hidden text-ellipsis whitespace-nowrap text-sm">
+        {command}
+      </code>
       <Button size="sm" variant="ghost" onPress={() => void copy()}>
         {copied ? m.common_copied() : m.common_copy()}
       </Button>
@@ -43,179 +44,200 @@ function CopyCommand({ command }: { command: string }) {
 }
 
 function Capability({
-  index,
   title,
   children,
 }: {
-  index: string;
   title: string;
   children: React.ReactNode;
 }) {
   return (
-    <article className="capability-card">
-      <span className="capability-index">{index}</span>
-      <h3>{title}</h3>
-      <p>{children}</p>
-    </article>
+    <Card>
+      <Card.Header>
+        <Card.Title>{title}</Card.Title>
+        <Card.Description>{children}</Card.Description>
+      </Card.Header>
+    </Card>
   );
 }
 
 export function App() {
+  function scrollToModel() {
+    document.querySelector("#model")?.scrollIntoView({ behavior: "smooth" });
+  }
+
+  function openGitHub() {
+    window.open("https://github.com/tcitry/iuvui", "_blank", "noreferrer");
+  }
+
   return (
-    <div className="site-frame">
-      <header className="site-header">
-        <Link href="#top" aria-label="iuvui home" className="brand-link">
-          <BrandLockup />
-        </Link>
-        <nav aria-label="Primary navigation">
-          <Link href="#model">Model</Link>
-          <Link href="#system">System</Link>
-          <Link
-            href="https://github.com/tcitry/iuvui"
-            target="_blank"
-            rel="noreferrer"
-          >
-            GitHub
+    <div className="min-h-screen bg-background text-foreground">
+      <header className="sticky top-0 z-20 border-b border-divider bg-background/90 backdrop-blur">
+        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
+          <Link className="text-lg font-semibold text-foreground" href="#top">
+            iuvui
           </Link>
-        </nav>
-        <div className="header-actions">
-          <ActionLink
-            href="https://app.iuvui.com"
-            arrow
-            className="header-console-link"
+          <nav
+            aria-label={m.web_primary_navigation()}
+            className="hidden items-center gap-6 sm:flex"
           >
-            Pro console
-          </ActionLink>
-          <LanguageToggle />
+            <Link href="#model">{m.web_nav_model()}</Link>
+            <Link href="#system">{m.web_nav_system()}</Link>
+            <Link
+              href="https://github.com/tcitry/iuvui"
+              rel="noreferrer"
+              target="_blank"
+            >
+              GitHub
+            </Link>
+          </nav>
+          <div className="flex items-center gap-2">
+            <Link href="https://app.iuvui.com">{m.web_pro_console()}</Link>
+            <LanguageToggle />
+          </div>
         </div>
       </header>
 
       <main id="top">
-        <section className="hero-section">
-          <div className="hero-kicker">
-            <span className="status-light" />
-            {m.web_status()}
-          </div>
-          <div className="hero-grid">
-            <div className="hero-copy">
-              <p className="eyebrow">{m.web_eyebrow()}</p>
-              <h1>
-                {m.web_headline_first()}
-                <br />
-                <em>{m.web_headline_second()}</em>
-              </h1>
-              <p className="hero-summary">{m.web_summary()}</p>
-              <div className="hero-actions">
-                <ActionLink href="#model" arrow className="primary-action">
-                  {m.web_primary_action()}
-                </ActionLink>
-                <ActionLink
-                  href="https://github.com/tcitry/iuvui"
-                  className="quiet-action"
-                >
-                  {m.web_secondary_action()}
-                </ActionLink>
-              </div>
+        <section className="mx-auto grid max-w-6xl gap-12 px-6 py-20 lg:grid-cols-[1.1fr_0.9fr] lg:py-28">
+          <div className="flex flex-col items-start justify-center">
+            <Chip color="accent" variant="soft">
+              {m.web_status()}
+            </Chip>
+            <p className="mt-8 text-sm font-medium text-muted">
+              {m.web_eyebrow()}
+            </p>
+            <h1 className="mt-3 max-w-3xl text-5xl font-semibold tracking-tight sm:text-6xl">
+              {m.web_headline_first()} {m.web_headline_second()}
+            </h1>
+            <p className="mt-6 max-w-2xl text-lg leading-8 text-muted">
+              {m.web_summary()}
+            </p>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <Button onPress={scrollToModel}>{m.web_primary_action()}</Button>
+              <Button variant="secondary" onPress={openGitHub}>
+                {m.web_secondary_action()}
+              </Button>
             </div>
+          </div>
 
-            <div className="hero-console" aria-label="Installation examples">
-              <div className="console-topline">
-                <span>01 / two delivery modes</span>
-                <GridIcon aria-hidden="true" />
-              </div>
-              <div className="console-mode">
-                <span className="mode-label">Package mode</span>
-                <h2>Ship on the maintained runtime.</h2>
+          <div className="grid gap-4">
+            <Card>
+              <Card.Header>
+                <Card.Title>{m.web_package_mode()}</Card.Title>
+                <Card.Description>
+                  {m.web_package_mode_description()}
+                </Card.Description>
+              </Card.Header>
+              <Card.Content>
                 <CopyCommand command={packageCommand} />
-              </div>
-              <div className="console-mode is-accent">
-                <span className="mode-label">Source mode</span>
-                <h2>Bring the component home.</h2>
+              </Card.Content>
+            </Card>
+            <Card>
+              <Card.Header>
+                <Card.Title>{m.web_source_mode()}</Card.Title>
+                <Card.Description>
+                  {m.web_source_mode_description()}
+                </Card.Description>
+              </Card.Header>
+              <Card.Content>
                 <CopyCommand command={sourceCommand} />
-              </div>
-            </div>
-          </div>
-          <div className="hero-ticker" aria-hidden="true">
-            <span>Accessible behavior</span>
-            <span>Stable anatomy</span>
-            <span>Owned variants</span>
-            <span>Managed updates</span>
+              </Card.Content>
+            </Card>
           </div>
         </section>
 
-        <section className="model-section" id="model">
-          <div className="section-heading">
-            <p className="eyebrow">Not another component pile</p>
-            <h2>One specification. Two ways to work.</h2>
-          </div>
-          <div className="model-diagram">
-            <div className="model-source">
-              <span>Canonical component source</span>
-              <strong>Behavior · anatomy · variants · contracts</strong>
+        <section
+          className="border-y border-divider bg-surface-secondary"
+          id="model"
+        >
+          <div className="mx-auto max-w-6xl px-6 py-20">
+            <div className="max-w-2xl">
+              <p className="text-sm font-medium text-muted">
+                {m.web_model_eyebrow()}
+              </p>
+              <h2 className="mt-2 text-3xl font-semibold tracking-tight sm:text-4xl">
+                {m.web_model_title()}
+              </h2>
             </div>
-            <div className="model-branches" aria-hidden="true">
-              <span />
-              <span />
-            </div>
-            <div className="model-output">
-              <span>npm package</span>
-              <strong>@iuvui/react</strong>
-              <small>Maintained by iuvui</small>
-            </div>
-            <div className="model-output is-source">
-              <span>Registry source</span>
-              <strong>components/ui</strong>
-              <small>Owned by your team</small>
+            <div className="mt-10 grid gap-4 md:grid-cols-3">
+              <Card variant="secondary">
+                <Card.Header>
+                  <Card.Title>{m.web_canonical_source()}</Card.Title>
+                  <Card.Description>
+                    {m.web_canonical_source_description()}
+                  </Card.Description>
+                </Card.Header>
+              </Card>
+              <Card>
+                <Card.Header>
+                  <Card.Title>{m.web_npm_package()}</Card.Title>
+                  <Card.Description>
+                    {m.web_npm_package_description()}
+                  </Card.Description>
+                </Card.Header>
+                <Card.Content>
+                  <code>@iuvui/react</code>
+                </Card.Content>
+              </Card>
+              <Card>
+                <Card.Header>
+                  <Card.Title>{m.web_registry_source()}</Card.Title>
+                  <Card.Description>
+                    {m.web_registry_source_description()}
+                  </Card.Description>
+                </Card.Header>
+                <Card.Content>
+                  <code>components/ui</code>
+                </Card.Content>
+              </Card>
             </div>
           </div>
         </section>
 
-        <section className="system-section" id="system">
-          <div className="section-heading compact">
-            <p className="eyebrow">A complete working layer</p>
-            <h2>Consistency without captivity.</h2>
+        <section className="mx-auto max-w-6xl px-6 py-20" id="system">
+          <div className="max-w-2xl">
+            <p className="text-sm font-medium text-muted">
+              {m.web_system_eyebrow()}
+            </p>
+            <h2 className="mt-2 text-3xl font-semibold tracking-tight sm:text-4xl">
+              {m.web_system_title()}
+            </h2>
           </div>
-          <div className="capability-grid">
-            <Capability index="A" title="Styles">
-              Precompiled foundations, semantic variables and component recipes
-              that do not depend on scanning node_modules.
+          <div className="mt-10 grid gap-4 md:grid-cols-3">
+            <Capability title={m.web_styles_title()}>
+              {m.web_styles_description()}
             </Capability>
-            <Capability index="B" title="Icons">
-              A coherent visual language with typed React exports and precise
-              subpath imports.
+            <Capability title={m.web_icons_title()}>
+              {m.web_icons_description()}
             </Capability>
-            <Capability index="C" title="Lifecycle">
-              Registry provenance, semantic diffs and upgrade paths that respect
-              locally owned variants.
+            <Capability title={m.web_lifecycle_title()}>
+              {m.web_lifecycle_description()}
             </Capability>
           </div>
-        </section>
 
-        <section className="manifesto-section">
-          <div>
-            <p className="eyebrow">The promise</p>
-            <h2>Your product should outlive its UI dependencies.</h2>
-          </div>
-          <ul>
-            {[
-              "Public APIs do not leak implementation primitives",
-              "Package and source modes share the same contracts",
-              "User-owned variants are never silently overwritten",
-              "Pro products extend the system without closing the core",
-            ].map((item) => (
-              <li key={item}>
-                <CheckIcon aria-hidden="true" />
-                <span>{item}</span>
-              </li>
-            ))}
-          </ul>
+          <Card className="mt-12" variant="secondary">
+            <Card.Header>
+              <Card.Title>{m.web_promise_title()}</Card.Title>
+              <Card.Description>{m.web_promise_description()}</Card.Description>
+            </Card.Header>
+            <Card.Content>
+              <ul className="grid gap-3 text-sm text-muted sm:grid-cols-2">
+                <li>{m.web_promise_api()}</li>
+                <li>{m.web_promise_contracts()}</li>
+                <li>{m.web_promise_variants()}</li>
+                <li>{m.web_promise_core()}</li>
+              </ul>
+            </Card.Content>
+          </Card>
         </section>
       </main>
 
-      <footer>
-        <BrandLockup />
-        <p>Built in public. Designed for long-lived products.</p>
-        <span>© 2026 iuvui</span>
+      <footer className="border-t border-divider">
+        <div className="mx-auto flex max-w-6xl flex-col gap-2 px-6 py-8 text-sm text-muted sm:flex-row sm:items-center sm:justify-between">
+          <span className="font-medium text-foreground">iuvui</span>
+          <span>{m.web_footer_description()}</span>
+          <span>© 2026 iuvui</span>
+        </div>
       </footer>
     </div>
   );
