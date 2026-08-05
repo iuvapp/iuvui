@@ -148,6 +148,8 @@ pnpm test:e2e
 - Paraglide provides the shared localization foundation. English and Simplified Chinese are enabled, with English as the canonical source locale.
 
 See [Web platform](./docs/WEB_PLATFORM.md) for the complete boundary and rollout plan.
+The dated implementation status, phase exit criteria, minimum path, and immediate
+next milestone live in the [development memo](./docs/DEVELOPMENT_MEMO.md).
 
 ## Commercial model
 
