@@ -4,6 +4,13 @@
 
 - Repository rules do not control conversations with users. Use the language requested by the user in conversation.
 
+## Related repositories
+
+- This public repository owns components, packages, CLI, documentation, and `iuvui.com`.
+- The sibling private repository at `../iuvui-pro` owns Pro assets and `app.iuvui.com`.
+- Treat the repositories as independent Git projects: inspect, validate, and commit each one separately.
+- Do not introduce cross-repository workspace dependencies or move paid assets into this repository.
+
 ## English-only authored content
 
 - English is the repository's canonical source language. English and Simplified Chinese (`zh-CN`) are the currently enabled product locales.

@@ -132,7 +132,7 @@ pnpm test:e2e
 ## Web platform
 
 - `iuvui.com` is the public brand, component, and documentation site.
-- `app.iuvui.com` is the Clerk-authenticated Pro dashboard.
+- `app.iuvui.com` is the Clerk-authenticated Pro dashboard maintained in the private `iuvui-pro` repository.
 - Both applications deploy independently to Cloudflare Workers.
 - HeroUI OSS is the production UI baseline until iuvui can safely bootstrap itself. Licensed HeroUI Pro assets may later be used only in the private website implementation.
 - Paraglide provides the shared localization foundation. English and Simplified Chinese are enabled, with English as the canonical source locale.

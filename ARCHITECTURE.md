@@ -8,10 +8,11 @@
 - `packages/tokens`: semantic CSS variables and matching TypeScript types.
 - `packages/utils`: class merging, Tailwind v4 conflict handling, and multi-slot variant resolution.
 - `packages/icons`: independent icon entry points using `currentColor`, forwarded refs, and no side effects.
-- `packages/site-ui`: private website UI shared by the public site and dashboard.
+- `packages/site-ui`: private presentation primitives for the public website.
 - `apps/storybook`: consumes real package entry points and hosts Playwright contract fixtures.
 - `apps/web`: the public `iuvui.com` Cloudflare Worker application.
-- `apps/dashboard`: the Clerk-authenticated `app.iuvui.com` Cloudflare Worker application.
+
+The Clerk-authenticated `app.iuvui.com` Cloudflare Worker and its private presentation package are maintained in the separate private `iuvui-pro` repository. Public component implementations remain in this repository.
 
 `tsup` produces ESM, multiple entry points, split chunks, source maps, and declarations. React and ReactDOM remain external, while private internal adapters are bundled. TypeScript is pinned to 5.9 until the declaration pipeline is verified against a later major release.
 
@@ -49,7 +50,7 @@ Components consume semantic `--ui-*` variables rather than raw palette values. P
 
 ## Localization architecture
 
-The root `project.inlang` and `messages` directory are shared across applications. Each consuming Vite application compiles its own Paraglide runtime into `src/paraglide`. This follows the recommended monorepo model and lets applications adopt different locale strategies later. Shared UI packages accept translated strings or otherwise remain independent of application locale detection.
+The root `project.inlang` and `messages` directory define localization for applications in this repository. Each application compiles its own Paraglide runtime into `src/paraglide`. The private `iuvui-pro` repository owns an independent catalog for the dashboard so releases and translation changes do not couple the two repositories. Shared UI packages accept translated strings or otherwise remain independent of application locale detection.
 
 English is the source locale. English and Simplified Chinese are enabled. Additional languages may be added only through approved Paraglide message files and project configuration; translated text must never be embedded directly in source code.
 

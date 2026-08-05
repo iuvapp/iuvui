@@ -9,9 +9,5 @@
   "web_headline_second": "Keep the upgrades.",
   "web_summary": "iuvui combines package-grade consistency with source-level control. Install components your way, keep custom variants, and stay connected to upstream improvements.",
   "web_primary_action": "Explore the model",
-  "web_secondary_action": "Read the source",
-  "dashboard_sign_in_title": "Continue to iuvui",
-  "dashboard_sign_in_description": "Authenticate with Clerk to enter your workspace.",
-  "dashboard_sign_in_action": "Sign in to the console",
-  "dashboard_overview_title": "Good systems stay legible."
+  "web_secondary_action": "Read the source"
 }

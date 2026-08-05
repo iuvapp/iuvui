@@ -12,23 +12,24 @@ Both applications deploy to Cloudflare Workers with independent code, configurat
 ## Repository structure
 
 ```text
-apps/
-├── web/                 iuvui.com
-└── dashboard/           app.iuvui.com
+iuvui/                              public repository
+├── apps/web/                       iuvui.com
+├── packages/site-ui/               public-site presentation primitives
+├── packages/react/                 @iuvui/react
+├── packages/styles/                @iuvui/styles
+├── packages/tokens/                @iuvui/tokens
+└── packages/icons/                 @iuvui/icons
 
-packages/
-├── site-ui/             private website UI
-├── react/               @iuvui/react
-├── styles/              @iuvui/styles
-├── tokens/              @iuvui/tokens
-└── icons/               @iuvui/icons
+iuvui-pro/                          private repository
+├── apps/dashboard/                 app.iuvui.com
+└── packages/site-ui/               dashboard presentation primitives
 ```
 
-`packages/site-ui` shares finished navigation, branding, and dashboard shell pieces. It may use HeroUI OSS and, after licensing, HeroUI Pro. Public packages and Registry source must never depend on HeroUI or import HeroUI Pro code, styles, assets, or types.
+Each repository owns its application-specific presentation layer. Shared branding may be synchronized deliberately, but the repositories do not use a cross-repository workspace dependency. Public packages and Registry source must never depend on HeroUI or import HeroUI Pro code, styles, assets, or types.
 
 ## UI foundation and bootstrap strategy
 
-The initial websites use React 19, Tailwind CSS v4, `@heroui/react`, `@heroui/styles`, and site-specific brand tokens. HeroUI remains the production baseline until iuvui meets its own production requirements. A licensed HeroUI Pro package may later be used in `apps/web`, `apps/dashboard`, or private `packages/site-ui` only.
+The initial websites use React 19, Tailwind CSS v4, `@heroui/react`, `@heroui/styles`, and site-specific brand tokens. HeroUI remains the production baseline until iuvui meets its own production requirements. A licensed HeroUI Pro package may later be used only in the application-specific web and dashboard layers, never in public component or Registry implementations.
 
 The minimum self-bootstrap gate includes:
 
@@ -42,7 +43,7 @@ After the gate is met, migration proceeds component by component and page by pag
 
 ## Localization
 
-Paraglide provides the shared i18n foundation. The monorepo keeps one root `project.inlang` and shared message catalog, while each Vite application compiles an independent runtime into its own source tree. This allows the public site and dashboard to adopt different locale strategies later without coupling shared UI packages to URL, cookie, header, or storage detection.
+Paraglide provides the common i18n foundation. Each repository owns a root `project.inlang` and message catalog, while each Vite application compiles its runtime into its own source tree. This allows the public site and dashboard to release and adopt locale strategies independently without coupling shared UI packages to URL, cookie, header, or storage detection.
 
 English is the canonical source language and the default display language. English and Simplified Chinese (`zh-CN`) are enabled. A user's explicit language selection is persisted locally; browser language does not override the English default. New locales require an explicit product decision, an entry in `project.inlang/settings.json`, and a dedicated `messages/<locale>.json` catalog. Translations must never be embedded directly in application source.
 

@@ -87,7 +87,7 @@ Client-side CSS cannot be made secret after it is delivered to a browser. iuvui 
 
 Production applications remain available when iuvui services are offline. There is no browser call-home, secret in the frontend bundle, or runtime license gate. Previously licensed builds continue to run after a subscription ends; access to new paid artifact downloads, paid updates, and applicable managed services stops according to the commercial terms. Free MCP capabilities remain available.
 
-Premium artifacts stay outside the public repository and public npm packages. The open repository may include the Style Pack schema, validators, integration adapters, and compatibility test harness without including paid design assets.
+Premium artifacts stay outside the public repository and public npm packages. The private `iuvui-pro` repository owns the authenticated dashboard and may contain paid Style Packs, variants, and animation assets. The open repository may include the Style Pack schema, validators, integration adapters, and compatibility test harness without including paid design assets.
 
 ## CLI and MCP access
 

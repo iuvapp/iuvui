@@ -13,7 +13,6 @@
     "changeset": "changeset",
     "clean": "turbo run clean",
     "dev": "turbo run dev --parallel",
-    "dashboard": "pnpm --filter @iuvui/dashboard dev",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "language:check": "node scripts/check-language.mjs",

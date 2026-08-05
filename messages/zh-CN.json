@@ -9,9 +9,5 @@
   "web_headline_second": "持续升级。",
   "web_summary": "iuvui 将组件包的一致性与源码级控制结合起来。按你的方式安装组件，保留自定义 variants，同时持续获得上游改进。",
   "web_primary_action": "了解产品模型",
-  "web_secondary_action": "查看源码",
-  "dashboard_sign_in_title": "继续前往 iuvui",
-  "dashboard_sign_in_description": "使用 Clerk 完成认证并进入你的工作区。",
-  "dashboard_sign_in_action": "登录控制台",
-  "dashboard_overview_title": "优秀的系统始终清晰可读。"
+  "web_secondary_action": "查看源码"
 }
