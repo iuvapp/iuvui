@@ -129,9 +129,12 @@ importers:
       '@heroui/styles':
         specifier: 3.2.3
         version: 3.2.3(tailwind-merge@3.6.0)(tailwindcss@4.3.3)
-      '@iuvui/site-ui':
+      '@iuvui/react':
         specifier: workspace:*
-        version: link:../../packages/site-ui
+        version: link:../../packages/react
+      '@iuvui/styles':
+        specifier: workspace:*
+        version: link:../../packages/styles
       '@react-aria/i18n':
         specifier: ^3.13.1
         version: 3.13.1(react-dom@19.2.8(react@19.2.8))(react@19.2.8)

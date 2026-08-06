@@ -87,7 +87,7 @@ function assertLockProvenance(lock) {
     assert.match(entry.integrity, /^sha256-/);
     assert.equal(
       entry.provenance.canonical.repository,
-      "https://github.com/iuvapp/iuvui",
+      "https://github.com/iuv-tech/iuvui",
     );
     assert.match(
       entry.provenance.canonical.path,

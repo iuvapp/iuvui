@@ -7,4 +7,4 @@
 "@iuvui/utils": patch
 ---
 
-Point package documentation and repository metadata at the canonical `iuvapp/iuvui` repository.
+Point package documentation and repository metadata at the canonical `iuv-tech/iuvui` repository.

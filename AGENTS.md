@@ -6,10 +6,10 @@
 
 ## Related repositories
 
-- The canonical public repository is `iuvapp/iuvui`. It owns components,
+- The canonical public repository is `iuv-tech/iuvui`. It owns components,
   packages, the CLI, public Registry output, public documentation, Storybook,
   and `iuvui.com`.
-- The sibling private repository at `../iuvui-pro` (`iuvapp/iuvui-pro`) owns Pro
+- The sibling private repository at `../iuvui-pro` (`iuv-tech/iuvui-pro`) owns Pro
   assets, the private `@iuvui/dashboard` and `@iuvui/dashboard-ui` workspace
   packages, the `iuvui.iuvdev.com` development dashboard, and the
   `app.iuvui.com` production dashboard.
@@ -47,6 +47,22 @@
 - Free and Pro users share the private dashboard. Authentication grants account
   access; server-side entitlements decide which commercial capabilities are
   available. Client-side visibility is never an authorization boundary.
+
+## Public website direction
+
+- `iuvui.com` is the public documentation, component catalog, Registry, styles,
+  variants, icons, and release surface. Do not turn its primary navigation or
+  homepage into a dashboard promotion surface; add a dashboard account link only
+  after an explicit product decision.
+- HeroUI OSS is the website chrome and visual baseline until self-bootstrap. Use
+  its components, semantic tokens, system typography, restrained surfaces, and
+  documentation information patterns without copying HeroUI Pro assets.
+- iuvui component previews may render the actual local public packages, but the
+  surrounding application shell remains on HeroUI until the self-bootstrap gate
+  is satisfied.
+- Catalog, variant, style, package, and Registry claims must match real exports
+  in the repository. Do not invent planned components, protected style names,
+  Registry availability, or package versions to fill the interface.
 
 ## English-only authored content
 

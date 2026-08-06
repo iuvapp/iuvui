@@ -19,5 +19,5 @@ export function Actions() {
 Icon components accept standard SVG props. Import a subpath when an application
 only needs one icon.
 
-See the [iuvui repository](https://github.com/iuvapp/iuvui) for documentation
+See the [iuvui repository](https://github.com/iuv-tech/iuvui) for documentation
 and source.

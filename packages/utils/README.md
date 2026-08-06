@@ -12,5 +12,5 @@ const className = cn("rounded-md px-3", "px-4");
 The package is framework-light and publishes ESM entry points with TypeScript
 declarations.
 
-See the [iuvui repository](https://github.com/iuvapp/iuvui) for documentation
+See the [iuvui repository](https://github.com/iuv-tech/iuvui) for documentation
 and source.

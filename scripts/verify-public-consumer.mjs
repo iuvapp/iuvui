@@ -217,7 +217,7 @@ function assertPublicPackages() {
     assert.equal(manifest.license, "Apache-2.0");
     assert.equal(
       manifest.repository?.url,
-      "git+https://github.com/iuvapp/iuvui.git",
+      "git+https://github.com/iuv-tech/iuvui.git",
     );
     for (const section of ["dependencies", "peerDependencies"]) {
       for (const value of Object.values(manifest[section] ?? {})) {
@@ -250,7 +250,7 @@ function assertLockProvenance(lock) {
     assert.match(entry.integrity, /^sha256-/);
     assert.equal(
       entry.provenance.canonical.repository,
-      "https://github.com/iuvapp/iuvui",
+      "https://github.com/iuv-tech/iuvui",
     );
     assert.match(
       entry.provenance.canonical.path,

@@ -19,12 +19,32 @@ export const Route = createRootRoute({
       },
       { title: m.web_meta_title() },
       { name: "description", content: m.web_meta_description() },
-      { name: "theme-color", content: "#f2eee5" },
+      { name: "theme-color", content: "#f7f7f7" },
     ],
     links: [{ rel: "stylesheet", href: stylesUrl }],
   }),
+  notFoundComponent: NotFoundComponent,
   component: RootComponent,
 });
+
+function NotFoundComponent() {
+  return (
+    <main className="grid min-h-screen place-items-center bg-background px-6 py-12 text-foreground">
+      <div className="w-full max-w-xl rounded-2xl border border-separator bg-surface p-8 shadow-sm">
+        <p className="text-sm font-medium text-muted">404</p>
+        <h1 className="mt-3 text-3xl font-semibold tracking-tight">
+          {m.web_not_found_title()}
+        </h1>
+        <p className="mt-3 leading-7 text-muted">
+          {m.web_not_found_description()}
+        </p>
+        <a className="mt-6 inline-flex text-sm font-medium text-link" href="/">
+          {m.web_not_found_action()}
+        </a>
+      </div>
+    </main>
+  );
+}
 
 function RootComponent() {
   return (

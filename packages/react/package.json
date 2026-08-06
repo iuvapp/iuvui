@@ -6,11 +6,11 @@
   "homepage": "https://iuvui.com",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/iuvapp/iuvui.git",
+    "url": "git+https://github.com/iuv-tech/iuvui.git",
     "directory": "packages/react"
   },
   "bugs": {
-    "url": "https://github.com/iuvapp/iuvui/issues"
+    "url": "https://github.com/iuv-tech/iuvui/issues"
   },
   "type": "module",
   "sideEffects": false,

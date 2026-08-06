@@ -83,4 +83,4 @@ The artifact manifest determines whether entitlement is required, so the CLI doe
 
 The alpha package currently provides `--help`, `--version`, `doctor`, `init`, `add button`, and `add separator`. Authentication, inspection, diffing, updates, and protected Registry artifacts remain planned.
 
-See the [iuvui repository](https://github.com/iuvapp/iuvui) for development progress.
+See the [iuvui repository](https://github.com/iuv-tech/iuvui) for development progress.

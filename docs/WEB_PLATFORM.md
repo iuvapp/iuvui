@@ -18,7 +18,7 @@ never holds Pro user data or backend credentials.
 ## Repository structure
 
 ```text
-iuvapp/iuvui                         public repository
+iuv-tech/iuvui                       public repository
 ├── apps/web/                        ui.iuvdev.com and iuvui.com
 ├── apps/storybook/                  storybook.iuvui.com
 ├── packages/cli/                    @iuvui/cli; `iuvui` executable
@@ -29,11 +29,11 @@ iuvapp/iuvui                         public repository
 ├── packages/icons/                  @iuvui/icons
 └── registry/                        public source-delivery artifacts
 
-iuvapp/iuvui-pro                     private repository
+iuv-tech/iuvui-pro                   private repository
 ├── apps/dashboard/                  @iuvui/dashboard; dev and prod dashboard
 └── packages/site-ui/                @iuvui/dashboard-ui
 
-iuvapp/iuvui-mcp                     planned separate public repository
+iuv-tech/iuvui-mcp                   planned separate public repository
 └── src/                              mcp.iuvui.com Worker
 ```
 
@@ -47,12 +47,27 @@ the public repository must never import the private dashboard or paid assets.
 ## UI foundation and bootstrap strategy
 
 The initial websites use React 19, Tailwind CSS v4, `@heroui/react`,
-`@heroui/styles`, and site-specific brand tokens. HeroUI OSS remains the
-production baseline until iuvui meets its own production requirements. HeroUI
-Pro source and licensed assets must not be committed to the public repository.
-Any future application-layer integration must comply with the purchased license,
-keep protected credentials outside source control, and remain isolated from
-public component and Registry implementations.
+and `@heroui/styles`. HeroUI OSS default components, semantic tokens, system
+typography, restrained surfaces, and documentation information patterns remain
+the application baseline until iuvui meets its own production requirements. The
+public site is a documentation and discovery surface for real components,
+variants, styles, icons, Registry artifacts, and releases; it is not currently a
+Dashboard promotion surface.
+
+The documentation structure was reviewed against the official HeroUI v3 OSS
+repository at immutable commit
+`82e8db281f94457a6d72e046645123b698576757`. This reference informs navigation,
+catalog grouping, search, and content hierarchy only. HeroUI Pro source and
+licensed assets must not be committed to the public repository. Any future
+application-layer integration must comply with the purchased license, keep
+protected credentials outside source control, and remain isolated from public
+component and Registry implementations.
+
+Actual iuvui package components may be rendered inside documentation previews so
+the catalog never presents a HeroUI component as an iuvui implementation. The
+surrounding website chrome remains on HeroUI until the self-bootstrap gate is
+met. Catalog content must reflect current repository exports and Registry
+availability rather than planned or invented capabilities.
 
 The minimum self-bootstrap gate includes:
 

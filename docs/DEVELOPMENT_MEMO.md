@@ -5,7 +5,7 @@ It separates implemented code, local verification, external deployment, and npm
 publication so that one cannot be mistaken for another.
 
 Dashboard implementation and deployment state are deliberately excluded. The
-private `iuvapp/iuvui-pro` repository is the sole operational authority for
+private `iuv-tech/iuvui-pro` repository is the sole operational authority for
 `@iuvui/dashboard`, `@iuvui/dashboard-ui`, Clerk, Pro assets,
 `iuvui.iuvdev.com`, and `app.iuvui.com`. This memo records only the public
 integration boundary with that system.
@@ -19,7 +19,7 @@ Last verified: 2026-08-06.
   experience reference; React Aria Components remain replaceable behavior behind
   iuvui-owned adapters. Reference products do not supply copied implementation
   code.
-- `iuvapp/iuvui` is the canonical public repository for components, public npm
+- `iuv-tech/iuvui` is the canonical public repository for components, public npm
   packages, the CLI, Registry output, public documentation, Storybook, and the
   public website.
 - iuvui intentionally targets React. Package mode consumes `@iuvui/react`;
@@ -72,9 +72,9 @@ Their local builds, declarations, tarball contents, Apache License 2.0 metadata,
 exact internal release ranges, and independent consumer installation have been
 verified. `@iuvui/cli` is also versioned locally at `0.0.1`, but it has not been
 published to npm. Package mode is therefore public; the complete public
-`pnpm dlx @iuvui/cli` source-delivery path is not yet available. A pending patch
-Changeset records the canonical GitHub organization migration for the next
-`0.0.x` package set; it does not authorize publication.
+`pnpm dlx @iuvui/cli` source-delivery path is not yet available. Repository
+metadata uses the canonical `iuv-tech/iuvui` origin; this does not authorize a
+package publication.
 
 ### Registry and CLI
 
@@ -84,12 +84,11 @@ consumer can install the packed local CLI, add either component to
 `components/iuv-ui`, verify `iuvui.lock`, and type-check the installed source.
 
 The production Registry at `iuvui.com` serves a valid `0.0.1` catalog and
-component artifacts. Its provenance still uses the legacy `iuv-tech/iuvui` URL,
-which redirects to the canonical repository. The current development Worker
-contains the migrated `iuvapp/iuvui` provenance. Production was intentionally
-left unchanged in this development-only deployment. Public npm runtime
-installation is available, but a clean public `pnpm dlx` smoke remains blocked
-by the unpublished CLI package.
+component artifacts with canonical `iuv-tech/iuvui` provenance. The current
+development Worker uses the same canonical provenance. Production was
+intentionally left unchanged in this development-only deployment. Public npm
+runtime installation is available, but a clean public `pnpm dlx` smoke remains
+blocked by the unpublished CLI package.
 
 ### Public website
 
@@ -107,9 +106,27 @@ smoke testing remains separate.
 
 The production website and Registry remain on Worker version
 `0455c0ad-4e2a-4853-bda0-ff965faa28f0` and serve the verified English-first site
-and valid `0.0.1` Registry output. Their repository links and provenance retain
-the legacy GitHub organization until a separately authorized production
-promotion. This development deployment did not change production.
+and valid `0.0.1` Registry output with canonical `iuv-tech/iuvui` repository
+links and provenance. This development deployment did not change production.
+
+The current local, undeployed website revision replaces the marketing landing
+page with a HeroUI OSS-style documentation catalog:
+
+- fixed documentation navigation and a responsive contextual sidebar;
+- searchable cards for the four actual `@iuvui/react` exports;
+- live previews rendered by the real local iuvui components while HeroUI remains
+  the application chrome;
+- a Button variant matrix and configurable variant, size, and radius preview;
+- truthful Separator orientation and `@iuvui/styles` export lists;
+- no Dashboard link and no unpublished CLI installation command;
+- English-default Paraglide copy with verified Simplified Chinese switching;
+- desktop and mobile local browser checks with working search, variant updates,
+  Dialog interaction, Registry fetches, no horizontal overflow, and no runtime
+  errors.
+
+The scoped format, lint, type, test, development build, production build, and
+language checks pass. This revision has not been deployed, so the Worker versions
+above remain the last verified external website state.
 
 ### Storybook
 
@@ -121,17 +138,18 @@ stories.
 
 ### Dashboard boundary
 
-The public repository contains only the dashboard link and public CLI, MCP, and
-commercial integration contracts. It contains no dashboard application, Clerk
-dependency, dashboard Worker configuration, credentials, business logic, or
-paid assets. Free and Pro users share the private dashboard; verified server
-entitlements control paid capabilities. Detailed dashboard status belongs only
-in the private development memo.
+The public homepage does not currently expose a Dashboard link. This repository
+contains only public CLI, MCP, and commercial integration contracts at that
+boundary; it contains no dashboard application, Clerk dependency, dashboard
+Worker configuration, credentials, business logic, or paid assets. Free and Pro
+users share the private dashboard; verified server entitlements control paid
+capabilities. Detailed dashboard status belongs only in the private development
+memo.
 
 ### MCP
 
 The public MCP purpose, security boundary, and proposed Cloudflare architecture
-are documented. The separate `iuvapp/iuvui-mcp` repository and deployment are
+are documented. The separate `iuv-tech/iuvui-mcp` repository and deployment are
 planned but do not yet exist as a verified delivery surface.
 
 ## Minimum delivery paths
@@ -161,7 +179,8 @@ Status: **In progress**.
 
 Completed:
 
-- HeroUI OSS website baseline and English-first localized landing page;
+- HeroUI OSS website baseline and an English-first localized documentation
+  catalog candidate with actual components, variants, and style exports;
 - TanStack Start SSR and separate dev and prod Cloudflare environments;
 - Button and Separator package and Registry outputs;
 - five public runtime packages at `0.0.1`;
@@ -175,8 +194,8 @@ Exit criteria still open:
 
 - complete authenticated SSR, locale, navigation, and Registry content checks on
   `ui.iuvdev.com`;
-- add first-class component and documentation routes instead of relying only on
-  landing-page anchors and external repository links;
+- add first-class component detail, styles, icons, releases, installation,
+  accessibility, API, and provenance routes beyond the initial catalog sections;
 - publish and smoke-test `@iuvui/cli` when that exact npm release is explicitly
   authorized;
 - keep every package and deployed Registry item in `0.0.x` while the release gate
@@ -188,8 +207,8 @@ Dashboard implementation, validation, credentials, and deployments are owned and
 tracked exclusively by the private `iuvui-pro` repository. The public repository
 has only these responsibilities at the boundary:
 
-- link users to the correct development or production dashboard without
-  embedding dashboard code;
+- add a development or production dashboard account link only after an explicit
+  product decision, without embedding dashboard code;
 - keep free CLI behavior usable without authentication;
 - define public contracts for authenticated protected delivery without
   containing Clerk server credentials, business rules, or paid assets;
@@ -251,8 +270,8 @@ until the user explicitly unlocks that version.
 1. Complete the authenticated development website and Registry smoke through
    Cloudflare Access.
 2. Keep the current production website and Registry unchanged unless a separate
-   production promotion is explicitly requested; that promotion will migrate
-   public GitHub links and Registry provenance from `iuv-tech` to `iuvapp`.
+   production promotion is explicitly requested; any promotion must preserve
+   canonical `iuv-tech/iuvui` links and Registry provenance.
 3. Publish and verify the CLI only when the exact release is authorized and npm
    verification can complete.
 4. Add first-class public component and documentation routes.

@@ -33,7 +33,7 @@
           "style": "default",
           "provenance": {
             "kind": "independent",
-            "repository": "https://github.com/iuvapp/iuvui",
+            "repository": "https://github.com/iuv-tech/iuvui",
             "path": "packages/react/src/button.tsx"
           },
           "references": [
@@ -90,7 +90,7 @@
           "style": "default",
           "provenance": {
             "kind": "derived",
-            "repository": "https://github.com/iuvapp/iuvui",
+            "repository": "https://github.com/iuv-tech/iuvui",
             "path": "packages/react/src/separator.tsx"
           },
           "references": [
