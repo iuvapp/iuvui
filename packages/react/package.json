@@ -1,6 +1,6 @@
 {
   "name": "@iuvui/react",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Accessible React components for iuvui.",
   "license": "Apache-2.0",
   "homepage": "https://iuvui.com",
@@ -17,6 +17,7 @@
   "files": [
     "dist",
     "README.md",
+    "CHANGELOG.md",
     "THIRD_PARTY_NOTICES.md"
   ],
   "exports": {

@@ -52,12 +52,38 @@ try {
       throw new Error(`${name} package is missing LICENSE`);
     if (!files.includes("package/README.md"))
       throw new Error(`${name} package is missing README.md`);
+    if (!files.includes("package/CHANGELOG.md"))
+      throw new Error(`${name} package is missing CHANGELOG.md`);
     if (
       manifest.repository?.url !== "git+https://github.com/iuv-tech/iuvui.git"
     )
       throw new Error(`${name} has invalid repository metadata`);
+    const workspaceRanges = Object.entries({
+      ...manifest.dependencies,
+      ...manifest.optionalDependencies,
+      ...manifest.peerDependencies,
+    }).filter(([, range]) => String(range).startsWith("workspace:"));
+    if (workspaceRanges.length > 0)
+      throw new Error(
+        `${name} leaks workspace dependency ranges: ${workspaceRanges.map(([dependency]) => dependency).join(", ")}`,
+      );
     if (manifest.dependencies?.["@iuvui/internal"])
       throw new Error(`${name} exposes the private @iuvui/internal package`);
+    if (
+      name === "styles" &&
+      manifest.dependencies?.["@iuvui/tokens"] !== `^${manifest.version}`
+    ) {
+      throw new Error("styles does not depend on the matching tokens release");
+    }
+    if (name === "react") {
+      for (const dependency of ["@iuvui/icons", "@iuvui/utils"]) {
+        if (manifest.dependencies?.[dependency] !== `^${manifest.version}`) {
+          throw new Error(
+            `react does not depend on the matching ${dependency} release`,
+          );
+        }
+      }
+    }
     if (name === "cli" && !files.includes("package/bin/iuvui.js")) {
       throw new Error("cli package is missing bin/iuvui.js");
     }

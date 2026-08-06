@@ -1,6 +1,6 @@
 {
   "name": "@iuvui/tokens",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Semantic design tokens for iuvui.",
   "license": "Apache-2.0",
   "homepage": "https://iuvui.com",
@@ -19,7 +19,8 @@
   "files": [
     "dist",
     "theme.css",
-    "README.md"
+    "README.md",
+    "CHANGELOG.md"
   ],
   "exports": {
     ".": {

@@ -1,6 +1,6 @@
 {
   "name": "@iuvui/styles",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Precompiled themes and component styles for iuvui.",
   "license": "Apache-2.0",
   "homepage": "https://iuvui.com",
@@ -20,6 +20,7 @@
     "*.css",
     "components",
     "README.md",
+    "CHANGELOG.md",
     "THIRD_PARTY_NOTICES.md"
   ],
   "style": "./index.css",
