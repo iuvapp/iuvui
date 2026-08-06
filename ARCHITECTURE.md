@@ -8,13 +8,45 @@
 - `packages/tokens`: semantic CSS variables and matching TypeScript types.
 - `packages/utils`: class merging, Tailwind v4 conflict handling, and multi-slot variant resolution.
 - `packages/icons`: independent icon entry points using `currentColor`, forwarded refs, and no side effects.
+- `packages/cli`: the public `@iuvui/cli` package; it exposes the `iuvui`
+  executable for project initialization, Registry installation, provenance, and
+  future lifecycle operations.
 - `packages/site-ui`: private presentation primitives for the public website.
+- `registry`: versioned public component-delivery metadata generated from the
+  same canonical component contracts as `@iuvui/react`.
 - `apps/storybook`: consumes real package entry points and hosts Playwright contract fixtures.
 - `apps/web`: the public `iuvui.com` Cloudflare Worker application.
 
-The Clerk-authenticated `app.iuvui.com` Cloudflare Worker and its private presentation package are maintained in the separate private `iuvui-pro` repository. Public component implementations remain in this repository.
+The Clerk-authenticated dashboard is maintained only in the separate private
+`iuvui-pro` repository. Its private workspace packages are
+`@iuvui/dashboard` and `@iuvui/dashboard-ui`; its development and production
+Workers serve `iuvui.iuvdev.com` and `app.iuvui.com`. Free and Pro users share
+that application, while server-side entitlements protect commercial
+capabilities. Public component implementations remain in this repository.
 
 `tsup` produces ESM, multiple entry points, split chunks, source maps, and declarations. React and ReactDOM remain external, while private internal adapters are bundled. TypeScript is pinned to 5.9 until the declaration pipeline is verified against a later major release.
+
+## Public and protected delivery boundary
+
+All components, including complex components, ship through the public package
+and Registry system. Base styles, base variants, semantic tokens, accessible
+state feedback, and reduced-motion behavior are public contracts. Selected
+premium Style Packs, presentation variants, animation configuration, and motion
+presets may be delivered as protected `@iuvui/pro` assets without forking or
+weakening component behavior.
+
+`@iuvui/cli` remains public and its basic workflows remain anonymous. A protected
+artifact manifest may trigger login, but the CLI never contains a Clerk Secret
+Key or authorizes itself. The private service verifies entitlement and returns a
+short-lived artifact response. MCP documents Free and Pro capabilities publicly
+without acting as an entitlement or paid-content delivery service.
+
+The public repository may define schemas, validators, public integration
+adapters, and compatibility tests for protected assets. It must not contain the
+dashboard application, Clerk server integration, private Worker configuration,
+paid recipes, signed URLs, or credentials. Browser-delivered code is observable,
+so sensitive account, billing, and entitlement decisions stay on verified server
+boundaries in the private system.
 
 ## React Aria boundary
 

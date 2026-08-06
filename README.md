@@ -6,6 +6,12 @@ iuvui is an ownable, customizable, and continuously upgradeable React UI system.
 
 iuvui is an independent project and is not affiliated with shadcn/ui or HeroUI. shadcn/ui is the design and source reference baseline, React Aria Components provide replaceable behavior behind an internal adapter, and the package API and delivery experience follow the convenience expected from a maintained component library.
 
+The canonical public repository is
+[`iuvapp/iuvui`](https://github.com/iuvapp/iuvui). The separate private
+`iuvapp/iuvui-pro` repository owns the shared Free and Pro account dashboard and
+all protected product assets; no dashboard application code or paid asset is
+maintained here.
+
 The repository currently implements package delivery first. Public packages use the `@iuvui/*` scope. Consumers customize components through stable props, CSS variables, `className`, and `extendVariants`. React Aria Components provide behavior behind a private adapter; their types, contexts, and DOM structure are not public API.
 
 Source delivery is a first-class product mode. `@iuvui/cli` installs component source into a consumer project, records both iuvui and exact upstream provenance, compares local changes, and will provide safe migration paths. The registry follows public shadcn conventions where practical rather than introduce a closed distribution format. See [Product model](./docs/PRODUCT_MODEL.md).
@@ -142,17 +148,35 @@ pnpm test
 pnpm build
 pnpm pack:check
 pnpm consumer:check
-pnpm public:check
 pnpm test:e2e
+```
+
+After an explicitly authorized npm publication, run the external package and
+production Registry smoke separately:
+
+```bash
+pnpm public:check
 ```
 
 ## Web platform
 
 - `iuvui.com` is the public brand, component, and documentation site.
-- `app.iuvui.com` is the Clerk-authenticated dashboard for Free and Pro users, maintained in the private `iuvui-pro` repository. Server-side entitlements control paid capabilities.
-- `mcp.iuvui.com` is a separate, authentication-free MCP documentation service. It exposes public documentation and Pro capability metadata, never paid asset contents.
-- Both applications deploy independently to Cloudflare Workers.
-- HeroUI OSS is the production UI baseline until iuvui can safely bootstrap itself. Licensed HeroUI Pro assets may later be used only in the private website implementation.
+- `ui.iuvdev.com` is the Cloudflare Access-protected development deployment of
+  the public site.
+- `iuvui.iuvdev.com` and `app.iuvui.com` are the development and production
+  Clerk-authenticated dashboard domains for Free and Pro users. The private
+  `iuvui-pro` repository owns both; server-side entitlements control paid
+  capabilities.
+- `storybook.iuvui.com` is the public component-development and contract surface.
+- `mcp.iuvui.com` is the planned authentication-free MCP documentation service.
+  It exposes public documentation and Pro capability metadata, never paid asset
+  contents.
+- Each surface has an independent Cloudflare Worker, configuration, secrets, and
+  release process in its owning repository.
+- HeroUI OSS is the production UI baseline until iuvui can safely bootstrap
+  itself. HeroUI Pro source and licensed assets must not be committed to this
+  public repository; any future application-layer integration must comply with
+  its purchased license.
 - Paraglide provides the shared localization foundation. English and Simplified Chinese are enabled, with English as the canonical source locale.
 
 See [Web platform](./docs/WEB_PLATFORM.md) for the complete boundary and rollout plan.

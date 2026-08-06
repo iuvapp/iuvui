@@ -54,9 +54,7 @@ try {
       throw new Error(`${name} package is missing README.md`);
     if (!files.includes("package/CHANGELOG.md"))
       throw new Error(`${name} package is missing CHANGELOG.md`);
-    if (
-      manifest.repository?.url !== "git+https://github.com/iuv-tech/iuvui.git"
-    )
+    if (manifest.repository?.url !== "git+https://github.com/iuvapp/iuvui.git")
       throw new Error(`${name} has invalid repository metadata`);
     const workspaceRanges = Object.entries({
       ...manifest.dependencies,

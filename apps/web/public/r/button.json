@@ -31,7 +31,7 @@
       "style": "default",
       "provenance": {
         "kind": "independent",
-        "repository": "https://github.com/iuv-tech/iuvui",
+        "repository": "https://github.com/iuvapp/iuvui",
         "path": "packages/react/src/button.tsx"
       },
       "references": [

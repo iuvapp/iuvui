@@ -2,12 +2,14 @@
 
 ## Product surfaces
 
-| Domain                | Role                                                          | Access                 |
-| --------------------- | ------------------------------------------------------------- | ---------------------- |
-| `iuvui.com`           | Brand, components, documentation, pricing, and public content | Public, frontend-first |
-| `app.iuvui.com`       | Account dashboard, projects, entitlements, teams, and billing | Authenticated          |
-| `storybook.iuvui.com` | Component development and contract reference                  | Public                 |
-| `mcp.iuvui.com`       | Documentation and capability discovery over MCP               | Public, no login       |
+| Domain                | Role                                                          | Access                    |
+| --------------------- | ------------------------------------------------------------- | ------------------------- |
+| `ui.iuvdev.com`       | Development build of the public website                       | Cloudflare Access         |
+| `iuvui.com`           | Brand, components, documentation, pricing, and public content | Public, frontend-first    |
+| `iuvui.iuvdev.com`    | Development dashboard for Free and Pro users                  | Cloudflare Access + Clerk |
+| `app.iuvui.com`       | Production dashboard for Free and Pro users                   | Clerk-authenticated       |
+| `storybook.iuvui.com` | Component development and contract reference                  | Public                    |
+| `mcp.iuvui.com`       | Planned documentation and capability discovery over MCP       | Public, no login          |
 
 Each application deploys from its owning repository with independent code,
 configuration, secrets, custom domains, and release processes. The public site
@@ -16,27 +18,41 @@ never holds Pro user data or backend credentials.
 ## Repository structure
 
 ```text
-iuvui/                              public repository
-├── apps/web/                       iuvui.com
-├── packages/site-ui/               public-site presentation primitives
-├── packages/react/                 @iuvui/react
-├── packages/styles/                @iuvui/styles
-├── packages/tokens/                @iuvui/tokens
-└── packages/icons/                 @iuvui/icons
+iuvapp/iuvui                         public repository
+├── apps/web/                        ui.iuvdev.com and iuvui.com
+├── apps/storybook/                  storybook.iuvui.com
+├── packages/cli/                    @iuvui/cli; `iuvui` executable
+├── packages/site-ui/                public-site presentation primitives
+├── packages/react/                  @iuvui/react
+├── packages/styles/                 @iuvui/styles
+├── packages/tokens/                 @iuvui/tokens
+├── packages/icons/                  @iuvui/icons
+└── registry/                        public source-delivery artifacts
 
-iuvui-pro/                          private repository
-├── apps/dashboard/                 app.iuvui.com
-└── packages/site-ui/               dashboard presentation primitives
+iuvapp/iuvui-pro                     private repository
+├── apps/dashboard/                  @iuvui/dashboard; dev and prod dashboard
+└── packages/site-ui/                @iuvui/dashboard-ui
 
-iuvui-mcp/                          separate public repository
-└── src/                             mcp.iuvui.com Worker
+iuvapp/iuvui-mcp                     planned separate public repository
+└── src/                              mcp.iuvui.com Worker
 ```
 
-Each repository owns its application-specific presentation layer. Shared branding may be synchronized deliberately, but the repositories do not use a cross-repository workspace dependency. Public packages and Registry source must never depend on HeroUI or import HeroUI Pro code, styles, assets, or types.
+Each repository owns its application-specific presentation layer. Shared
+branding may be synchronized deliberately, but the repositories do not use a
+cross-repository workspace dependency. Public packages and Registry source must
+never depend on HeroUI or import HeroUI Pro code, styles, assets, or types. The
+private dashboard may consume public packages through released versions, but
+the public repository must never import the private dashboard or paid assets.
 
 ## UI foundation and bootstrap strategy
 
-The initial websites use React 19, Tailwind CSS v4, `@heroui/react`, `@heroui/styles`, and site-specific brand tokens. HeroUI remains the production baseline until iuvui meets its own production requirements. A licensed HeroUI Pro package may later be used only in the application-specific web and dashboard layers, never in public component or Registry implementations.
+The initial websites use React 19, Tailwind CSS v4, `@heroui/react`,
+`@heroui/styles`, and site-specific brand tokens. HeroUI OSS remains the
+production baseline until iuvui meets its own production requirements. HeroUI
+Pro source and licensed assets must not be committed to the public repository.
+Any future application-layer integration must comply with the purchased license,
+keep protected credentials outside source control, and remain isolated from
+public component and Registry implementations.
 
 The minimum self-bootstrap gate includes:
 
@@ -52,9 +68,19 @@ After the gate is met, migration proceeds component by component and page by pag
 
 The public website uses TanStack Start on Cloudflare Workers so documentation can use server rendering, route-level data loading, and metadata without maintaining a separate backend framework. TanStack packages are adopted when their capability is needed; the project does not install every package merely to claim a full-stack label.
 
-The private dashboard remains a client application because its entire useful surface is authenticated. TanStack Router owns its route model, Clerk owns identity and organizations, and Convex owns product data such as projects, entitlements, usage, and audit records. PostgreSQL and Drizzle are not part of this architecture. Convex functions must derive tenant identity from verified Clerk claims rather than accept a client-supplied organization identifier.
+The private dashboard remains a client application because its account surface
+is authenticated. Free and Pro users share the same application. TanStack Router
+owns its route model, Clerk owns identity and organizations, and Convex owns
+product data such as projects, entitlements, usage, and audit records.
+PostgreSQL and Drizzle are not part of this architecture. Convex functions must
+derive tenant identity from verified Clerk claims rather than accept a
+client-supplied organization identifier.
 
-The public MCP server is a separate stateless Cloudflare Worker and repository. It serves free documentation and capability metadata over Streamable HTTP. It never requires Clerk, connects to the Pro data layer, or returns paid styles, variants, animations, entitlement tokens, or protected download URLs. Pro authentication and delivery remain CLI responsibilities.
+The planned public MCP server is a separate stateless Cloudflare Worker and
+repository. It serves free documentation and capability metadata over
+Streamable HTTP. It never requires Clerk, connects to the Pro data layer, or
+returns paid styles, variants, animations, entitlement tokens, or protected
+download URLs. Pro authentication and delivery remain CLI responsibilities.
 
 ## Localization
 
@@ -75,7 +101,20 @@ iuvui-dashboard-dev  -> iuvui.iuvdev.com
 iuvui-dashboard-prod -> app.iuvui.com
 ```
 
-The public website is built separately for the `dev` and `prod` Cloudflare environments before deployment. The Vite plugin selects the environment at build time and produces the flattened Wrangler deployment configuration. Storybook has one production Worker. Each Worker owns its custom domain, deployment, rollback, logs, and observability. The dashboard uses Convex for application data, so Cloudflare D1 is not a parallel source of truth. R2 or KV may still be introduced later for immutable asset delivery or edge caching when a concrete requirement exists.
+The public website is built separately for the `dev` and `prod` Cloudflare
+environments before deployment. The Vite plugin selects the environment at build
+time and produces the flattened Wrangler deployment configuration. Storybook has
+one production Worker. Each Worker owns its custom domain, deployment, rollback,
+logs, and observability. The dashboard uses Convex for application data, so
+Cloudflare D1 is not a parallel source of truth. R2 or KV may still be introduced
+later for immutable asset delivery or edge caching when a concrete requirement
+exists.
+
+Development deploys precede production promotion. An anonymous `302` response
+from a Cloudflare Access-protected hostname verifies only that the access policy
+is active; authenticated SSR, navigation, locale, and Registry checks require an
+authorized session. A development deployment never implies that production was
+promoted.
 
 Only the first three Workers are configured or deployed from this repository.
 Dashboard Worker configuration and operations exist exclusively in `iuvui-pro`.
@@ -88,10 +127,16 @@ Authenticate Wrangler once from the repository root:
 pnpm --filter @iuvui/web exec wrangler login
 ```
 
-Deploy the development website first, verify it, and then deploy production and Storybook:
+Deploy the development website first:
 
 ```bash
 pnpm web:deploy:dev
+```
+
+After independent verification and an explicit production decision, promote the
+public website or deploy Storybook with their separate commands:
+
+```bash
 pnpm web:deploy:prod
 pnpm storybook:deploy
 ```
@@ -103,7 +148,11 @@ The deployment commands build each application before deploying it. No prebuilt 
 This section defines the public product integration contract. The implementation
 and operational runbook are maintained only in `iuvui-pro`.
 
-`app.iuvui.com` uses Clerk. Authentication and authorization checks belong on protected server and API boundaries, not only in client-side visibility rules.
+The dashboards at `iuvui.iuvdev.com` and `app.iuvui.com` use Clerk.
+Authentication and authorization checks belong on protected server and API
+boundaries, not only in client-side visibility rules. Dashboard implementation,
+credentials, deployment commands, and verification state are documented only in
+the private `iuvui-pro` repository.
 
 | Domain                                        | Source of truth  |
 | --------------------------------------------- | ---------------- |
@@ -150,12 +199,15 @@ The first milestone provides the shell, navigation, empty states, authentication
 - Keep local credentials and CI tokens separate.
 - Store `HEROUI_AUTH_TOKEN` only in CI or protected Cloudflare build secrets.
 - Never expose the token to client code, logs, or the repository.
-- Use Pro assets only in the finished website and dashboard, never as input for iuvui component or Registry implementations.
+- Do not commit HeroUI Pro source or licensed assets to this public repository.
+- Never use Pro assets as input for iuvui component or Registry implementations.
 
 ## Delivery phases
 
 1. Public foundation: HeroUI OSS, brand system, landing page, component and documentation entry points, `iuvui.com` Worker.
-2. Dashboard shell: Clerk session boundary, organization switching, navigation, empty states, `app.iuvui.com` Worker.
+2. Dashboard shell: Clerk session boundary, organization switching, navigation,
+   and empty states in the private `iuvui-pro` repository; development precedes
+   any `app.iuvui.com` production deployment.
 3. Pro features: licensed HeroUI Pro, entitlements, downloads, Registry access, teams, and billing.
 4. Product integration: CLI login and tokens, authenticated Pro Registry, project and download history, license seats.
 5. Self-bootstrap: audit iuvui against production gates, replace HeroUI incrementally, and make both sites continuous dogfooding and regression consumers.

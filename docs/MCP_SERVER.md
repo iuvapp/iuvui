@@ -6,7 +6,7 @@ The iuvui MCP server is a free, public documentation and capability-discovery se
 
 ## Ownership and deployment
 
-The server belongs in a separate public `iuv-tech/iuvui-mcp` repository rather than the public website or private dashboard repositories.
+The server belongs in a separate public `iuvapp/iuvui-mcp` repository rather than the public website or private dashboard repositories.
 
 ```text
 iuvui-mcp-dev   -> mcp.iuvdev.com/mcp
