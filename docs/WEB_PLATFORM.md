@@ -18,7 +18,7 @@ never holds Pro user data or backend credentials.
 ## Repository structure
 
 ```text
-iuv-tech/iuvui                       public repository
+iuvapp/iuvui                       public repository
 ├── apps/web/                        ui.iuvdev.com and iuvui.com
 ├── apps/storybook/                  storybook.iuvui.com
 ├── packages/cli/                    @iuvui/cli; `iuvui` executable

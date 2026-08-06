@@ -19,7 +19,7 @@ Last verified: 2026-08-06.
   experience reference; React Aria Components remain replaceable behavior behind
   iuvui-owned adapters. Reference products do not supply copied implementation
   code.
-- `iuv-tech/iuvui` is the canonical public repository for components, public npm
+- `iuvapp/iuvui` is the canonical public repository for components, public npm
   packages, the CLI, Registry output, public documentation, Storybook, and the
   public website.
 - iuvui intentionally targets React. Package mode consumes `@iuvui/react`;
@@ -73,7 +73,7 @@ exact internal release ranges, and independent consumer installation have been
 verified. `@iuvui/cli` is also versioned locally at `0.0.1`, but it has not been
 published to npm. Package mode is therefore public; the complete public
 `pnpm dlx @iuvui/cli` source-delivery path is not yet available. Repository
-metadata uses the canonical `iuv-tech/iuvui` origin; this does not authorize a
+metadata uses the canonical `iuvapp/iuvui` origin; this does not authorize a
 package publication.
 
 ### Registry and CLI
@@ -84,7 +84,7 @@ consumer can install the packed local CLI, add either component to
 `components/iuv-ui`, verify `iuvui.lock`, and type-check the installed source.
 
 The production Registry at `iuvui.com` serves a valid `0.0.1` catalog and
-component artifacts with canonical `iuv-tech/iuvui` provenance. The current
+component artifacts with canonical `iuvapp/iuvui` provenance. The current
 development Worker uses the same canonical provenance. Production was
 intentionally left unchanged in this development-only deployment. Public npm
 runtime installation is available, but a clean public `pnpm dlx` smoke remains
@@ -106,7 +106,7 @@ smoke testing remains separate.
 
 The production website and Registry remain on Worker version
 `0455c0ad-4e2a-4853-bda0-ff965faa28f0` and serve the verified English-first site
-and valid `0.0.1` Registry output with canonical `iuv-tech/iuvui` repository
+and valid `0.0.1` Registry output with canonical `iuvapp/iuvui` repository
 links and provenance. This development deployment did not change production.
 
 The current local, undeployed website revision replaces the marketing landing
@@ -271,7 +271,7 @@ until the user explicitly unlocks that version.
    Cloudflare Access.
 2. Keep the current production website and Registry unchanged unless a separate
    production promotion is explicitly requested; any promotion must preserve
-   canonical `iuv-tech/iuvui` links and Registry provenance.
+   canonical `iuvapp/iuvui` links and Registry provenance.
 3. Publish and verify the CLI only when the exact release is authorized and npm
    verification can complete.
 4. Add first-class public component and documentation routes.

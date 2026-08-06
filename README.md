@@ -7,7 +7,7 @@ iuvui is an ownable, customizable, and continuously upgradeable React UI system.
 iuvui is an independent project and is not affiliated with shadcn/ui or HeroUI. shadcn/ui is the design and source reference baseline, React Aria Components provide replaceable behavior behind an internal adapter, and the package API and delivery experience follow the convenience expected from a maintained component library.
 
 The canonical public repository is
-[`iuv-tech/iuvui`](https://github.com/iuv-tech/iuvui). The separate private
+[`iuvapp/iuvui`](https://github.com/iuvapp/iuvui). The separate private
 `iuv-tech/iuvui-pro` repository owns the shared Free and Pro account dashboard and
 all protected product assets; no dashboard application code or paid asset is
 maintained here.

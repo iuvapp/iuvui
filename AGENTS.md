@@ -6,7 +6,7 @@
 
 ## Related repositories
 
-- The canonical public repository is `iuv-tech/iuvui`. It owns components,
+- The canonical public repository is `iuvapp/iuvui`. It owns components,
   packages, the CLI, public Registry output, public documentation, Storybook,
   and `iuvui.com`.
 - The sibling private repository at `../iuvui-pro` (`iuv-tech/iuvui-pro`) owns Pro

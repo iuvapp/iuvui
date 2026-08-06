@@ -31,7 +31,7 @@ import * as m from "./paraglide/messages.js";
 import { getLocale, setLocale } from "./paraglide/runtime.js";
 
 const packageCommand = "pnpm add @iuvui/react @iuvui/styles";
-const githubUrl = "https://github.com/iuv-tech/iuvui";
+const githubUrl = "https://github.com/iuvapp/iuvui";
 
 function LanguageToggle() {
   const nextLocale = getLocale() === "en" ? "zh-CN" : "en";

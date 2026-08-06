@@ -25,12 +25,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/iuv-tech/iuvui.git",
+    "url": "git+https://github.com/iuvapp/iuvui.git",
     "directory": "packages/cli"
   },
   "homepage": "https://iuvui.com",
   "bugs": {
-    "url": "https://github.com/iuv-tech/iuvui/issues"
+    "url": "https://github.com/iuvapp/iuvui/issues"
   },
   "publishConfig": {
     "access": "public"
