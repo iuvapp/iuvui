@@ -141,6 +141,7 @@ pnpm typecheck
 pnpm test
 pnpm build
 pnpm pack:check
+pnpm consumer:check
 pnpm test:e2e
 ```
 

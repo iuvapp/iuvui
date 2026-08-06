@@ -4,7 +4,7 @@ This document is the durable execution record for the iuvui product phases. It
 separates implemented code, local verification, external deployment, and public
 release so that one cannot be mistaken for another.
 
-Last verified: 2026-08-05.
+Last verified: 2026-08-06.
 
 ## Status rules
 
@@ -20,14 +20,14 @@ Last verified: 2026-08-05.
 
 ## Verified delivery snapshot
 
-| Area             | Repository state                                                                                                                                                                                                                | External state                                                                                                                                           | Conclusion                                                                         |
-| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
-| Public packages  | Package builds, tests, declarations, and pack checks pass locally. Source manifests remain at `0.0.0`, and the pending Changesets resolve only to `0.0.1`. The first-release Changeset set does not yet include `@iuvui/icons`. | `@iuvui/cli`, `@iuvui/react`, `@iuvui/styles`, `@iuvui/tokens`, `@iuvui/utils`, and `@iuvui/icons` are not available from the public npm Registry.       | Testing is active; npm publication has not started.                                |
-| Registry and CLI | Button and Separator Registry artifacts are generated with integrity and upstream provenance. The local CLI implements `init` and verified `add` flows.                                                                         | The production Registry is stale: it still advertises old `0.1.0` metadata and `@latest` dependencies, and it does not serve the current Separator JSON. | The local source-delivery slice passes, but the public end-to-end path does not.   |
-| Public website   | The repository contains the TanStack Start SSR migration and Cloudflare dev/prod configuration. Both builds pass locally.                                                                                                       | `iuvui.com` still serves the previous client-only build. `ui.iuvdev.com` is protected by Cloudflare Access.                                              | Website code has changed, but the current production update has not been deployed. |
-| Storybook        | The local build and the five Playwright contract tests pass, including keyboard, focus, theme, and axe coverage.                                                                                                                | `storybook.iuvui.com` serves an older catalog without Separator.                                                                                         | The current Storybook is verified locally but not deployed.                        |
-| Dashboard        | The private repository contains Clerk boundaries, organization switching, typed TanStack Router routes, navigation, empty states, and a protected Worker session check.                                                         | `app.iuvui.com` does not currently resolve publicly, and the current shell has not completed a deployed Clerk organization smoke test.                   | Phase 2 implementation is substantial but not operationally complete.              |
-| MCP              | The public contract, security boundary, and proposed Cloudflare architecture are documented.                                                                                                                                    | No independent MCP repository or deployment exists yet.                                                                                                  | Planned, not implemented.                                                          |
+| Area             | Repository state                                                                                                                                                                                                                          | External state                                                                                                                                                                                                                                          | Conclusion                                                                                  |
+| ---------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
+| Public packages  | All six public package manifests are versioned at `0.0.1`. Builds, tests, declarations, tarball contents, license checks, exact internal release ranges, and the independent consumer smoke pass.                                         | npm authentication is not active in the release shell, so none of the six packages has been published. The GitHub repository has been pushed but remains private pending an explicit visibility decision.                                               | The package set is release-ready; account authorization remains the publication blocker.    |
+| Registry and CLI | Button and Separator artifacts carry `0.0.1` integrity and exact upstream provenance. A clean consumer installs the packed CLI, adds both components to `components/iuv-ui`, verifies `iuvui.lock`, and type-checks the installed source. | The matching Registry was deployed to `iuvui-web-dev` as Worker version `ce3d4558-98f9-4e3f-97d9-544a4ae2f8b0`. Cloudflare Access correctly protects the dev hostname, but an authenticated HTTP content smoke remains open. Production is still stale. | The independent local path is closed and dev is deployed; public production remains open.   |
+| Public website   | TanStack Start SSR dev and production builds pass. Wrangler uses distinct `iuvui-web-dev` and `iuvui-web-prod` Workers with Custom Domains and no extra `workers.dev` hostname.                                                           | The current build is deployed to `ui.iuvdev.com`. `iuvui.com` still serves the previous production build.                                                                                                                                               | Dev deployment is complete; authenticated dev smoke and production promotion remain open.   |
+| Storybook        | The build and all five Playwright contract tests pass, including keyboard, focus, theme, and axe coverage.                                                                                                                                | Worker version `81b9a987-cd69-40b5-87f9-1241858f6dc4` is deployed. Its public index returns Separator Docs, Horizontal, Vertical, and Named Boundary entries.                                                                                           | The current Storybook deployment is complete.                                               |
+| Dashboard        | The private repository contains the Clerk boundary, organization switching, protected Worker session check, and production Wrangler route for `app.iuvui.com`. Production deploy scripts atomically supply Clerk Worker keys.             | `app.iuvui.com` is not deployed because the browser and Worker still need matching Clerk production keys.                                                                                                                                               | Configuration is release-ready; credentials and authenticated deployment smoke remain open. |
+| MCP              | The public contract, security boundary, and proposed Cloudflare architecture are documented.                                                                                                                                              | No independent MCP repository or deployment exists yet.                                                                                                                                                                                                 | Planned, not implemented.                                                                   |
 
 ## Minimum path
 
@@ -43,10 +43,12 @@ The minimum source-delivery path is:
 7. repeat the flow using the public Registry and published CLI instead of local
    repository paths.
 
-Steps 1 through 4 pass in the repository test suite. Steps 5 through 7 are not
-complete because the required packages have not been published and the deployed
-Registry is older than the repository implementation. The minimum local slice is
-working; the minimum public product path is not yet closed.
+The local equivalent of steps 1 through 6 passes against `0.0.1` tarballs in an
+independent temporary consumer. The same Registry is deployed to the
+Access-protected development Worker. Literal npm installation in step 5 and the
+public flow in step 7 remain open because npm authentication, package
+publication, authenticated dev verification, and production promotion are not
+complete.
 
 ## Phase 1 — Public foundation
 
@@ -67,11 +69,12 @@ Completed in the repositories:
 - TanStack Start SSR migration;
 - dev and production Wrangler environments;
 - Button and Separator Registry output;
-- local build, type, lint, language, Registry, and package verification.
+- local build, type, lint, language, Registry, and package verification;
+- the current dev Worker deployment with the `0.0.1` Registry;
+- the current public Storybook deployment with Separator.
 
 Exit criteria still open:
 
-- deploy the current commit to the dev Worker;
 - verify SSR, locale switching, navigation, and Registry content types on dev;
 - ensure every deployed Registry version remains in `0.0.x`;
 - add real component and documentation routes instead of relying only on landing
@@ -167,13 +170,14 @@ contracts already exercised by the websites.
 The first npm release is a separate cross-phase gate. Before publication:
 
 1. select and add the public repository license, then make every public package
-   license field consistent; the CLI currently remains `UNLICENSED` and the other
-   public packages do not declare a license;
+   license field consistent — complete with Apache License 2.0;
 2. add the missing `@iuvui/icons` patch Changeset, finish the package metadata,
-   and verify exact tarball contents;
-3. build a clean consumer using local tarballs;
-4. deploy and smoke-test the current dev Registry;
-5. obtain explicit authorization for the exact `0.0.1` package set;
+   and verify exact tarball contents — complete;
+3. build a clean consumer using local tarballs — complete for package imports,
+   SSR, CLI source delivery, lock provenance, and TypeScript;
+4. deploy and smoke-test the current dev Registry — deployment complete,
+   authenticated Access smoke still open;
+5. obtain explicit authorization for the exact `0.0.1` package set — complete;
 6. publish dependency packages in dependency order;
 7. deploy the matching production Registry and website;
 8. publish the CLI after its default Registry endpoint is compatible;
@@ -183,14 +187,18 @@ Do not publish `0.1.0` while the release gate is active.
 
 ## Immediate next milestone
 
-Close the minimum public product path before expanding the component catalog:
+Close the remaining account and production gates before expanding the component
+catalog:
 
-1. choose the public license and make the `0.0.1` package set release-ready;
-2. run the local-tarball clean-consumer test;
-3. deploy the current website and Registry to the protected dev environment;
-4. verify the full dev smoke matrix;
-5. request explicit `0.0.1` publication authorization;
-6. publish, deploy production, and repeat the clean external smoke test.
+1. complete npm login, verify iuvui Organization publish access and 2FA, and
+   confirm whether the public repository should become visible now;
+2. complete the authenticated dev SSR, locale, navigation, and Registry smoke;
+3. publish dependency packages in order: tokens, utils, icons, styles, React;
+4. deploy the matching production website and Registry, then verify public JSON
+   content types and provenance;
+5. publish the CLI and run clean public npm and `pnpm dlx` source-delivery smoke;
+6. configure matching Clerk production keys, deploy `app.iuvui.com`, and finish
+   the authenticated Phase 2 smoke matrix.
 
 After that gate closes, finish Phase 2 with real Clerk and Cloudflare credentials,
 then initialize the first real Convex development project for Phase 3.
