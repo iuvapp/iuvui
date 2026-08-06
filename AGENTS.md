@@ -7,7 +7,13 @@
 ## Related repositories
 
 - This public repository owns components, packages, CLI, documentation, and `iuvui.com`.
-- The sibling private repository at `../iuvui-pro` owns Pro assets and `app.iuvui.com`.
+- The sibling private repository at `../iuvui-pro` owns Pro assets, the
+  `iuvui.iuvdev.com` development dashboard, and the `app.iuvui.com` production
+  dashboard.
+- This public repository may link to the dashboard and document public
+  integration contracts, but it must not contain dashboard application code,
+  Clerk integration, dashboard Worker configuration, dashboard credentials, or
+  paid assets.
 - Treat the repositories as independent Git projects: inspect, validate, and commit each one separately.
 - Do not introduce cross-repository workspace dependencies or move paid assets into this repository.
 

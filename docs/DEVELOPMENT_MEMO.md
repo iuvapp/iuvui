@@ -4,6 +4,12 @@ This document is the durable execution record for the iuvui product phases. It
 separates implemented code, local verification, external deployment, and public
 release so that one cannot be mistaken for another.
 
+This public memo does not track dashboard implementation or deployment state.
+The private `iuvui-pro` repository is the sole authority for the dashboard,
+Clerk, Pro assets, and the `iuvui.iuvdev.com` and `app.iuvui.com` Workers. This
+repository records only the public product and integration boundaries that
+interact with that surface.
+
 Last verified: 2026-08-06.
 
 ## Status rules
@@ -20,14 +26,14 @@ Last verified: 2026-08-06.
 
 ## Verified delivery snapshot
 
-| Area             | Repository state                                                                                                                                                                                                                          | External state                                                                                                                                                                                                                                          | Conclusion                                                                                  |
-| ---------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
-| Public packages  | All six public package manifests are versioned at `0.0.1`. Builds, tests, declarations, tarball contents, license checks, exact internal release ranges, and the independent consumer smoke pass.                                         | npm authentication is not active in the release shell, so none of the six packages has been published. The GitHub repository has been pushed but remains private pending an explicit visibility decision.                                               | The package set is release-ready; account authorization remains the publication blocker.    |
-| Registry and CLI | Button and Separator artifacts carry `0.0.1` integrity and exact upstream provenance. A clean consumer installs the packed CLI, adds both components to `components/iuv-ui`, verifies `iuvui.lock`, and type-checks the installed source. | The matching Registry was deployed to `iuvui-web-dev` as Worker version `ce3d4558-98f9-4e3f-97d9-544a4ae2f8b0`. Cloudflare Access correctly protects the dev hostname, but an authenticated HTTP content smoke remains open. Production is still stale. | The independent local path is closed and dev is deployed; public production remains open.   |
-| Public website   | TanStack Start SSR dev and production builds pass. Wrangler uses distinct `iuvui-web-dev` and `iuvui-web-prod` Workers with Custom Domains and no extra `workers.dev` hostname.                                                           | The current build is deployed to `ui.iuvdev.com`. `iuvui.com` still serves the previous production build.                                                                                                                                               | Dev deployment is complete; authenticated dev smoke and production promotion remain open.   |
-| Storybook        | The build and all five Playwright contract tests pass, including keyboard, focus, theme, and axe coverage.                                                                                                                                | Worker version `81b9a987-cd69-40b5-87f9-1241858f6dc4` is deployed. Its public index returns Separator Docs, Horizontal, Vertical, and Named Boundary entries.                                                                                           | The current Storybook deployment is complete.                                               |
-| Dashboard        | The private repository contains the Clerk boundary, organization switching, protected Worker session check, and production Wrangler route for `app.iuvui.com`. Production deploy scripts atomically supply Clerk Worker keys.             | `app.iuvui.com` is not deployed because the browser and Worker still need matching Clerk production keys.                                                                                                                                               | Configuration is release-ready; credentials and authenticated deployment smoke remain open. |
-| MCP              | The public contract, security boundary, and proposed Cloudflare architecture are documented.                                                                                                                                              | No independent MCP repository or deployment exists yet.                                                                                                                                                                                                 | Planned, not implemented.                                                                   |
+| Area               | Repository state                                                                                                                                                                                                                          | External state                                                                                                                                                                                                                                          | Conclusion                                                                                |
+| ------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| Public packages    | All six public package manifests are versioned at `0.0.1`. Builds, tests, declarations, tarball contents, license checks, exact internal release ranges, and the independent consumer smoke pass.                                         | npm authentication is not active in the release shell, so none of the six packages has been published. The GitHub repository has been pushed but remains private pending an explicit visibility decision.                                               | The package set is release-ready; account authorization remains the publication blocker.  |
+| Registry and CLI   | Button and Separator artifacts carry `0.0.1` integrity and exact upstream provenance. A clean consumer installs the packed CLI, adds both components to `components/iuv-ui`, verifies `iuvui.lock`, and type-checks the installed source. | The matching Registry was deployed to `iuvui-web-dev` as Worker version `ce3d4558-98f9-4e3f-97d9-544a4ae2f8b0`. Cloudflare Access correctly protects the dev hostname, but an authenticated HTTP content smoke remains open. Production is still stale. | The independent local path is closed and dev is deployed; public production remains open. |
+| Public website     | TanStack Start SSR dev and production builds pass. Wrangler uses distinct `iuvui-web-dev` and `iuvui-web-prod` Workers with Custom Domains and no extra `workers.dev` hostname.                                                           | The current build is deployed to `ui.iuvdev.com`. `iuvui.com` still serves the previous production build.                                                                                                                                               | Dev deployment is complete; authenticated dev smoke and production promotion remain open. |
+| Storybook          | The build and all five Playwright contract tests pass, including keyboard, focus, theme, and axe coverage.                                                                                                                                | Worker version `81b9a987-cd69-40b5-87f9-1241858f6dc4` is deployed. Its public index returns Separator Docs, Horizontal, Vertical, and Named Boundary entries.                                                                                           | The current Storybook deployment is complete.                                             |
+| Dashboard boundary | The public repository contains only the external dashboard link and public CLI, MCP, and commercial integration contracts. It contains no dashboard application, Clerk dependency, Worker configuration, or Pro asset implementation.     | Dashboard implementation and deployment state are tracked exclusively in the private `iuvui-pro` development memo.                                                                                                                                      | External product boundary only; not maintained in this repository.                        |
+| MCP                | The public contract, security boundary, and proposed Cloudflare architecture are documented.                                                                                                                                              | No independent MCP repository or deployment exists yet.                                                                                                                                                                                                 | Planned, not implemented.                                                                 |
 
 ## Minimum path
 
@@ -83,38 +89,20 @@ Exit criteria still open:
 - verify the production landing page and Registry artifacts match the release
   commit.
 
-## Phase 2 — Dashboard shell
+## External milestone — Dashboard shell
 
-Status: **In progress**.
+Dashboard implementation, validation, credentials, and deployment are owned and
+tracked exclusively by the private `iuvui-pro` repository. The public repository
+has only these responsibilities at the boundary:
 
-Scope:
+- link users to the dashboard without embedding dashboard code;
+- keep free CLI behavior usable without authentication;
+- define public contracts for authenticated Pro delivery without containing
+  Clerk server credentials or paid assets;
+- ensure the public MCP server describes Pro capabilities without becoming an
+  alternate protected-content delivery path.
 
-- Clerk sign-in, sign-out, and session restoration;
-- organization switching and organization-scoped shell state;
-- typed navigation and empty states;
-- signed-out, unauthorized, and unentitled states;
-- the `app.iuvui.com` Cloudflare Worker.
-
-Completed in the repositories:
-
-- the Vite dashboard shell;
-- Clerk provider and signed-out boundary;
-- organization and user controls;
-- typed TanStack Router routes and workspace navigation;
-- empty section pages and a protected Worker session probe;
-- local language, release, format, lint, type, test, and build checks.
-
-Exit criteria still open:
-
-- configure and verify real development Clerk credentials;
-- exercise sign-in, session restoration, organization switching, and protected
-  Worker access end to end;
-- verify unauthorized and unentitled states;
-- deploy the dashboard Worker and configure `app.iuvui.com`;
-- repeat the authenticated smoke test against the deployed environment.
-
-Phase 2 is therefore not complete. The credential-free routing slice is complete;
-the deployed authentication and organization slice is not.
+No dashboard phase status or operational checklist is duplicated here.
 
 ## Phase 3 — Pro features
 
@@ -196,9 +184,7 @@ catalog:
 3. publish dependency packages in order: tokens, utils, icons, styles, React;
 4. deploy the matching production website and Registry, then verify public JSON
    content types and provenance;
-5. publish the CLI and run clean public npm and `pnpm dlx` source-delivery smoke;
-6. configure matching Clerk production keys, deploy `app.iuvui.com`, and finish
-   the authenticated Phase 2 smoke matrix.
+5. publish the CLI and run clean public npm and `pnpm dlx` source-delivery smoke.
 
-After that gate closes, finish Phase 2 with real Clerk and Cloudflare credentials,
-then initialize the first real Convex development project for Phase 3.
+Dashboard and Convex execution continue independently in `iuvui-pro` and are not
+part of this public repository's release gate.

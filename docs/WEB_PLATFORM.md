@@ -9,7 +9,9 @@
 | `storybook.iuvui.com` | Component development and contract reference                     | Public                 |
 | `mcp.iuvui.com`       | Documentation and capability discovery over MCP                  | Public, no login       |
 
-Both applications deploy to Cloudflare Workers with independent code, configuration, secrets, custom domains, and release processes. The public site never holds Pro user data or backend credentials.
+Each application deploys from its owning repository with independent code,
+configuration, secrets, custom domains, and release processes. The public site
+never holds Pro user data or backend credentials.
 
 ## Repository structure
 
@@ -63,13 +65,20 @@ English is the canonical source language and the default display language. Engli
 ## Cloudflare Workers
 
 ```text
+iuvui repository:
 iuvui-web-dev   -> ui.iuvdev.com
 iuvui-web-prod  -> iuvui.com
 iuvui-storybook -> storybook.iuvui.com
-iuvui-dashboard -> app.iuvui.com
+
+iuvui-pro repository:
+iuvui-dashboard-dev  -> iuvui.iuvdev.com
+iuvui-dashboard-prod -> app.iuvui.com
 ```
 
 The public website is built separately for the `dev` and `prod` Cloudflare environments before deployment. The Vite plugin selects the environment at build time and produces the flattened Wrangler deployment configuration. Storybook has one production Worker. Each Worker owns its custom domain, deployment, rollback, logs, and observability. The dashboard uses Convex for application data, so Cloudflare D1 is not a parallel source of truth. R2 or KV may still be introduced later for immutable asset delivery or edge caching when a concrete requirement exists.
+
+Only the first three Workers are configured or deployed from this repository.
+Dashboard Worker configuration and operations exist exclusively in `iuvui-pro`.
 
 ### Manual deployment
 
@@ -90,6 +99,9 @@ pnpm storybook:deploy
 The deployment commands build each application before deploying it. No prebuilt output needs to be committed.
 
 ## Clerk authentication and organizations
+
+This section defines the public product integration contract. The implementation
+and operational runbook are maintained only in `iuvui-pro`.
 
 `app.iuvui.com` uses Clerk. Authentication and authorization checks belong on protected server and API boundaries, not only in client-side visibility rules.
 
