@@ -20,6 +20,7 @@
     "language:check": "node scripts/check-language.mjs",
     "lint": "turbo run lint",
     "pack:check": "pnpm build && node scripts/verify-pack.mjs",
+    "public:check": "node scripts/verify-public-consumer.mjs",
     "release:check": "node scripts/check-release-policy.mjs",
     "registry:build": "node scripts/build-registry.mjs",
     "registry:check": "node scripts/build-registry.mjs --check",
