@@ -2,12 +2,12 @@
 
 ## Product surfaces
 
-| Domain                | Role                                                             | Access                 |
-| --------------------- | ---------------------------------------------------------------- | ---------------------- |
-| `iuvui.com`           | Brand, components, documentation, pricing, and public content    | Public, frontend-first |
-| `app.iuvui.com`       | Pro dashboard, entitlements, downloads, teams, and account tools | Authenticated          |
-| `storybook.iuvui.com` | Component development and contract reference                     | Public                 |
-| `mcp.iuvui.com`       | Documentation and capability discovery over MCP                  | Public, no login       |
+| Domain                | Role                                                          | Access                 |
+| --------------------- | ------------------------------------------------------------- | ---------------------- |
+| `iuvui.com`           | Brand, components, documentation, pricing, and public content | Public, frontend-first |
+| `app.iuvui.com`       | Account dashboard, projects, entitlements, teams, and billing | Authenticated          |
+| `storybook.iuvui.com` | Component development and contract reference                  | Public                 |
+| `mcp.iuvui.com`       | Documentation and capability discovery over MCP               | Public, no login       |
 
 Each application deploys from its owning repository with independent code,
 configuration, secrets, custom domains, and release processes. The public site
@@ -126,7 +126,11 @@ Secrets are separated by role:
 
 No secret belongs in `wrangler.jsonc`, client bundles, public build logs, or committed files.
 
-## Initial Pro dashboard
+## Initial dashboard
+
+Free and Pro users share the same dashboard. Authentication grants access to the
+account workspace; server-side entitlements decide which protected assets and
+commercial capabilities are available.
 
 - Overview
 - Licenses and entitlements

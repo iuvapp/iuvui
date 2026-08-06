@@ -151,4 +151,4 @@ All components remain free, including complex components. Styles and variants ha
 
 Because shipped CSS is observable in a browser, premium protection applies to authorized distribution, updates, and service access rather than runtime DRM. See [Commercial model](./COMMERCIAL_MODEL.md) for the Style Pack contract, entitlement flow, and licensing principles.
 
-See [Web platform](./WEB_PLATFORM.md) for the public site, Pro dashboard, HeroUI boundary, and deployment plan.
+See [Web platform](./WEB_PLATFORM.md) for the public site, private dashboard, HeroUI boundary, and deployment plan.

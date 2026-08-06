@@ -149,7 +149,7 @@ pnpm test:e2e
 ## Web platform
 
 - `iuvui.com` is the public brand, component, and documentation site.
-- `app.iuvui.com` is the Clerk-authenticated dashboard maintained in the private `iuvui-pro` repository, where Pro capabilities and billing are presented.
+- `app.iuvui.com` is the Clerk-authenticated dashboard for Free and Pro users, maintained in the private `iuvui-pro` repository. Server-side entitlements control paid capabilities.
 - `mcp.iuvui.com` is a separate, authentication-free MCP documentation service. It exposes public documentation and Pro capability metadata, never paid asset contents.
 - Both applications deploy independently to Cloudflare Workers.
 - HeroUI OSS is the production UI baseline until iuvui can safely bootstrap itself. Licensed HeroUI Pro assets may later be used only in the private website implementation.
