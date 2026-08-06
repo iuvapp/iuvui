@@ -46,6 +46,16 @@ try {
       throw new Error(`Failed to read the packed manifest for ${name}`);
     const manifest = JSON.parse(packedManifest.stdout);
     if (manifest.private) throw new Error(`${name} is unexpectedly private`);
+    if (manifest.license !== "Apache-2.0")
+      throw new Error(`${name} must declare the Apache-2.0 license`);
+    if (!files.includes("package/LICENSE"))
+      throw new Error(`${name} package is missing LICENSE`);
+    if (!files.includes("package/README.md"))
+      throw new Error(`${name} package is missing README.md`);
+    if (
+      manifest.repository?.url !== "git+https://github.com/iuv-tech/iuvui.git"
+    )
+      throw new Error(`${name} has invalid repository metadata`);
     if (manifest.dependencies?.["@iuvui/internal"])
       throw new Error(`${name} exposes the private @iuvui/internal package`);
     if (name === "cli" && !files.includes("package/bin/iuvui.js")) {

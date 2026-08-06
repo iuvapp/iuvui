@@ -2,6 +2,16 @@
   "name": "@iuvui/styles",
   "version": "0.0.0",
   "description": "Precompiled themes and component styles for iuvui.",
+  "license": "Apache-2.0",
+  "homepage": "https://iuvui.com",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iuv-tech/iuvui.git",
+    "directory": "packages/styles"
+  },
+  "bugs": {
+    "url": "https://github.com/iuv-tech/iuvui/issues"
+  },
   "type": "module",
   "sideEffects": [
     "**/*.css"
@@ -9,6 +19,7 @@
   "files": [
     "*.css",
     "components",
+    "README.md",
     "THIRD_PARTY_NOTICES.md"
   ],
   "style": "./index.css",

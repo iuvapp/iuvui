@@ -32,6 +32,7 @@ jobs:
       - run: pnpm test
       - run: pnpm build
       - run: pnpm pack:check
+      - run: pnpm consumer:check
 
   playwright:
     runs-on: ubuntu-latest

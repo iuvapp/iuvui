@@ -2,13 +2,24 @@
   "name": "@iuvui/tokens",
   "version": "0.0.0",
   "description": "Semantic design tokens for iuvui.",
+  "license": "Apache-2.0",
+  "homepage": "https://iuvui.com",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iuv-tech/iuvui.git",
+    "directory": "packages/tokens"
+  },
+  "bugs": {
+    "url": "https://github.com/iuv-tech/iuvui/issues"
+  },
   "type": "module",
   "sideEffects": [
     "**/*.css"
   ],
   "files": [
     "dist",
-    "theme.css"
+    "theme.css",
+    "README.md"
   ],
   "exports": {
     ".": {

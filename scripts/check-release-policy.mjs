@@ -7,6 +7,7 @@ const policy = readJson("release-policy.json");
 const allowedVersion = new RegExp(policy.allowedVersionPattern);
 const allowedBumps = new Set(policy.allowedChangesetBumps);
 const errors = [];
+const publicPackageNames = new Set();
 
 function read(path) {
   return readFileSync(join(root, path), "utf8");
@@ -26,12 +27,19 @@ function visitPackageManifests(directory) {
     const path = join(directory, entry.name, "package.json");
     if (!existsSync(join(root, path))) continue;
     const manifest = readJson(path);
-    if (
-      manifest.private !== true &&
-      manifest.name?.startsWith("@iuvui/") &&
-      !allowedVersion.test(manifest.version)
-    ) {
-      errors.push(`${path} uses disallowed version ${manifest.version}.`);
+    if (manifest.private !== true && manifest.name?.startsWith("@iuvui/")) {
+      publicPackageNames.add(manifest.name);
+      if (!allowedVersion.test(manifest.version)) {
+        errors.push(`${path} uses disallowed version ${manifest.version}.`);
+      }
+      if (manifest.license !== policy.requiredLicense) {
+        errors.push(
+          `${path} must declare license ${policy.requiredLicense}, found ${String(manifest.license)}.`,
+        );
+      }
+      if (!existsSync(join(root, directory, entry.name, "LICENSE"))) {
+        errors.push(`${path} must ship a package-level LICENSE file.`);
+      }
     }
   }
 }
@@ -82,6 +90,12 @@ function checkRegistry() {
 }
 
 visitPackageManifests("packages");
+if (readJson("package.json").license !== policy.requiredLicense) {
+  errors.push(`package.json must declare license ${policy.requiredLicense}.`);
+}
+if (!existsSync(join(root, "LICENSE"))) {
+  errors.push("The repository LICENSE file is missing.");
+}
 checkChangesets();
 checkRegistry();
 
@@ -90,4 +104,6 @@ if (errors.length > 0) {
   process.exit(1);
 }
 
-console.log("Release policy is satisfied: public versions remain in 0.0.x.");
+console.log(
+  `Release policy is satisfied for ${publicPackageNames.size} public packages: versions remain in 0.0.x and the license is ${policy.requiredLicense}.`,
+);

@@ -2,10 +2,21 @@
   "name": "@iuvui/utils",
   "version": "0.0.0",
   "description": "Class name and typed variant utilities for iuvui.",
+  "license": "Apache-2.0",
+  "homepage": "https://iuvui.com",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iuv-tech/iuvui.git",
+    "directory": "packages/utils"
+  },
+  "bugs": {
+    "url": "https://github.com/iuv-tech/iuvui/issues"
+  },
   "type": "module",
   "sideEffects": false,
   "files": [
-    "dist"
+    "dist",
+    "README.md"
   ],
   "exports": {
     ".": {

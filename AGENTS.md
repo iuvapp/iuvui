@@ -34,6 +34,7 @@
 ## Release safety
 
 - Never publish an npm package unless the user explicitly requests publication in the current conversation.
+- The public repository and every published package use Apache License 2.0. Preserve the repository license and all required third-party notices in distributed artifacts.
 - Until the user explicitly unlocks `0.1.0`, every public package and Registry item version must remain in the `0.0.x` range.
 - Changesets must use `patch` releases while the `0.1.0` lock is active. Do not add `minor` or `major` Changesets.
 - Run `pnpm release:check` before versioning packages, committing release metadata, or publishing.

@@ -121,6 +121,12 @@ The browser policy targets the current two stable releases of Chromium, Firefox,
 
 The current development channel is locked to `0.0.x`. Changesets use patch releases only, and no package is published unless the user explicitly authorizes that exact publication. The normal SemVer deprecation and breaking-change policy begins only after the `0.1.0` gate is explicitly unlocked. CI never publishes automatically.
 
+## License
+
+iuvui is licensed under the [Apache License 2.0](./LICENSE). Components adapted
+from third-party MIT-licensed sources retain their required attribution in the
+distributed third-party notices.
+
 ## Development
 
 ```bash

@@ -9,6 +9,9 @@ import test from "node:test";
 import { digest, validateRegistryItem } from "../src/registry.js";
 
 const cli = fileURLToPath(new URL("../bin/iuvui.js", import.meta.url));
+const packageVersion = JSON.parse(
+  readFileSync(new URL("../package.json", import.meta.url), "utf8"),
+).version;
 const registry = fileURLToPath(
   new URL("../../../apps/web/public/r", import.meta.url),
 );
@@ -46,14 +49,14 @@ test("prints version", () => {
   const result = run(process.cwd(), "--version");
 
   assert.equal(result.status, 0);
-  assert.equal(result.stdout, "0.0.0\n");
+  assert.equal(result.stdout, `${packageVersion}\n`);
 });
 
 test("reports environment information", () => {
   const result = run(process.cwd(), "doctor");
 
   assert.equal(result.status, 0);
-  assert.match(result.stdout, /iuvui: 0\.0\.0/);
+  assert.ok(result.stdout.includes(`iuvui: ${packageVersion}\n`));
   assert.match(result.stdout, /node:/);
   assert.match(result.stdout, /platform:/);
 });

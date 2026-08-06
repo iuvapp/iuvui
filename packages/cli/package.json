@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "description": "The CLI for the iuvui React UI system.",
   "type": "module",
-  "license": "UNLICENSED",
+  "license": "Apache-2.0",
   "bin": {
     "iuvui": "bin/iuvui.js"
   },
@@ -27,7 +27,7 @@
     "url": "git+https://github.com/iuv-tech/iuvui.git",
     "directory": "packages/cli"
   },
-  "homepage": "https://github.com/iuv-tech/iuvui#readme",
+  "homepage": "https://iuvui.com",
   "bugs": {
     "url": "https://github.com/iuv-tech/iuvui/issues"
   },

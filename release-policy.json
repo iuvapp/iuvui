@@ -2,6 +2,7 @@
   "$schema": "./schemas/release-policy.schema.json",
   "schemaVersion": 1,
   "channel": "development",
+  "requiredLicense": "Apache-2.0",
   "allowedVersionPattern": "^0\\.0\\.[0-9]+$",
   "allowedChangesetBumps": ["patch"],
   "publicationRequiresExplicitApproval": true

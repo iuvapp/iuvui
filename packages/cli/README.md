@@ -2,7 +2,9 @@
 
 The command-line entry point for the iuvui React UI system.
 
-> The package is under active development and has not been published yet. Project initialization and Button source installation are implemented in the repository; managed source updates remain planned.
+> This `0.0.x` package is under active development. Project initialization and
+> verified Button and Separator source installation are available; managed
+> source updates remain planned.
 
 ## Usage
 
