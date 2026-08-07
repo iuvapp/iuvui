@@ -43,6 +43,86 @@ Last verified: 2026-08-07.
 - All public package and Registry releases remain in `0.0.x` until `0.1.0` is
   explicitly unlocked.
 
+## Component tooling workstream
+
+Status: **In progress**.
+
+Started: 2026-08-06.
+
+This workstream records the adopted outcomes of an implementation review of
+Cloudflare Kumo at commit `e9f8f93e8221b665caa5262bcd05d81dba854be9`
+and HeroUI v3 at package version `3.2.3`. Kumo is an engineering reference for
+machine-readable component metadata, generated Registry documentation,
+source-owned Blocks, design-tool synchronization, and agent guidance. HeroUI
+remains the product-experience and styling-boundary reference. Neither project
+defines iuvui's public API or supplies unreviewed implementation code.
+
+Adopted decisions:
+
+- preserve the existing React Aria adapter boundary and do not expose or switch
+  the public component API to Base UI primitives;
+- preserve precompiled `@iuvui/styles` CSS and do not require consumers to scan
+  package source with Tailwind `@source` directives;
+- introduce a private build-time component contract that records identity,
+  anatomy, slots, states, variants, defaults, semantic tokens, examples, and
+  Registry delivery metadata without prematurely adding a public React export;
+- make Registry output, public component documentation, and future design-tool
+  adapters consume that contract instead of maintaining independent inventories;
+- keep versioned package components as the canonical implementation while using
+  source-owned Blocks only for proven, higher-level product compositions;
+- add static contract checks before adding generation, so mismatches between
+  TypeScript props, CSS selectors, Storybook contracts, and Registry metadata fail
+  visibly rather than being silently accepted;
+- treat Figma generation and drift detection as a later consumer of the same
+  contract, not as a second source of component truth;
+- keep AI and MCP output documentation-only and free of protected assets,
+  credentials, entitlement decisions, or signed URLs.
+
+Execution plan:
+
+1. **Contract pilot** — define and validate the private contract format against
+   Button and Separator, covering current variants, defaults, stable slots,
+   documented states, semantic tokens, package paths, and Registry paths.
+2. **Registry and documentation integration** — generate or validate catalog
+   descriptions and component reference data from the contract, then extend the
+   pilot to Dialog and TextField so every current public component is covered.
+3. **Blocks foundation** — define a Registry-compatible, source-owned Block
+   contract and prove it with one context-aware composition only after its reuse
+   and ownership boundary are documented.
+4. **Design synchronization** — add a read-only design export and drift report
+   from the component contract before considering any write-capable Figma flow.
+5. **Agent and lint integration** — generate concise agent guidance and add
+   checks for primitive colors, undocumented states, stale variants, and
+   deprecated props where the contract can provide deterministic evidence.
+
+Contract-pilot exit criteria:
+
+- a schema or equivalently strict validator rejects unknown axes, missing
+  defaults, duplicate slots, undeclared semantic tokens, and Registry entries
+  without a matching component contract;
+- Button and Separator contract data matches their public TypeScript APIs,
+  emitted `data-*` attributes, precompiled CSS, Storybook contract stories, and
+  versioned Registry artifacts;
+- `pnpm registry:check`, formatting, language checks, and the affected package
+  tests remain green;
+- generated or validated artifacts remain reproducible and contain no paid
+  assets or repository-private operational data.
+
+Current work log:
+
+- **2026-08-06 — Research and adoption:** inspected Kumo's Base UI wrappers,
+  Tailwind token generation, component Registry pipeline, CLI Blocks, JSON UI
+  catalog, Figma generators, build packaging, and representative Button, Dialog,
+  Select, and Table implementations; compared them with HeroUI v3 React Aria
+  components, independent styles package, compound anatomy, semantic themes,
+  and agent tooling.
+- **2026-08-06 — Repository fit audit:** confirmed that iuvui already has the
+  required behavior boundary, precompiled style delivery, stable slots and
+  states, versioned Registry provenance, package/source parity, Storybook
+  contracts, and Blocks-compatible CLI direction. Identified component contract
+  metadata as the missing shared layer; implementation of the Button and
+  Separator pilot is the next active slice.
+
 ## Status rules
 
 - A phase is complete only when every exit criterion is satisfied.

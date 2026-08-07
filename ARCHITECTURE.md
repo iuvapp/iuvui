@@ -70,6 +70,28 @@ The architecture separates three concerns that are often conflated:
 
 The public API belongs to iuvui. Upstream source may accelerate implementation, but it does not decide permanent props, DOM anatomy, variants, tokens, or upgrade guarantees.
 
+### Machine-readable component contracts
+
+Each canonical component has one private build-time contract describing its
+identity, public anatomy, stable slots, documented states, variant axes,
+defaults, semantic tokens, examples, package entry points, and Registry delivery
+paths. The contract is metadata about the canonical implementation; it is not a
+second implementation and is not automatically part of the public React API.
+
+Registry artifacts, component reference documentation, compatibility checks,
+agent guidance, and future design-tool adapters consume this contract. They must
+not maintain independent lists of variants or component parts. TypeScript source,
+precompiled CSS, and behavioral tests remain authoritative for runtime behavior,
+while contract validation fails when those surfaces diverge from the declared
+public contract.
+
+The first contract implementation must validate existing components before it
+generates new runtime code. Generation may be introduced only for deterministic
+artifacts where reviewable source inputs, stable output, and package/source parity
+are preserved. Design tools are downstream consumers: Figma exports and drift
+reports never override component source, accessibility behavior, or Registry
+provenance.
+
 ### Versioned upstream provenance
 
 Every shadcn-derived or shadcn-referenced Registry item records one or more upstream references. Each reference includes an exact 40-character commit revision, immutable source URL, repository-relative source path, sync date, license, derivation relationship, and an explicit list of local changes. Mutable branch names and unversioned Registry endpoints may be included for discovery, but never replace the immutable source identity.
