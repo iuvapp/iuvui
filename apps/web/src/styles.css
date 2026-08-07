@@ -1,6 +1,27 @@
 @import "tailwindcss";
+@import "fumadocs-ui/css/neutral.css";
+@import "fumadocs-ui/css/preset.css";
 @import "@heroui/styles";
 @import "@iuvui/styles";
+
+#nd-docs-layout {
+  --color-fd-background: var(--background);
+  --color-fd-foreground: var(--foreground);
+  --color-fd-muted: var(--surface-secondary);
+  --color-fd-muted-foreground: var(--muted);
+  --color-fd-popover: var(--overlay);
+  --color-fd-popover-foreground: var(--overlay-foreground);
+  --color-fd-card: var(--surface);
+  --color-fd-card-foreground: var(--surface-foreground);
+  --color-fd-border: var(--separator);
+  --color-fd-primary: var(--accent);
+  --color-fd-primary-foreground: var(--accent-foreground);
+  --color-fd-secondary: var(--surface-secondary);
+  --color-fd-secondary-foreground: var(--surface-secondary-foreground);
+  --color-fd-accent: var(--accent-soft);
+  --color-fd-accent-foreground: var(--accent-soft-foreground);
+  --color-fd-ring: var(--focus);
+}
 
 html {
   scroll-behavior: smooth;

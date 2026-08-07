@@ -4,6 +4,7 @@ import {
   Scripts,
   createRootRoute,
 } from "@tanstack/react-router";
+import { RootProvider } from "fumadocs-ui/provider/tanstack";
 
 import * as m from "../paraglide/messages.js";
 import { getLocale } from "../paraglide/runtime.js";
@@ -56,12 +57,12 @@ function RootComponent() {
 
 function RootDocument({ children }: { children: React.ReactNode }) {
   return (
-    <html lang={getLocale()}>
+    <html lang={getLocale()} suppressHydrationWarning>
       <head>
         <HeadContent />
       </head>
       <body>
-        {children}
+        <RootProvider theme={{ enabled: false }}>{children}</RootProvider>
         <Scripts />
       </body>
     </html>

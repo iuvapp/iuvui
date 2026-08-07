@@ -81,7 +81,24 @@ After the gate is met, migration proceeds component by component and page by pag
 
 ## Application frameworks and data
 
-The public website uses TanStack Start on Cloudflare Workers so documentation can use server rendering, route-level data loading, and metadata without maintaining a separate backend framework. TanStack packages are adopted when their capability is needed; the project does not install every package merely to claim a full-stack label.
+The public website is deliberately TanStack-first. TanStack Start and TanStack
+Router own the application shell, routing, server rendering, server functions,
+and Cloudflare Worker runtime boundary. This is a durable architectural
+difference from HeroUI's Next.js documentation application: HeroUI remains a
+product and visual reference, not the source of iuvui's application framework.
+
+Fumadocs is embedded inside TanStack Start as the documentation engine. It owns
+MDX compilation, documentation navigation, table-of-contents data, and the
+public search index. It does not own the application runtime or routing boundary,
+and its Next.js adapters, App Router conventions, and Nitro integration are not
+part of this repository. Interactive examples render real local iuvui packages
+inside the Fumadocs content layer, while HeroUI OSS remains the surrounding
+website chrome until self-bootstrap.
+
+Additional TanStack packages are preferred for matching application concerns
+such as asynchronous state, forms, tables, and virtualization when those needs
+become concrete. Each adoption remains explicit; the project does not install
+unused packages merely to claim a full-stack label.
 
 The private dashboard remains a client application because its account surface
 is authenticated. Free and Pro users share the same application. TanStack Router

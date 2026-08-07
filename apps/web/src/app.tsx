@@ -5,48 +5,23 @@ import {
   Link,
   SearchField,
 } from "@heroui/react";
-import {
-  Button as IuvButton,
-  Dialog as IuvDialog,
-  Separator as IuvSeparator,
-  TextField as IuvTextField,
-  type ButtonRadius,
-  type ButtonSize,
-  type ButtonVariant,
-} from "@iuvui/react";
 import { useState } from "react";
 
 import {
-  buttonRadii,
-  buttonSizes,
-  buttonVariants,
   componentCatalog,
   matchesCatalogQuery,
   separatorOrientations,
-  styleExports,
   type ComponentCatalogItem,
   type ComponentId,
 } from "./catalog";
+import { ButtonVariantExplorer } from "./components/docs/button-variant-explorer";
+import { ComponentPreview } from "./components/docs/component-preview";
+import { StyleExports } from "./components/docs/style-exports";
+import { LanguageToggle } from "./components/language-toggle";
 import * as m from "./paraglide/messages.js";
-import { getLocale, setLocale } from "./paraglide/runtime.js";
 
 const packageCommand = "pnpm add @iuvui/react @iuvui/styles";
 const githubUrl = "https://github.com/iuvapp/iuvui";
-
-function LanguageToggle() {
-  const nextLocale = getLocale() === "en" ? "zh-CN" : "en";
-
-  return (
-    <HeroButton
-      aria-label={m.common_switch_language()}
-      size="sm"
-      variant="ghost"
-      onPress={() => void setLocale(nextLocale)}
-    >
-      {nextLocale === "en" ? "EN" : "ZH"}
-    </HeroButton>
-  );
-}
 
 function CopyCommand({ command }: { command: string }) {
   const [copied, setCopied] = useState(false);
@@ -101,62 +76,6 @@ function categoryLabel(category: ComponentCatalogItem["category"]) {
   }[category];
 }
 
-function ComponentPreview({ id }: { id: ComponentId }) {
-  if (id === "button") {
-    return (
-      <div className="flex flex-wrap gap-2">
-        <IuvButton>{m.web_preview_primary()}</IuvButton>
-        <IuvButton variant="secondary">{m.web_preview_secondary()}</IuvButton>
-        <IuvButton variant="outline">{m.web_preview_outline()}</IuvButton>
-      </div>
-    );
-  }
-
-  if (id === "text-field") {
-    return (
-      <IuvTextField.Root className="max-w-xs">
-        <IuvTextField.Label>{m.web_preview_email()}</IuvTextField.Label>
-        <IuvTextField.Input placeholder="name@example.com" />
-        <IuvTextField.Description>
-          {m.web_preview_text_field_description()}
-        </IuvTextField.Description>
-      </IuvTextField.Root>
-    );
-  }
-
-  if (id === "dialog") {
-    return (
-      <IuvDialog.Root>
-        <IuvDialog.Trigger className="ui-button">
-          {m.web_preview_open_dialog()}
-        </IuvDialog.Trigger>
-        <IuvDialog.Backdrop>
-          <IuvDialog.Positioner>
-            <IuvDialog.Content>
-              <IuvDialog.Close aria-label={m.web_preview_close_dialog()} />
-              <IuvDialog.Title>{m.web_preview_dialog_title()}</IuvDialog.Title>
-              <IuvDialog.Description>
-                {m.web_preview_dialog_description()}
-              </IuvDialog.Description>
-            </IuvDialog.Content>
-          </IuvDialog.Positioner>
-        </IuvDialog.Backdrop>
-      </IuvDialog.Root>
-    );
-  }
-
-  return (
-    <div className="grid gap-4">
-      <IuvSeparator />
-      <div className="flex h-8 items-center gap-4 text-sm text-muted">
-        <span>{m.web_preview_before()}</span>
-        <IuvSeparator className="h-6" orientation="vertical" />
-        <span>{m.web_preview_after()}</span>
-      </div>
-    </div>
-  );
-}
-
 function ComponentCard({ item }: { item: ComponentCatalogItem }) {
   const copy = componentCopy(item.id);
 
@@ -196,135 +115,9 @@ function ComponentCard({ item }: { item: ComponentCatalogItem }) {
   );
 }
 
-function OptionGroup<T extends string>({
-  label,
-  onChange,
-  options,
-  value,
-}: {
-  label: string;
-  onChange: (value: T) => void;
-  options: readonly T[];
-  value: T;
-}) {
-  return (
-    <div>
-      <p className="mb-2 text-sm font-medium text-foreground">{label}</p>
-      <div className="flex flex-wrap gap-1">
-        {options.map((option) => (
-          <HeroButton
-            key={option}
-            size="sm"
-            variant={value === option ? "primary" : "ghost"}
-            onPress={() => onChange(option)}
-          >
-            {option}
-          </HeroButton>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-function VariantExplorer() {
-  const [variant, setVariant] = useState<ButtonVariant>("default");
-  const [size, setSize] = useState<ButtonSize>("md");
-  const [radius, setRadius] = useState<ButtonRadius>("md");
-  const code = `<Button variant="${variant}" size="${size}" radius="${radius}">\n  Button\n</Button>`;
-
-  return (
-    <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_20rem]">
-      <Card className="min-w-0">
-        <Card.Header>
-          <Card.Title>{m.web_variant_matrix_title()}</Card.Title>
-          <Card.Description>
-            {m.web_variant_matrix_description()}
-          </Card.Description>
-        </Card.Header>
-        <Card.Content>
-          <div className="grid gap-3 rounded-xl bg-surface-secondary p-5 sm:grid-cols-2 xl:grid-cols-3">
-            {buttonVariants.map((item) => (
-              <div className="grid gap-2" key={item}>
-                <span className="text-xs text-muted">{item}</span>
-                <IuvButton fullWidth variant={item}>
-                  {m.web_preview_button()}
-                </IuvButton>
-              </div>
-            ))}
-          </div>
-        </Card.Content>
-      </Card>
-
-      <Card className="min-w-0">
-        <Card.Header>
-          <Card.Title>{m.web_variant_configure_title()}</Card.Title>
-          <Card.Description>
-            {m.web_variant_configure_description()}
-          </Card.Description>
-        </Card.Header>
-        <Card.Content className="grid gap-5">
-          <div className="grid min-h-24 place-items-center rounded-xl border border-separator bg-surface-secondary p-4">
-            <IuvButton radius={radius} size={size} variant={variant}>
-              {m.web_preview_button()}
-            </IuvButton>
-          </div>
-          <OptionGroup
-            label={m.web_variant_label()}
-            options={buttonVariants}
-            value={variant}
-            onChange={setVariant}
-          />
-          <OptionGroup
-            label={m.web_size_label()}
-            options={buttonSizes}
-            value={size}
-            onChange={setSize}
-          />
-          <OptionGroup
-            label={m.web_radius_label()}
-            options={buttonRadii}
-            value={radius}
-            onChange={setRadius}
-          />
-        </Card.Content>
-        <Card.Footer>
-          <pre className="w-full overflow-x-auto rounded-xl bg-surface-secondary p-4 text-xs leading-5">
-            <code>{code}</code>
-          </pre>
-        </Card.Footer>
-      </Card>
-    </div>
-  );
-}
-
-function StylesCatalog() {
-  return (
-    <div className="grid gap-3 md:grid-cols-2">
-      {styleExports.map((style) => (
-        <Card key={style.path}>
-          <Card.Header className="flex-row items-start justify-between gap-4">
-            <div className="min-w-0">
-              <Card.Title className="break-all font-mono text-sm">
-                {style.path}
-              </Card.Title>
-              <Card.Description>
-                {style.group === "foundation"
-                  ? m.web_style_foundation_description()
-                  : m.web_style_component_description()}
-              </Card.Description>
-            </div>
-            <Chip color="success" size="sm" variant="soft">
-              {m.web_included()}
-            </Chip>
-          </Card.Header>
-        </Card>
-      ))}
-    </div>
-  );
-}
-
 function DocsSidebar() {
   const links = [
+    ["/docs", m.web_nav_docs()],
     ["#overview", m.web_nav_overview()],
     ["#components", m.web_nav_components()],
     ["#variants", m.web_nav_variants()],
@@ -380,6 +173,7 @@ export function App() {
             aria-label={m.web_primary_navigation()}
             className="hidden items-center gap-5 md:flex"
           >
+            <Link href="/docs">{m.web_nav_docs()}</Link>
             <Link href="#components">{m.web_nav_components()}</Link>
             <Link href="#variants">{m.web_nav_variants()}</Link>
             <Link href="#styles">{m.web_nav_styles()}</Link>
@@ -489,7 +283,7 @@ export function App() {
               </p>
             </div>
             <div className="mt-8">
-              <VariantExplorer />
+              <ButtonVariantExplorer />
             </div>
             <Card className="mt-4" variant="secondary">
               <Card.Header>
@@ -530,7 +324,7 @@ export function App() {
               </p>
             </div>
             <div className="mt-8">
-              <StylesCatalog />
+              <StyleExports />
             </div>
           </section>
         </main>

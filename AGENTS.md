@@ -54,6 +54,13 @@
   variants, icons, and release surface. Do not turn its primary navigation or
   homepage into a dashboard promotion surface; add a dashboard account link only
   after an explicit product decision.
+- TanStack Start and TanStack Router are the durable application, routing, SSR,
+  and server-function boundary for the public website. Fumadocs is an embedded
+  MDX documentation, navigation, and search layer; it must not replace TanStack
+  Start or introduce Next.js, App Router conventions, or Nitro into the site.
+- Prefer the TanStack ecosystem for application concerns when a concrete need
+  exists, while keeping each package adoption explicit and independently
+  justified. Do not install unused TanStack packages solely for branding.
 - HeroUI OSS is the website chrome and visual baseline until self-bootstrap. Use
   its components, semantic tokens, system typography, restrained surfaces, and
   documentation information patterns without copying HeroUI Pro assets.

@@ -10,7 +10,7 @@ private `iuv-tech/iuvui-pro` repository is the sole operational authority for
 `iuvui.iuvdev.com`, and `app.iuvui.com`. This memo records only the public
 integration boundary with that system.
 
-Last verified: 2026-08-06.
+Last verified: 2026-08-07.
 
 ## Decision baseline
 
@@ -123,6 +123,22 @@ page with a HeroUI OSS-style documentation catalog:
 - desktop and mobile local browser checks with working search, variant updates,
   Dialog interaction, Registry fetches, no horizontal overflow, and no runtime
   errors.
+
+On 2026-08-07, the local public website added Fumadocs as an embedded
+documentation engine without changing its TanStack Start architecture:
+
+- TanStack Start and TanStack Router remain responsible for application routing,
+  server rendering, server functions, and the Cloudflare Worker boundary;
+- Fumadocs supplies MDX compilation, documentation layout, navigation, table of
+  contents, and the public search index;
+- `/docs`, component reference pages, style documentation, and `/api/search`
+  render through the TanStack Start application;
+- interactive Button, TextField, Dialog, Separator, variant, metadata, and style
+  examples reuse the real local public packages and catalogs;
+- sequential local HTTP smoke checks returned `200` for documentation pages and
+  search, and `404` for an unknown documentation path;
+- the revision remains local and does not imply a Worker deployment or npm
+  publication.
 
 The scoped format, lint, type, test, development build, production build, and
 language checks pass. This revision has not been deployed, so the Worker versions
