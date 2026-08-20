@@ -1,0 +1,59 @@
+---
+title: Icons
+description: The currently published tree-shakeable React icon entries and their SVG contract.
+---
+
+`@iuvui/icons@0.0.1` is the public React icon foundation used by iuvui
+components. The current release contains two icon components: `CloseIcon` and
+`SearchIcon`. This page lists the complete published icon surface; it does not
+imply a larger icon catalog.
+
+## Install
+
+```bash
+pnpm add @iuvui/icons react
+```
+
+## Import an icon
+
+Import from the package root when an application uses more than one icon:
+
+```tsx
+import { CloseIcon, SearchIcon } from "@iuvui/icons";
+```
+
+Use a subpath import when an application needs one icon:
+
+```tsx
+import { SearchIcon } from "@iuvui/icons/search";
+```
+
+The current published subpaths are `@iuvui/icons/close` and
+`@iuvui/icons/search`.
+
+## SVG accessibility and sizing
+
+Icon components accept standard SVG props and a `size` prop. The default size
+is `24`. An icon without a title is decorative and receives `aria-hidden`; pass
+a title when the SVG itself should have an accessible image role.
+
+```tsx
+<SearchIcon aria-hidden size={16} />
+<CloseIcon size={20} title="Close dialog" />
+```
+
+When an icon appears inside an already labelled button, keep the icon
+decorative and provide the button's accessible name instead.
+
+```tsx
+<button aria-label="Close dialog" type="button">
+  <CloseIcon aria-hidden />
+</button>
+```
+
+## Relationship to component icons
+
+The icon package is a public foundation rather than a closed internal asset.
+For example, the Dialog component uses `CloseIcon` for its default close
+control. Applications can import the same icon package directly without
+depending on Dialog.

@@ -1,0 +1,60 @@
+---
+title: Variants
+description: The current public Button variant, size, and radius contract, plus the supported customization boundary.
+---
+
+Variants are component-level presentation choices. They do not change the
+component's accessibility behavior or interaction contract. All variants that
+exist in the current public Button API are free.
+
+## Button contract
+
+`Button` currently accepts these values:
+
+| Prop      | Values                                                            | Default   |
+| --------- | ----------------------------------------------------------------- | --------- |
+| `variant` | `default`, `secondary`, `destructive`, `outline`, `ghost`, `link` | `default` |
+| `size`    | `sm`, `md`, `lg`                                                  | `md`      |
+| `radius`  | `sm`, `md`, `lg`, `full`                                          | `md`      |
+
+```tsx
+import { Button } from "@iuvui/react";
+
+<Button radius="full" size="lg" variant="outline">
+  Continue
+</Button>;
+```
+
+## Inspect the current API
+
+The explorer renders the local package implementation and the exact current
+TypeScript union values. It is a reference for the public Button contract, not
+a list of planned or paid variants.
+
+<ButtonVariantExplorer />
+
+## Own a local presentation recipe
+
+Use `className` for a local styling adjustment. `extendVariants` is also
+exported from `@iuvui/react` for application-owned class recipes. It leaves the
+underlying component behavior unchanged and applies the class output produced
+by the application's styling setup.
+
+```tsx
+import { Button, extendVariants } from "@iuvui/react";
+
+const ProjectButton = extendVariants(Button, {
+  variants: {
+    tone: {
+      project: "project-button",
+    },
+  },
+});
+
+<ProjectButton tone="project">Save</ProjectButton>;
+```
+
+No premium variant name is included in the free Button union or unlocked with a
+runtime license check. Future maintained presentation recipes, if released,
+will extend the public styling surface without weakening or replacing the free
+component.

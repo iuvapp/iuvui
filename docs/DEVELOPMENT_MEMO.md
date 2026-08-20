@@ -105,6 +105,37 @@ Verification completed on 2026-08-20:
 - `pnpm format:check`, `pnpm language:check`, `pnpm release:check`, and
   `git diff --check` passed.
 
+## 2026-08-20 — Homepage and documentation information architecture
+
+Status: **Verified locally; not deployed.**
+
+The public `/` route is now a concise brand landing page. It contains the
+product message and documentation entry point, but no component catalog,
+variant explorer, style export list, or documentation sidebar. Detailed product
+content now belongs to the embedded Fumadocs surface:
+
+- `/docs` is an explicit TanStack Router index route that loads Overview;
+- Components, Variants, Styles, Icons, Brand, and Guides are documented as
+  first-class Fumadocs content and navigation destinations;
+- component and style documentation continues to distinguish published
+  `0.0.1` artifacts from workspace previews and public Registry availability;
+- the documentation remains part of the same `apps/web` application and the
+  existing development and production Worker topology.
+
+The external `ui.iuvdev.com/docs` check returned `404` before this revision was
+deployed. No development or production Worker was changed by this work, so an
+external smoke check remains required after an authorized development
+deployment.
+
+Verification completed on 2026-08-20:
+
+- `pnpm --filter @iuvui/web test`, `pnpm --filter @iuvui/web typecheck`, and
+  `pnpm --filter @iuvui/web lint` passed;
+- `pnpm --filter @iuvui/web build:dev` completed successfully;
+- a local Worker development server returned the expected content for `/docs`,
+  `/docs/components/variants`, and `/api/search?query=CloseIcon`;
+- `pnpm format:check`, `pnpm language:check`, and `git diff --check` passed.
+
 ## Component tooling workstream
 
 Status: **In progress**.
@@ -258,18 +289,18 @@ Registry smoke checks after any future deployment:
   `0455c0ad-4e2a-4853-bda0-ff965faa28f0`. This record is not a smoke result for
   the current source tree.
 
-The current local, undeployed website revision combines the landing and catalog
-with an embedded Fumadocs Glass documentation surface in the same `apps/web`
-project:
+The current local, undeployed website revision keeps `/` as a concise brand
+landing page and moves detailed product content into an embedded Fumadocs Glass
+documentation surface in the same `apps/web` project:
 
 - Glass-layout documentation navigation, table of contents, search, and MDX
   component pages while TanStack Start remains the routing and Worker boundary;
-- searchable cards for four published `@iuvui/react` exports and four explicit
-  Workspace previews;
-- live previews rendered by the real local iuvui components while HeroUI remains
-  the application chrome;
-- a Button variant matrix and configurable variant, size, and radius preview;
-- truthful package, Registry, and `@iuvui/styles` availability labels;
+- explicit `/docs` index routing together with nested documentation paths;
+- Overview, Components, Variants, Styles, Icons, Brand, and Guides content with
+  truthful package, Registry, and `@iuvui/styles` availability labels;
+- live previews and the Button variant matrix rendered by real local iuvui
+  components inside documentation pages while HeroUI remains the application
+  chrome;
 - no Dashboard link and no unpublished CLI installation command;
 - English-default Paraglide copy with Simplified Chinese switching;
 - one Cloudflare Web build for both landing and documentation routes, rather

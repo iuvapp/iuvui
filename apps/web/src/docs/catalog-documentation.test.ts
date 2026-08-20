@@ -20,11 +20,8 @@ const publicRegistry = JSON.parse(
 describe("catalog documentation", () => {
   it("provides one component page for every catalog item", () => {
     const catalogIds = componentCatalog.map((item) => item.id).sort();
-    const documentedIds = componentMeta.pages
-      .filter((page) => page !== "index")
-      .sort();
 
-    expect(documentedIds).toEqual(catalogIds);
+    expect(componentMeta.pages).toEqual(expect.arrayContaining(catalogIds));
 
     for (const id of catalogIds) {
       expect(existsSync(`${componentsDirectory}${id}.mdx`)).toBe(true);

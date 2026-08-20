@@ -2,11 +2,10 @@ import { createFileRoute, notFound } from "@tanstack/react-router";
 
 import { DocumentationPage, getDocsPageData } from "../../docs/page";
 
-export const Route = createFileRoute("/docs/$")({
-  component: DocsSplatRoute,
-  loader: async ({ params }) => {
-    const slugs = params._splat?.split("/").filter(Boolean) ?? [];
-    const data = await getDocsPageData(slugs);
+export const Route = createFileRoute("/docs/")({
+  component: DocsIndexRoute,
+  loader: async () => {
+    const data = await getDocsPageData([]);
 
     if (!data) {
       // TanStack Router represents route-level 404 responses as thrown values.
@@ -18,6 +17,6 @@ export const Route = createFileRoute("/docs/$")({
   },
 });
 
-function DocsSplatRoute() {
+function DocsIndexRoute() {
   return <DocumentationPage data={Route.useLoaderData()} />;
 }

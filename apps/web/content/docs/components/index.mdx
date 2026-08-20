@@ -1,22 +1,50 @@
 ---
 title: Components
-description: The components in the current @iuvui/react workspace.
+description: The current @iuvui/react component catalog and its package and source-delivery state.
 ---
 
 Every component is free, including complex components. iuvui is designed to
 offer package mode and owned-source mode from the same canonical implementation;
-current delivery availability is stated per component below.
+each component page states the delivery availability that exists today.
 
-This catalog includes published exports and workspace previews. A workspace
-preview can be explored from this repository, but is not yet an npm release or
-a publicly consumable Registry item. Component cards state package and source
-availability separately.
+## Delivery states
+
+**Published** means the component is available from the public
+`@iuvui/react@0.0.1` package. **Workspace preview** means its implementation
+and styles are present in this repository and verified locally, but it is not
+yet installable from the immutable public `0.0.1` npm artifact. **Package
+only** means the current public component package includes the component, but
+there is not yet a matching public source Registry item.
+
+| Component  | Package delivery  | Source delivery         | Documentation                             |
+| ---------- | ----------------- | ----------------------- | ----------------------------------------- |
+| Button     | Published         | Published Registry item | [Button](/docs/components/button)         |
+| Text Field | Published         | Package only            | [Text Field](/docs/components/text-field) |
+| Dialog     | Published         | Package only            | [Dialog](/docs/components/dialog)         |
+| Separator  | Published         | Published Registry item | [Separator](/docs/components/separator)   |
+| Card       | Workspace preview | Workspace preview       | [Card](/docs/components/card)             |
+| Input      | Workspace preview | Workspace preview       | [Input](/docs/components/input)           |
+| Label      | Workspace preview | Workspace preview       | [Label](/docs/components/label)           |
+| Textarea   | Workspace preview | Workspace preview       | [Textarea](/docs/components/textarea)     |
+
+Public Registry JSON is available only for Button and Separator. A local
+workspace preview is useful for development and documentation, but it must not
+be presented as an npm release or public Registry download.
+
+## Variants and customization
+
+Component variants live with each component contract. The current Button API
+has an interactive matrix for its free variants, sizes, and radii. Use the
+[Variants](/docs/components/variants) page to inspect that contract and the
+public customization boundary.
+
+## Component pages
 
 - [Button](/docs/components/button)
+- [Text Field](/docs/components/text-field)
+- [Dialog](/docs/components/dialog)
+- [Separator](/docs/components/separator)
 - [Input](/docs/components/input)
 - [Label](/docs/components/label)
 - [Textarea](/docs/components/textarea)
-- [Text Field](/docs/components/text-field)
 - [Card](/docs/components/card)
-- [Dialog](/docs/components/dialog)
-- [Separator](/docs/components/separator)

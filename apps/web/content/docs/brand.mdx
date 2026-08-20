@@ -1,0 +1,48 @@
+---
+title: Brand
+description: The current iuvui name, product language, visual foundation, and public brand-asset boundary.
+---
+
+The public product name is **iuvui**, written in lowercase in prose, navigation,
+package names, and code examples. The current product line is:
+
+> Use shadcn/ui like HeroUI.
+
+The line describes iuvui's intended product experience: ownable React component
+source with the delivery and maintenance expectations of a component system. It
+does not imply an affiliation with shadcn/ui or HeroUI. iuvui is an independent
+project.
+
+## Visual foundation
+
+iuvui's current visual system is a semantic-token foundation, not a fixed
+brand-palette package. Components consume `--ui-*` roles for color, spacing,
+radius, shadows, and type. The default sans-serif stack is system-based, and
+the default theme supports light, dark, forced-colors, and reduced-motion
+considerations.
+
+Use the [Styles](/docs/styles) documentation to override semantic variables for
+a product-specific theme. A local product theme should keep sufficient contrast,
+focus indication, and state feedback rather than treating brand color as a
+replacement for those contracts.
+
+## Public asset boundary
+
+No official logo asset, custom font, downloadable brand kit, or packaged visual
+identity asset is published in this repository today. Until that changes, use
+the lowercase `iuvui` wordmark in plain text and do not invent an official mark
+or claim a nonexistent asset package.
+
+The existing public packages and documentation use Apache License 2.0. Third
+party notices remain attached to components and artifacts that require them;
+the project name does not change those attribution obligations.
+
+## Product-language guidance
+
+- Describe iuvui as a React UI system, not a framework-agnostic component kit.
+- Describe components as free, including complex components.
+- Distinguish current public `0.0.1` artifacts from workspace previews.
+- Describe future premium Style Packs, presentation variants, and motion
+  recipes as future assets until a real named artifact is released.
+- Do not suggest that the future dashboard, Clerk integration, or protected Pro
+  assets are implemented in this public repository.

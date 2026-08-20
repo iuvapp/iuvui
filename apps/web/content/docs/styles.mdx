@@ -1,11 +1,77 @@
 ---
 title: Styles
-description: The free precompiled CSS entry points currently exported by @iuvui/styles.
+description: The current semantic-token, theme, and precompiled CSS surface for iuvui.
 ---
 
-Import the complete published bundle or select published foundation and
-component-level entry points needed by your application. Entries marked
-Workspace preview exist in this repository only and are not part of the public
-`@iuvui/styles@0.0.1` artifact.
+The free style foundation uses semantic `--ui-*` variables, CSS cascade layers,
+and precompiled component CSS. A consumer can use the published package without
+asking Tailwind CSS to scan iuvui source.
+
+## Install the published package
+
+```bash
+pnpm add @iuvui/react @iuvui/styles
+```
+
+Import the complete published bundle once:
+
+```css
+@import "@iuvui/styles";
+```
+
+The public `@iuvui/styles@0.0.1` package includes the released Button, Text
+Field, Dialog, and Separator styles. The current workspace stylesheet has
+additional preview imports for Card, Input, Label, and Textarea; those preview
+styles are not part of the immutable npm `0.0.1` artifact.
+
+## Choose an entry point
+
+Use a published foundation or component-level entry point when an application
+needs a narrower import. Entries marked Workspace preview below are useful for
+repository development only; they must not be copied into an npm installation
+guide until a later authorized `0.0.x` release exists.
 
 <StyleExports />
+
+## Themes and semantic tokens
+
+`@iuvui/styles/theme.css` imports the public semantic token layer from
+`@iuvui/tokens/theme.css`. The default token set supports light mode, dark
+mode, `prefers-color-scheme`, explicit `data-theme="light"` and
+`data-theme="dark"` selection, and a forced-colors override.
+
+Apply a local brand by overriding semantic variables in your own selector:
+
+```css
+[data-brand="violet"] {
+  --ui-primary: oklch(0.62 0.25 310);
+  --ui-primary-foreground: oklch(0.99 0.01 310);
+  --ui-radius: 0.85rem;
+}
+```
+
+The current token surface includes foreground, background, card, popover,
+primary, secondary, muted, accent, destructive, border, input, ring, radius,
+shadow, and sans-serif font roles. Components consume these semantic variables
+instead of a fixed palette.
+
+## Cascade layers
+
+The style bundle declares the following order:
+
+```css
+@layer ui-theme, ui-base, ui-components, ui-utilities;
+```
+
+Use application CSS after the iuvui import when a local override should win.
+The base layer scopes reset-like rules to elements marked with `data-ui-root`,
+so importing the package does not apply a global component reset.
+
+## Variants and future Style Packs
+
+The current free Button variants are documented in
+[Components → Variants](/docs/components/variants). There is no published
+premium Style Pack, premium visual variant, or animation configuration today.
+Future paid assets may add maintained presentation recipes, but they will use
+the same component anatomy and will not gate component behavior or
+accessibility.

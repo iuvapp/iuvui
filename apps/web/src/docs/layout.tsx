@@ -8,6 +8,10 @@ const githubUrl = "https://github.com/iuvapp/iuvui";
 export function docsTabs(): LayoutTab[] {
   return [
     {
+      title: m.web_nav_overview(),
+      url: "/docs",
+    },
+    {
       title: m.web_nav_guides(),
       url: "/docs/guides",
     },
@@ -19,6 +23,14 @@ export function docsTabs(): LayoutTab[] {
       title: m.web_nav_styles(),
       url: "/docs/styles",
     },
+    {
+      title: m.web_nav_icons(),
+      url: "/docs/icons",
+    },
+    {
+      title: m.web_nav_brand(),
+      url: "/docs/brand",
+    },
   ];
 }
 
@@ -26,6 +38,12 @@ export function docsLayoutOptions(): BaseLayoutProps {
   return {
     githubUrl,
     links: [
+      {
+        active: "nested-url",
+        text: m.web_nav_overview(),
+        type: "main",
+        url: "/docs",
+      },
       {
         active: "nested-url",
         text: m.web_nav_guides(),
@@ -43,6 +61,18 @@ export function docsLayoutOptions(): BaseLayoutProps {
         text: m.web_nav_styles(),
         type: "main",
         url: "/docs/styles",
+      },
+      {
+        active: "nested-url",
+        text: m.web_nav_icons(),
+        type: "main",
+        url: "/docs/icons",
+      },
+      {
+        active: "nested-url",
+        text: m.web_nav_brand(),
+        type: "main",
+        url: "/docs/brand",
       },
       {
         active: "none",

@@ -1,14 +1,32 @@
 ---
-title: Introduction
-description: The current package, source, Registry, and documentation surface for iuvui.
+title: Overview
+description: The current package, source, Registry, styles, icons, and brand surface for iuvui.
 ---
 
-iuvui is an ownable React UI system. The documentation, catalog, and Registry
-all live in the same TanStack Start application that deploys as the public
-iuvui website. There is no separate documentation application or Cloudflare
-Worker.
+iuvui is an ownable React UI system. It pairs maintained packages with an
+owned-source workflow, so a team can choose the level of implementation it
+wants to maintain. The public website, documentation, catalog, and Registry
+all live in the same TanStack Start application. There is no separate
+documentation application or Cloudflare Worker.
 
-## Package mode
+Every component is free, including complex components. Package mode and source
+mode are two delivery forms of the same component contract; neither changes
+the accessibility or behavioral baseline.
+
+## What is available today
+
+| Surface            | Current availability                                                                                                         | Start here                                      |
+| ------------------ | ---------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------- |
+| React components   | Button, Text Field, Dialog, and Separator are published at `0.0.1`; Card, Input, Label, and Textarea are workspace previews. | [Components](/docs/components)                  |
+| Component variants | Button has a documented free variant, size, and radius contract.                                                             | [Variants](/docs/components/variants)           |
+| Styles and tokens  | Free semantic tokens and precompiled styles are available, with release state documented per entry point.                    | [Styles](/docs/styles)                          |
+| Icons              | `@iuvui/icons@0.0.1` contains the published Close and Search React icons.                                                    | [Icons](/docs/icons)                            |
+| Source delivery    | The CLI workflow is verified locally, but the CLI is not yet published to npm.                                               | [Source delivery](/docs/guides/source-delivery) |
+| Public Registry    | Button and Separator have public Registry JSON.                                                                              | [Registry](/docs/guides/registry)               |
+
+## Choose a delivery mode
+
+### Package mode
 
 The public `0.0.1` package release contains Button, Text Field, Dialog, and
 Separator. Install the maintained React package and its precompiled styles:
@@ -22,18 +40,24 @@ Their package exports and CSS are verified locally, but they are not npm
 releases and must not be installed from `@iuvui/react@0.0.1` or
 `@iuvui/styles@0.0.1` yet.
 
-## Source mode
+### Source mode
 
 The CLI installs owned component source under `components/iuv-ui`. Its source
 workflow has been verified locally with a packed tarball, but `@iuvui/cli` is
 not yet published to npm. Public `pnpm dlx` and global-install commands remain
 unavailable until an explicitly authorized release.
 
-## Explore
+## Documentation map
 
-- [Guides](/docs/guides)
-- [Components](/docs/components)
-- [Button variants](/docs/components/button)
-- [Styles](/docs/styles)
-- [Source delivery](/docs/guides/source-delivery)
-- [Registry](/docs/guides/registry)
+- [Components](/docs/components) documents each current component and its
+  delivery state.
+- [Variants](/docs/components/variants) records the current public Button
+  variant contract and customization boundary.
+- [Styles](/docs/styles) explains tokens, CSS entry points, theming, and the
+  future Style Pack boundary.
+- [Icons](/docs/icons) lists the currently published React icon entries and
+  their SVG accessibility contract.
+- [Brand](/docs/brand) records the current name, product language, and public
+  brand-asset boundary.
+- [Guides](/docs/guides) covers package delivery, source delivery, and the
+  Registry.

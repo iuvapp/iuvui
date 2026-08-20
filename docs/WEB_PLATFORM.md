@@ -100,10 +100,12 @@ part of this repository. Interactive examples render real local iuvui packages
 inside the Fumadocs content layer, while HeroUI OSS remains the surrounding
 website chrome until self-bootstrap.
 
-`apps/web` is the single public web and documentation project. Its landing and
-catalog routes, Fumadocs routes, search endpoint, and Registry surface are
-built together into `iuvui-web-dev` and `iuvui-web-prod`; there is no docs-only
-Worker, domain, or deployment pipeline.
+`apps/web` is the single public web and documentation project. Its `/` route is
+a concise brand entry point, while the Fumadocs routes own the Overview,
+component catalog and references, variants, styles, icons, brand guidance,
+guides, search endpoint, and Registry surface. They are built together into
+`iuvui-web-dev` and `iuvui-web-prod`; there is no docs-only Worker, domain, or
+deployment pipeline.
 
 Additional TanStack packages are preferred for matching application concerns
 such as asynchronous state, forms, tables, and virtualization when those needs
