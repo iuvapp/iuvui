@@ -4,6 +4,7 @@ import {
   type SerializedPageTree,
 } from "fumadocs-core/source/client";
 import { GlassLayout } from "fumadocs-ui/layouts/glass";
+import { getLayoutTabs } from "fumadocs-ui/layouts/shared";
 import {
   DocsBody,
   DocsDescription,
@@ -48,6 +49,16 @@ export async function getDocsPageData(slugs: string[]) {
   return data;
 }
 
+function getDocumentationTabs(pageTree: Parameters<typeof getLayoutTabs>[0]) {
+  return getLayoutTabs(pageTree, {
+    transform: (tab) => {
+      const transformedTab = { ...tab };
+      delete transformedTab.$folder;
+      return transformedTab;
+    },
+  });
+}
+
 function DocsContent({ path }: { path: string }) {
   const page = docs.getPage(path);
 
@@ -73,7 +84,11 @@ export function DocumentationPage({ data }: { data: DocsPageData }) {
   const { pageTree, path } = useFumadocsLoader(data);
 
   return (
-    <GlassLayout {...docsLayoutOptions()} tree={pageTree}>
+    <GlassLayout
+      {...docsLayoutOptions()}
+      tabs={getDocumentationTabs(pageTree)}
+      tree={pageTree}
+    >
       <Suspense>
         <DocsContent path={path} />
       </Suspense>

@@ -1,11 +1,20 @@
 import type { I18nProviderProps } from "fumadocs-ui/contexts/i18n";
 
 import * as m from "../paraglide/messages.js";
-import { getLocale } from "../paraglide/runtime.js";
+import { getLocale, isLocale, setLocale } from "../paraglide/runtime.js";
 
 export function fumadocsI18n(): Omit<I18nProviderProps, "children"> {
   return {
     locale: getLocale(),
+    locales: [
+      { locale: "en", name: "English" },
+      { locale: "zh-CN", name: "Chinese (Simplified)" },
+    ],
+    onLocaleChange: (locale) => {
+      if (isLocale(locale)) {
+        void setLocale(locale);
+      }
+    },
     translations: {
       "Close Search(search dialog)(aria-label)": m.web_fumadocs_close_search(),
       "Close Sidebar(aria-label)": m.web_fumadocs_close_sidebar(),

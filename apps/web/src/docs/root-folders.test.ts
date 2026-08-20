@@ -1,4 +1,4 @@
-import { getLayoutTabs } from "fumadocs-ui/layouts/shared";
+import { getLayoutTabs, isLayoutTabActive } from "fumadocs-ui/layouts/shared";
 import { describe, expect, it } from "vitest";
 
 import { source } from "./source";
@@ -47,6 +47,27 @@ describe("documentation root folders", () => {
         name: rootName,
         type: "folder",
       });
+    }
+  });
+
+  it("resolves root index pages as active layout tabs", () => {
+    const tabs = getLayoutTabs(source.getPageTree(), {
+      transform: (tab) => {
+        const transformedTab = { ...tab };
+        delete transformedTab.$folder;
+        return transformedTab;
+      },
+    });
+
+    for (const [title, pathname] of [
+      ["Overview", "/docs"],
+      ["Guides", "/docs/guides"],
+      ["Components", "/docs/components"],
+    ] as const) {
+      const tab = tabs.find((item) => item.title === title);
+
+      expect(tab).toBeDefined();
+      expect(isLayoutTabActive(tab!, pathname)).toBe(true);
     }
   });
 });

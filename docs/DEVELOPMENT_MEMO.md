@@ -172,6 +172,36 @@ Verification completed on 2026-08-20:
 No production Worker, Storybook Worker, dashboard Worker, or npm package was
 changed.
 
+## 2026-08-20 — Documentation header control correction
+
+Status: **Verified locally and deployed to development.**
+
+The documentation language selector now uses the Fumadocs i18n slot, which
+places it in the Glass header's desktop right-side actions rather than the
+sidebar. It presents the current locale and delegates locale changes to the
+existing Paraglide runtime.
+
+Root folders that use a transparent nested `pagesIndex` now transform their
+Layout Tabs without a folder binding. This preserves root-scoped sidebar
+filtering while allowing Fumadocs to match the root index URL itself; the
+selector therefore displays the active space name instead of the `Layout Tab`
+fallback.
+
+Verification completed on 2026-08-20:
+
+- `pnpm --filter @iuvui/web test` passed with 13 tests, including root-index
+  active-tab coverage;
+- `pnpm --filter @iuvui/web lint`, `pnpm --filter @iuvui/web typecheck`, and
+  `pnpm --filter @iuvui/web build:dev` passed;
+- `pnpm web:deploy:dev` deployed Worker version
+  `4e1ff412-250a-47c7-ba69-5df266805ef9` to `iuvui-web-dev`;
+- browser verification at `https://ui.iuvdev.com/docs/guides` confirmed the
+  Guides selector label and a right-side language control, with no sidebar
+  language item.
+
+No production Worker, Storybook Worker, dashboard Worker, or npm package was
+changed.
+
 ## Component tooling workstream
 
 Status: **In progress**.
