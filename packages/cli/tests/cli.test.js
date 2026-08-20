@@ -13,7 +13,7 @@ const packageVersion = JSON.parse(
   readFileSync(new URL("../package.json", import.meta.url), "utf8"),
 ).version;
 const registry = fileURLToPath(
-  new URL("../../../apps/web/public/r", import.meta.url),
+  new URL("../../../registry/local/r", import.meta.url),
 );
 
 function createProject() {
@@ -185,7 +185,10 @@ test("installs Separator source with its license and upstream identity", () => {
 
     assert.equal(result.status, 0, result.stderr);
     const sourcePath = join(cwd, "components/iuv-ui/separator.tsx");
-    const noticePath = join(cwd, "components/iuv-ui/THIRD_PARTY_NOTICES.md");
+    const noticePath = join(
+      cwd,
+      "components/iuv-ui/separator.third-party-notices.md",
+    );
     const source = readFileSync(sourcePath, "utf8");
     const notice = readFileSync(noticePath, "utf8");
     const lock = JSON.parse(readFileSync(join(cwd, "iuvui.lock"), "utf8"));
@@ -203,9 +206,55 @@ test("installs Separator source with its license and upstream identity", () => {
       digest(source),
     );
     assert.equal(
-      lock.items.separator.files["components/iuv-ui/THIRD_PARTY_NOTICES.md"],
+      lock.items.separator.files[
+        "components/iuv-ui/separator.third-party-notices.md"
+      ],
       digest(notice),
     );
+  } finally {
+    rmSync(cwd, { recursive: true, force: true });
+  }
+});
+
+test("installs shadcn-derived foundation source with component-scoped notices", () => {
+  const cwd = createProject();
+  const components = ["card", "input", "label", "textarea"];
+
+  try {
+    assert.equal(run(cwd, "init").status, 0);
+    const result = run(cwd, "add", ...components);
+
+    assert.equal(result.status, 0, result.stderr);
+    const lock = JSON.parse(readFileSync(join(cwd, "iuvui.lock"), "utf8"));
+
+    for (const component of components) {
+      const sourcePath = join(cwd, `components/iuv-ui/${component}.tsx`);
+      const noticePath = join(
+        cwd,
+        `components/iuv-ui/${component}.third-party-notices.md`,
+      );
+      const source = readFileSync(sourcePath, "utf8");
+      const notice = readFileSync(noticePath, "utf8");
+      const entry = lock.items[component];
+
+      assert.match(source, /Installed from the iuvui canonical source/);
+      assert.match(source, /@iuvui\/styles/);
+      assert.match(notice, /MIT License/);
+      assert.equal(entry.provenance.canonical.kind, "derived");
+      assert.equal(entry.provenance.upstreams[0].relationship, "derived");
+      assert.equal(
+        entry.provenance.upstreams[0].revision,
+        "25be24cca34d06eed29a4779c3f48c4816aa812c",
+      );
+      assert.equal(
+        entry.files[`components/iuv-ui/${component}.tsx`],
+        digest(source),
+      );
+      assert.equal(
+        entry.files[`components/iuv-ui/${component}.third-party-notices.md`],
+        digest(notice),
+      );
+    }
   } finally {
     rmSync(cwd, { recursive: true, force: true });
   }

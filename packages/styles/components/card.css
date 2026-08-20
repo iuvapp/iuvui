@@ -1,0 +1,52 @@
+@layer ui-components {
+  .ui-card {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    border: 1px solid var(--ui-border);
+    border-radius: var(--ui-radius-lg);
+    background: var(--ui-card);
+    color: var(--ui-card-foreground);
+    padding-block: 1.5rem;
+    box-shadow: var(--ui-shadow-sm);
+  }
+
+  .ui-card__header {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 0.5rem;
+    padding-inline: 1.5rem;
+  }
+
+  .ui-card__title {
+    min-width: 0;
+    font-size: 1rem;
+    font-weight: 650;
+    line-height: 1.25;
+  }
+
+  .ui-card__description {
+    grid-column: 1;
+    color: var(--ui-muted-foreground);
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+
+  .ui-card__action {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    align-self: start;
+    justify-self: end;
+  }
+
+  .ui-card__content,
+  .ui-card__footer {
+    padding-inline: 1.5rem;
+  }
+
+  .ui-card__footer {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+}

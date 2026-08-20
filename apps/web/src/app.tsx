@@ -50,9 +50,21 @@ function componentCopy(id: ComponentId) {
       description: m.web_component_button_description(),
       title: m.web_component_button(),
     },
+    card: {
+      description: m.web_component_card_description(),
+      title: m.web_component_card(),
+    },
     dialog: {
       description: m.web_component_dialog_description(),
       title: m.web_component_dialog(),
+    },
+    input: {
+      description: m.web_component_input_description(),
+      title: m.web_component_input(),
+    },
+    label: {
+      description: m.web_component_label_description(),
+      title: m.web_component_label(),
     },
     separator: {
       description: m.web_component_separator_description(),
@@ -61,6 +73,10 @@ function componentCopy(id: ComponentId) {
     "text-field": {
       description: m.web_component_text_field_description(),
       title: m.web_component_text_field(),
+    },
+    textarea: {
+      description: m.web_component_textarea_description(),
+      title: m.web_component_textarea(),
     },
   } as const;
 
@@ -76,6 +92,12 @@ function categoryLabel(category: ComponentCatalogItem["category"]) {
   }[category];
 }
 
+function deliveryLabel(delivery: ComponentCatalogItem["delivery"]) {
+  return delivery === "published"
+    ? m.web_component_published()
+    : m.web_component_workspace_preview();
+}
+
 function ComponentCard({ item }: { item: ComponentCatalogItem }) {
   const copy = componentCopy(item.id);
 
@@ -83,9 +105,14 @@ function ComponentCard({ item }: { item: ComponentCatalogItem }) {
     <Card className="h-full">
       <Card.Header className="gap-3">
         <div className="flex flex-wrap items-center justify-between gap-2">
-          <Chip size="sm" variant="soft">
-            {categoryLabel(item.category)}
-          </Chip>
+          <div className="flex flex-wrap gap-2">
+            <Chip size="sm" variant="soft">
+              {categoryLabel(item.category)}
+            </Chip>
+            <Chip size="sm" variant="soft">
+              {deliveryLabel(item.delivery)}
+            </Chip>
+          </div>
           <span className="text-xs text-muted">v{item.version}</span>
         </div>
         <div>
@@ -100,11 +127,15 @@ function ComponentCard({ item }: { item: ComponentCatalogItem }) {
       </Card.Content>
       <Card.Footer className="flex-wrap justify-between gap-3">
         <code className="text-xs text-muted">{item.packagePath}</code>
-        {item.registryPath ? (
+        {item.sourceDelivery === "published" && item.registryPath ? (
           <Link href={item.registryPath} target="_blank">
             {m.web_registry_json()}
             <Link.Icon />
           </Link>
+        ) : item.sourceDelivery === "workspace-preview" ? (
+          <Chip size="sm" variant="soft">
+            {m.web_source_workspace_preview()}
+          </Chip>
         ) : (
           <Chip size="sm" variant="soft">
             {m.web_package_only()}

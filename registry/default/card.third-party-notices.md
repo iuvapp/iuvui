@@ -1,13 +1,14 @@
-# Third-Party Notices
+<!-- Installed from the iuvui canonical source. This copy belongs to your project. -->
 
-## shadcn/ui
+# Third-Party Notice
 
-The iuvui Separator component is derived from the shadcn/ui Separator
-implementation at:
+## shadcn/ui Card
+
+This installed source is derived from the shadcn/ui Card implementation.
 
 - Repository: https://github.com/shadcn-ui/ui
-- Revision: 607e8a9717fe6ff0d374ba74c651012f9c052534
-- Source: apps/v4/registry/bases/aria/ui/separator.tsx
+- Revision: 25be24cca34d06eed29a4779c3f48c4816aa812c
+- Source: apps/v4/registry/new-york-v4/ui/card.tsx
 - License: MIT
 
 MIT License

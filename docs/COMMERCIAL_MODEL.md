@@ -77,9 +77,9 @@ The shared axis contract makes packs testable and allows controlled variants suc
 
 Client-side CSS cannot be made secret after it is delivered to a browser. iuvui protects authorized distribution and ongoing service access instead of adding fragile runtime DRM.
 
-1. A user signs in to `app.iuvui.com` through Clerk.
+1. A user signs in to the future private account dashboard through Clerk.
 2. The iuvui entitlement service resolves the active user or Organization subscription.
-3. The dashboard issues a short-lived user token or project-scoped CI token.
+3. The private service issues a short-lived user token or project-scoped CI token.
 4. `@iuvui/cli` requests a signed Style Pack, premium variant, or animation manifest from the private Registry.
 5. The Registry verifies entitlement, records an audit event, and returns a short-lived artifact URL.
 6. The CLI verifies the artifact signature and checksum, stores it in a gitignored managed cache, and records only version and provenance in `iuvui.lock`.
@@ -87,13 +87,26 @@ Client-side CSS cannot be made secret after it is delivered to a browser. iuvui 
 
 Production applications remain available when iuvui services are offline. There is no browser call-home, secret in the frontend bundle, or runtime license gate. Previously licensed builds continue to run after a subscription ends; access to new paid artifact downloads, paid updates, and applicable managed services stops according to the commercial terms. Free MCP capabilities remain available.
 
-Premium artifacts stay outside the public repository and public npm packages. The private `iuvui-pro` repository owns the authenticated dashboard and may contain paid Style Packs, variants, and animation assets. The open repository may include the Style Pack schema, validators, integration adapters, and compatibility test harness without including paid design assets.
+Premium artifacts stay outside the public repository and public npm packages. The
+archived `iuvui-pro` repository is not an implementation source. A future
+private `iuv-pro` repository will own the authenticated dashboard and may
+contain paid Style Packs, variants, and animation assets. The open repository
+may include the Style Pack schema, validators, integration adapters, and
+compatibility test harness without including paid design assets.
 
 ## CLI and MCP access
 
-`@iuvui/cli` remains publicly installable and usable without an account. Help, diagnostics, project initialization, inspection, and free artifact workflows never require login. Authentication is requested only when a command attempts to access an artifact or service whose manifest requires entitlement.
+`@iuvui/cli` is not published yet. When it is released, help, diagnostics,
+project initialization, and free artifact workflows will remain usable without
+an account. Authentication will be requested only when a command attempts to
+access an artifact or service whose manifest requires entitlement.
 
-Free and paid assets use the same commands. For example, `iuvui style add <name>` proceeds anonymously for a free Style Pack and starts login when the selected pack is protected. After login, the CLI sends a user-scoped access token to the Registry, which resolves the active user or Organization entitlement. The CLI never contains a Clerk Secret Key.
+Future free and paid assets will use the same command family. For example, a
+future `iuvui style add <name>` command will proceed anonymously for a free
+Style Pack and start login when the selected pack is protected. After login, the
+CLI will send a user-scoped access token to the Registry, which resolves the
+active user or Organization entitlement. The CLI never contains a Clerk Secret
+Key.
 
 The MCP server provides documentation queries only. It can explain components, styles, variants, animation options, migration guidance, and the APIs exposed by `@iuvui/pro`. Every documented capability carries explicit availability metadata:
 

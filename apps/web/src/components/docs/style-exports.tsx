@@ -19,8 +19,14 @@ export function StyleExports() {
                   : m.web_style_component_description()}
               </Card.Description>
             </div>
-            <Chip color="success" size="sm" variant="soft">
-              {m.web_included()}
+            <Chip
+              color={style.delivery === "published" ? "success" : "warning"}
+              size="sm"
+              variant="soft"
+            >
+              {style.delivery === "published"
+                ? m.web_included()
+                : m.web_component_workspace_preview()}
             </Chip>
           </Card.Header>
         </Card>

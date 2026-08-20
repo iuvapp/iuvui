@@ -6,6 +6,7 @@ import {
 } from "@tanstack/react-router";
 import { RootProvider } from "fumadocs-ui/provider/tanstack";
 
+import { fumadocsI18n } from "../docs/fumadocs-i18n";
 import * as m from "../paraglide/messages.js";
 import { getLocale } from "../paraglide/runtime.js";
 import stylesUrl from "../styles.css?url";
@@ -62,7 +63,16 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <HeadContent />
       </head>
       <body>
-        <RootProvider theme={{ enabled: false }}>{children}</RootProvider>
+        <RootProvider
+          i18n={fumadocsI18n()}
+          search={{
+            enabled: true,
+            options: { api: "/api/search" },
+          }}
+          theme={{ enabled: false }}
+        >
+          {children}
+        </RootProvider>
         <Scripts />
       </body>
     </html>

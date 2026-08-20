@@ -5,12 +5,13 @@ It separates implemented code, local verification, external deployment, and npm
 publication so that one cannot be mistaken for another.
 
 Dashboard implementation and deployment state are deliberately excluded. The
-private `iuv-tech/iuvui-pro` repository is the sole operational authority for
-`@iuvui/dashboard`, `@iuvui/dashboard-ui`, Clerk, Pro assets,
-`iuvui.iuvdev.com`, and `app.iuvui.com`. This memo records only the public
-integration boundary with that system.
+former private `iuv-tech/iuvui-pro` repository is archived and is no longer an
+operational authority. A future private `iuv-pro` repository will own the
+dashboard and protected assets when it is created. This memo records only the
+public integration boundary with that future system.
 
-Last verified: 2026-08-07.
+Last local verification: 2026-08-20.
+Last recorded external deployment: 2026-08-06.
 
 ## Decision baseline
 
@@ -23,9 +24,9 @@ Last verified: 2026-08-07.
   packages, the CLI, Registry output, public documentation, Storybook, and the
   public website.
 - iuvui intentionally targets React. Package mode consumes `@iuvui/react`;
-  source mode uses the public `iuvui` CLI to install the same canonical component
-  implementation under `components/iuv-ui`. The CLI supports both `pnpm dlx`
-  and global-install workflows.
+  the local source-mode CLI installs the same canonical component implementation
+  under `components/iuv-ui`. Public `pnpm dlx` and global-install workflows are
+  release targets because `@iuvui/cli` is not yet published.
 - Every component remains free, including complex components. Base styles, base
   variants, semantic tokens, accessibility behavior, and the public icon
   foundation remain free.
@@ -42,6 +43,67 @@ Last verified: 2026-08-07.
   embedded directly in source files.
 - All public package and Registry releases remain in `0.0.x` until `0.1.0` is
   explicitly unlocked.
+
+## 2026-08-20 — Local foundation-component packaging baseline
+
+Status: **Verified locally; not released.**
+
+The current working tree adds Card, Input, Label, and Textarea as the first
+low-risk foundation-component packaging baseline. The work extends the canonical
+React package, precompiled styles, Registry source-delivery artifacts, component
+scoped notices, and CLI source-delivery coverage while retaining immutable
+shadcn/ui provenance for every derived Registry item.
+
+This is not an npm release, a Registry deployment, a website deployment, or a
+Storybook deployment. The existing public runtime packages already use version
+`0.0.1`, which npm does not permit maintainers to overwrite. The local baseline
+is therefore intentionally unpublishable at that same version. Any future
+publication requires a new permitted `0.0.x` version, completed package,
+Registry, and independent-consumer validation, and explicit publication
+authorization.
+
+The local Registry separates released Button and Separator artifacts from the
+four foundation-component staging artifacts. The website catalog exposes the
+same distinction: it links only released Registry JSON and labels the newer
+package and CSS exports as Workspace preview.
+
+## 2026-08-20 — Documentation surface and release-state synchronization
+
+Status: **Verified locally; not deployed.**
+
+The public documentation remains inside `apps/web`; no documentation-only app,
+Cloudflare Worker, or hostname was added. The existing TanStack Start routes now
+embed the Fumadocs Glass layout pattern used by `iuv-stack/apps/iuv-docs`, while
+retaining iuvui's MDX source, Paraglide localization, HeroUI application chrome,
+component previews, and Cloudflare build boundary.
+
+The documentation now distinguishes the actual public package surface (Button,
+Text Field, Dialog, and Separator at npm `0.0.1`), the local Workspace previews
+(Card, Input, Label, and Textarea), the public Registry surface (Button and
+Separator), and the local six-item source-delivery staging Registry. It also
+states that `@iuvui/cli@0.0.1` has local packed-tarball coverage but is not an
+npm release. Public `pnpm dlx`, global installation, authentication, managed
+updates, diffs, and Style Pack commands remain documented as future interfaces.
+
+Local route checks covered `/docs`, `/docs/components/card`, and
+`/api/search?query=Card`. English and `zh-CN` checks confirmed the Glass layout,
+localized Fumadocs chrome, Workspace preview status, and a component search
+result. These checks and the development build do not deploy `iuvui-web-dev` or
+`iuvui-web-prod`.
+
+Verification completed on 2026-08-20:
+
+- `pnpm registry:check` and `pnpm upstream:check` confirmed generated output
+  and six immutable upstream references;
+- `pnpm --filter @iuvui/react test`, `pnpm --filter @iuvui/cli test`, and
+  `pnpm --filter @iuvui/web test` passed;
+- `pnpm --filter @iuvui/web typecheck`, `pnpm --filter @iuvui/web lint`, and
+  `pnpm --filter @iuvui/web build:dev` passed;
+- `pnpm lint`, `pnpm typecheck`, and `pnpm test` passed across the workspace;
+- `pnpm pack:check` and `pnpm consumer:check` passed for the isolated package
+  and owned-source consumer;
+- `pnpm format:check`, `pnpm language:check`, `pnpm release:check`, and
+  `git diff --check` passed.
 
 ## Component tooling workstream
 
@@ -158,19 +220,25 @@ package publication.
 
 ### Registry and CLI
 
-Button and Separator Registry artifacts are versioned at `0.0.1`, carry content
-integrity, and preserve exact canonical and upstream provenance. A clean
-consumer can install the packed local CLI, add either component to
-`components/iuv-ui`, verify `iuvui.lock`, and type-check the installed source.
+Button and Separator are the two released Registry artifacts at `0.0.1`; they
+carry content integrity and exact canonical and upstream provenance. Card,
+Input, Label, and Textarea have equivalent local staging artifacts and
+component-scoped third-party notices, but they are intentionally excluded from
+the public Registry catalog.
 
-The production Registry at `iuvui.com` serves a valid `0.0.1` catalog and
-component artifacts with canonical `iuvapp/iuvui` provenance. The current
-development Worker uses the same canonical provenance. Production was
-intentionally left unchanged in this development-only deployment. Public npm
+A clean consumer can install the packed local CLI, add Button, Card, Input,
+Label, Separator, and Textarea to `components/iuv-ui`, verify `iuvui.lock`, and
+type-check the installed source. The public `pnpm dlx` path remains blocked by
+the unpublished CLI package.
+
+The committed public Registry build contains only the released Button and
+Separator artifacts. It is the source of truth for the next Web deployment; it
+does not make an assertion about the live `iuvui.com` response until that
+deployment is explicitly requested and independently verified. Public npm
 runtime installation is available, but a clean public `pnpm dlx` smoke remains
 blocked by the unpublished CLI package.
 
-### Public website
+### Public website and documentation
 
 The public website has separate TanStack Start builds and Cloudflare Workers for
 development and production:
@@ -178,34 +246,37 @@ development and production:
 - `iuvui-web-dev` serves `ui.iuvdev.com`;
 - `iuvui-web-prod` serves `iuvui.com`.
 
-Worker version `2d0053f0-727c-4945-a938-37e4ffd2a959` was deployed to
-`iuvui-web-dev` on 2026-08-06. Anonymous requests to the development root and
-Registry routes return `302` redirects to Cloudflare Access, which confirms that
-the development access policy is active. Authenticated application and Registry
-smoke testing remains separate.
+The following entries are historical deployment records, not validation of the
+current uncommitted documentation revision. Re-run external application and
+Registry smoke checks after any future deployment:
 
-The production website and Registry remain on Worker version
-`0455c0ad-4e2a-4853-bda0-ff965faa28f0` and serve the verified English-first site
-and valid `0.0.1` Registry output with canonical `iuvapp/iuvui` repository
-links and provenance. This development deployment did not change production.
+- `iuvui-web-dev` was deployed as Worker version
+  `2d0053f0-727c-4945-a938-37e4ffd2a959` on 2026-08-06. Anonymous root and
+  Registry requests returned `302` redirects to Cloudflare Access, confirming
+  only that the development access policy was active.
+- `iuvui-web-prod` was last recorded as Worker version
+  `0455c0ad-4e2a-4853-bda0-ff965faa28f0`. This record is not a smoke result for
+  the current source tree.
 
-The current local, undeployed website revision replaces the marketing landing
-page with a HeroUI OSS-style documentation catalog:
+The current local, undeployed website revision combines the landing and catalog
+with an embedded Fumadocs Glass documentation surface in the same `apps/web`
+project:
 
-- fixed documentation navigation and a responsive contextual sidebar;
-- searchable cards for the four actual `@iuvui/react` exports;
+- Glass-layout documentation navigation, table of contents, search, and MDX
+  component pages while TanStack Start remains the routing and Worker boundary;
+- searchable cards for four published `@iuvui/react` exports and four explicit
+  Workspace previews;
 - live previews rendered by the real local iuvui components while HeroUI remains
   the application chrome;
 - a Button variant matrix and configurable variant, size, and radius preview;
-- truthful Separator orientation and `@iuvui/styles` export lists;
+- truthful package, Registry, and `@iuvui/styles` availability labels;
 - no Dashboard link and no unpublished CLI installation command;
-- English-default Paraglide copy with verified Simplified Chinese switching;
-- desktop and mobile local browser checks with working search, variant updates,
-  Dialog interaction, Registry fetches, no horizontal overflow, and no runtime
-  errors.
+- English-default Paraglide copy with Simplified Chinese switching;
+- one Cloudflare Web build for both landing and documentation routes, rather
+  than a documentation-only application or Worker.
 
-On 2026-08-07, the local public website added Fumadocs as an embedded
-documentation engine without changing its TanStack Start architecture:
+Fumadocs remains an embedded documentation engine without changing the TanStack
+Start architecture:
 
 - TanStack Start and TanStack Router remain responsible for application routing,
   server rendering, server functions, and the Cloudflare Worker boundary;
@@ -213,34 +284,35 @@ documentation engine without changing its TanStack Start architecture:
   contents, and the public search index;
 - `/docs`, component reference pages, style documentation, and `/api/search`
   render through the TanStack Start application;
-- interactive Button, TextField, Dialog, Separator, variant, metadata, and style
-  examples reuse the real local public packages and catalogs;
-- sequential local HTTP smoke checks returned `200` for documentation pages and
-  search, and `404` for an unknown documentation path;
+- interactive Button, Card, Input, Label, Textarea, TextField, Dialog, and
+  Separator examples reuse the real local package workspace and catalog status;
+- the 2026-08-20 local HTTP smoke checks confirmed the Glass layout, localized
+  Fumadocs chrome, Workspace preview status, and the Card search result;
 - the revision remains local and does not imply a Worker deployment or npm
   publication.
 
-The scoped format, lint, type, test, development build, production build, and
-language checks pass. This revision has not been deployed, so the Worker versions
-above remain the last verified external website state.
+The commands recorded in the 2026-08-20 verification entry cover the current
+local revision. This revision has not been deployed, so the Worker versions
+above remain historical external deployment records.
 
 ### Storybook
 
-The Storybook build and five Playwright contract tests pass, covering keyboard,
-focus, theme, and axe behavior. Worker version
-`81b9a987-cd69-40b5-87f9-1241858f6dc4` remains deployed at
-`storybook.iuvui.com` with Button and Separator documentation and contract
-stories.
+The following is the last recorded Storybook deployment, not validation of the
+current source tree: Worker version `81b9a987-cd69-40b5-87f9-1241858f6dc4` was
+recorded at `storybook.iuvui.com` with Button and Separator documentation and
+contract stories. Re-run the Storybook build, Playwright contract tests, and
+external smoke checks before treating that record as current.
 
 ### Dashboard boundary
 
 The public homepage does not currently expose a Dashboard link. This repository
 contains only public CLI, MCP, and commercial integration contracts at that
 boundary; it contains no dashboard application, Clerk dependency, dashboard
-Worker configuration, credentials, business logic, or paid assets. Free and Pro
-users share the private dashboard; verified server entitlements control paid
-capabilities. Detailed dashboard status belongs only in the private development
-memo.
+Worker configuration, credentials, business logic, or paid assets. The former
+`iuvui-pro` repository is archived. A future private `iuv-pro` repository will
+own the shared Free and Pro dashboard, where verified server entitlements will
+control paid capabilities. Detailed dashboard status will belong only in that
+future repository's development memo.
 
 ### MCP
 
@@ -260,7 +332,8 @@ Source mode has a verified local path:
 
 1. build versioned Registry artifacts;
 2. initialize a clean consumer project with the packed CLI;
-3. install Button or Separator source into `components/iuv-ui`;
+3. install Button, Card, Input, Label, Separator, and Textarea source into
+   `components/iuv-ui` from the local staging Registry;
 4. verify Registry integrity and record canonical and upstream provenance in
    `iuvui.lock`;
 5. install the exact public runtime dependencies from npm;
@@ -278,11 +351,14 @@ Completed:
 - HeroUI OSS website baseline and an English-first localized documentation
   catalog candidate with actual components, variants, and style exports;
 - TanStack Start SSR and separate dev and prod Cloudflare environments;
-- Button and Separator package and Registry outputs;
+- Button, Text Field, Dialog, and Separator public package outputs at `0.0.1`;
+- Button and Separator public Registry outputs at `0.0.1`, plus locally
+  verified Card, Input, Label, and Textarea staging artifacts;
 - five public runtime packages at `0.0.1`;
-- production website and Registry verification;
-- Access-protected development deployment at the Worker version recorded above;
-- public Storybook deployment with component contract coverage;
+- historical production website and Registry verification;
+- historical Access-protected development deployment at the Worker version
+  recorded above;
+- historical public Storybook deployment with component contract coverage;
 - local language, formatting, lint, type, test, build, Registry, provenance,
   package, and independent consumer checks.
 
@@ -297,11 +373,12 @@ Exit criteria still open:
 - keep every package and deployed Registry item in `0.0.x` while the release gate
   remains active.
 
-## Phase 2 (external) — Dashboard shell
+## Phase 2 (external) — Future dashboard shell
 
-Dashboard implementation, validation, credentials, and deployments are owned and
-tracked exclusively by the private `iuvui-pro` repository. The public repository
-has only these responsibilities at the boundary:
+The former `iuvui-pro` repository is archived. Dashboard implementation,
+validation, credentials, and deployments are deferred until the future private
+`iuv-pro` repository exists. The public repository has only these
+responsibilities at the boundary:
 
 - add a development or production dashboard account link only after an explicit
   product decision, without embedding dashboard code;
@@ -315,22 +392,23 @@ No dashboard operational status or checklist is duplicated here.
 
 ## Phase 3 boundary — Pro features
 
-The private repository owns product data, Clerk and Convex integration,
-entitlements, protected styles, premium variants, animation presets, licenses,
-downloads, teams, and billing workflows. The public repository may own open
-schemas, validators, integration adapters, and compatibility tests, but never
-the protected assets or private business logic. Phase status and deployment
-evidence remain in the private memo.
+The future private `iuv-pro` repository will own product data, Clerk and Convex
+integration, entitlements, protected styles, premium variants, animation
+presets, licenses, downloads, teams, and billing workflows. The public
+repository may own open schemas, validators, integration adapters, and
+compatibility tests, but never the protected assets or private business logic.
+Phase status and deployment evidence will remain in that private memo.
 
 ## Phase 4 — Product integration
 
 Status in the public CLI: **Planned**.
 
-The current CLI provides project initialization and verified Button and
-Separator installation. The planned integration scope includes login, identity,
-logout, organization-aware entitlement verification, protected artifact
-delivery, project tokens, integrity verification, and non-secret provenance.
-Free commands and free component access must remain usable without an account.
+The current local CLI provides project initialization and verified Button, Card,
+Input, Label, Separator, and Textarea installation from packed tarballs. The
+planned integration scope includes login, identity, logout, organization-aware
+entitlement verification, protected artifact delivery, project tokens, integrity
+verification, and non-secret provenance. Free commands and free component access
+must remain usable without an account.
 
 ## Phase 5 — Self-bootstrap
 
@@ -338,9 +416,9 @@ Status: **Not started**.
 
 The self-bootstrap phase will audit iuvui components against the production
 accessibility and compatibility gates, replace HeroUI incrementally, and use the
-public site, private dashboard, Storybook, and examples as continuous dogfooding
-consumers. HeroUI OSS remains in production until each replacement satisfies the
-contracts already exercised by those surfaces.
+public site, future private dashboard, Storybook, and examples as continuous
+dogfooding consumers. HeroUI OSS remains in production until each replacement
+satisfies the contracts already exercised by those surfaces.
 
 ## `0.0.x` release gate
 
@@ -350,9 +428,9 @@ open. Before considering that public source-delivery release complete:
 1. keep Apache License 2.0 and third-party notices consistent in every artifact;
 2. preserve exact package ranges, Registry integrity, and immutable upstream
    provenance;
-3. apply the pending patch Changeset and publish the resulting `0.0.x` package
-   set, including `@iuvui/cli`, only with explicit authorization and successful
-   npm account verification;
+3. choose a fresh permitted patch `0.0.x` version for changed runtime packages,
+   then publish the resulting package set, including `@iuvui/cli`, only with
+   explicit authorization and successful npm account verification;
 4. run the clean public npm and `pnpm dlx` consumer smoke against the production
    Registry;
 5. record the verified result here without changing production merely to match a
@@ -370,9 +448,10 @@ until the user explicitly unlocks that version.
    canonical `iuvapp/iuvui` links and Registry provenance.
 3. Publish and verify the CLI only when the exact release is authorized and npm
    verification can complete.
-4. Add first-class public component and documentation routes.
+4. Verify the local Glass documentation routes, catalog availability labels, and
+   public Registry filtering before any Web deployment.
 5. Expand the component catalog through versioned shadcn provenance, package and
-   Registry parity, contract tests, and patch-only release metadata.
+   Registry parity, planned contract tests, and patch-only release metadata.
 
-Dashboard and Convex execution continue independently in `iuvui-pro`; the
-private memo remains the only authority for their detailed state.
+Dashboard and Convex execution are deferred until `iuv-pro` exists. Its future
+private memo will then be the only authority for their detailed state.

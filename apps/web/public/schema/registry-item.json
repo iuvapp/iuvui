@@ -44,6 +44,7 @@
           "required": [
             "schemaVersion",
             "version",
+            "releaseStatus",
             "availability",
             "style",
             "provenance",
@@ -51,6 +52,9 @@
             "integrity"
           ],
           "properties": {
+            "releaseStatus": {
+              "enum": ["published", "workspace-preview"]
+            },
             "provenance": { "$ref": "#/$defs/canonicalProvenance" },
             "references": {
               "type": "array",

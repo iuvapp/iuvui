@@ -1,5 +1,10 @@
 # @iuvui/styles
 
+## Unreleased
+
+- Add precompiled semantic styles for the shadcn-derived Card, Input, Label,
+  and Textarea components for the next permitted package release.
+
 ## 0.0.1
 
 ### Patch Changes

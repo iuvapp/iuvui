@@ -8,21 +8,21 @@
 - `packages/tokens`: semantic CSS variables and matching TypeScript types.
 - `packages/utils`: class merging, Tailwind v4 conflict handling, and multi-slot variant resolution.
 - `packages/icons`: independent icon entry points using `currentColor`, forwarded refs, and no side effects.
-- `packages/cli`: the public `@iuvui/cli` package; it exposes the `iuvui`
-  executable for project initialization, Registry installation, provenance, and
-  future lifecycle operations.
+- `packages/cli`: the local workspace and future public `@iuvui/cli` package;
+  it exposes the `iuvui` executable for project initialization, Registry
+  installation, provenance, and future lifecycle operations.
 - `packages/site-ui`: private presentation primitives for the public website.
-- `registry`: versioned public component-delivery metadata generated from the
-  same canonical component contracts as `@iuvui/react`.
+- `registry`: versioned release and local-staging component-delivery metadata
+  generated from canonical package source. A machine-readable component-contract
+  layer is planned and does not exist yet.
 - `apps/storybook`: consumes real package entry points and hosts Playwright contract fixtures.
 - `apps/web`: the public `iuvui.com` Cloudflare Worker application.
 
-The Clerk-authenticated dashboard is maintained only in the separate private
-`iuvui-pro` repository. Its private workspace packages are
-`@iuvui/dashboard` and `@iuvui/dashboard-ui`; its development and production
-Workers serve `iuvui.iuvdev.com` and `app.iuvui.com`. Free and Pro users share
-that application, while server-side entitlements protect commercial
-capabilities. Public component implementations remain in this repository.
+The former private `iuvui-pro` repository is archived, and no dashboard
+application is maintained in this workspace. A future private `iuv-pro`
+repository will own the shared Free and Pro dashboard and protected product
+assets when it is created. Server-side entitlements protect commercial
+capabilities; public component implementations remain in this repository.
 
 `tsup` produces ESM, multiple entry points, split chunks, source maps, and declarations. React and ReactDOM remain external, while private internal adapters are bundled. TypeScript is pinned to 5.9 until the declaration pipeline is verified against a later major release.
 
@@ -70,20 +70,18 @@ The architecture separates three concerns that are often conflated:
 
 The public API belongs to iuvui. Upstream source may accelerate implementation, but it does not decide permanent props, DOM anatomy, variants, tokens, or upgrade guarantees.
 
-### Machine-readable component contracts
+### Planned machine-readable component contracts
 
-Each canonical component has one private build-time contract describing its
+The planned private build-time contract will describe each canonical component's
 identity, public anatomy, stable slots, documented states, variant axes,
 defaults, semantic tokens, examples, package entry points, and Registry delivery
 paths. The contract is metadata about the canonical implementation; it is not a
 second implementation and is not automatically part of the public React API.
 
 Registry artifacts, component reference documentation, compatibility checks,
-agent guidance, and future design-tool adapters consume this contract. They must
-not maintain independent lists of variants or component parts. TypeScript source,
-precompiled CSS, and behavioral tests remain authoritative for runtime behavior,
-while contract validation fails when those surfaces diverge from the declared
-public contract.
+agent guidance, and future design-tool adapters will consume this contract. Until
+then, TypeScript source, precompiled CSS, behavioral tests, and explicit Registry
+metadata remain the authoritative implementation surfaces.
 
 The first contract implementation must validate existing components before it
 generates new runtime code. Generation may be introduced only for deterministic
@@ -102,7 +100,15 @@ Generated Registry items preserve this metadata. The CLI copies it into `iuvui.l
 2. the current iuvui canonical and Registry output;
 3. the consumer-owned installed files.
 
-The dedicated weekly upstream workflow compares each pinned Git blob with the same path on the upstream default branch. A changed or moved blob fails that workflow and requests maintainer review without modifying source. Maintainers then classify the shadcn diff, update the pinned revision, blob, sync date, and local-change notes, rerun component contracts, and publish a new `0.0.x` Registry item only when explicitly authorized. Consumer updates can then distinguish upstream changes from iuvui adaptations and local variants.
+The dedicated weekly upstream workflow compares each pinned Git blob with the
+same path on the upstream default branch. A changed or moved blob fails that
+workflow and requests maintainer review without modifying source. Maintainers
+then classify the shadcn diff, update the pinned revision, blob, sync date, and
+local-change notes, rerun relevant package, Registry, and consumer checks, and
+publish a new `0.0.x` Registry item only when explicitly authorized. Contract
+checks will join that workflow after the planned contract layer exists. Consumer
+updates can then distinguish upstream changes from iuvui adaptations and local
+variants.
 
 ## Styles and tokens
 
@@ -126,7 +132,12 @@ Components consume semantic `--ui-*` variables rather than raw palette values. P
 
 ## Localization architecture
 
-The root `project.inlang` and `messages` directory define localization for applications in this repository. Each application compiles its own Paraglide runtime into `src/paraglide`. The private `iuvui-pro` repository owns an independent catalog for the dashboard so releases and translation changes do not couple the two repositories. Shared UI packages accept translated strings or otherwise remain independent of application locale detection.
+The root `project.inlang` and `messages` directory define localization for
+applications in this repository. Each application compiles its own Paraglide
+runtime into `src/paraglide`. A future private dashboard repository must own an
+independent catalog so releases and translation changes do not couple the two
+repositories. Shared UI packages accept translated strings or otherwise remain
+independent of application locale detection.
 
 English is the source locale. English and Simplified Chinese are enabled. Additional languages may be added only through approved Paraglide message files and project configuration; translated text must never be embedded directly in source code.
 

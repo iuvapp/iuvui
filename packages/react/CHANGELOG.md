@@ -1,5 +1,10 @@
 # @iuvui/react
 
+## Unreleased
+
+- Add shadcn-derived Card, Input, Label, and Textarea package components with
+  immutable upstream provenance for the next permitted package release.
+
 ## 0.0.1
 
 ### Patch Changes

@@ -1,5 +1,12 @@
 # @iuvui/cli
 
+## Unreleased
+
+### Added
+
+- Add verified source delivery for Card, Input, Label, and Textarea with
+  component-scoped third-party notices and immutable upstream provenance.
+
 ## 0.0.1
 
 ### Patch Changes

@@ -1,25 +1,39 @@
 ---
 title: Introduction
-description: Package and source delivery for an ownable React component system.
+description: The current package, source, Registry, and documentation surface for iuvui.
 ---
 
-iuvui is a React UI system with two delivery modes backed by the same canonical component implementation.
+iuvui is an ownable React UI system. The documentation, catalog, and Registry
+all live in the same TanStack Start application that deploys as the public
+iuvui website. There is no separate documentation application or Cloudflare
+Worker.
 
 ## Package mode
 
-Install the maintained React package and its precompiled styles:
+The public `0.0.1` package release contains Button, Text Field, Dialog, and
+Separator. Install the maintained React package and its precompiled styles:
 
 ```bash
 pnpm add @iuvui/react @iuvui/styles
 ```
 
+Card, Input, Label, and Textarea are workspace previews in this repository.
+Their package exports and CSS are verified locally, but they are not npm
+releases and must not be installed from `@iuvui/react@0.0.1` or
+`@iuvui/styles@0.0.1` yet.
+
 ## Source mode
 
-The public CLI installs owned component source under `components/iuv-ui`. The CLI package is not yet published, so the public source-mode command remains unavailable until an explicitly authorized release.
+The CLI installs owned component source under `components/iuv-ui`. Its source
+workflow has been verified locally with a packed tarball, but `@iuvui/cli` is
+not yet published to npm. Public `pnpm dlx` and global-install commands remain
+unavailable until an explicitly authorized release.
 
 ## Explore
 
+- [Guides](/docs/guides)
 - [Components](/docs/components)
 - [Button variants](/docs/components/button)
 - [Styles](/docs/styles)
-- [Registry JSON](/r/registry.json)
+- [Source delivery](/docs/guides/source-delivery)
+- [Registry](/docs/guides/registry)

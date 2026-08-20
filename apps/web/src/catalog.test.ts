@@ -11,19 +11,55 @@ import {
 } from "./catalog";
 
 describe("public catalog", () => {
-  it("lists each public component once", () => {
+  it("lists each workspace catalog component once", () => {
     const ids = componentCatalog.map((item) => item.id);
 
-    expect(ids).toEqual(["button", "text-field", "dialog", "separator"]);
+    expect(ids).toEqual([
+      "button",
+      "input",
+      "label",
+      "textarea",
+      "text-field",
+      "card",
+      "dialog",
+      "separator",
+    ]);
     expect(new Set(ids).size).toBe(ids.length);
   });
 
-  it("keeps Registry links limited to generated source items", () => {
+  it("keeps public Registry links limited to released source items", () => {
     const registryItems = componentCatalog
       .filter((item) => "registryPath" in item)
       .map((item) => item.id);
 
     expect(registryItems).toEqual(["button", "separator"]);
+
+    const workspaceSourceItems = componentCatalog
+      .filter((item) => item.sourceDelivery === "workspace-preview")
+      .map((item) => item.id);
+
+    expect(workspaceSourceItems).toEqual([
+      "input",
+      "label",
+      "textarea",
+      "card",
+    ]);
+    expect(
+      componentCatalog.some(
+        (item) =>
+          item.sourceDelivery === "workspace-preview" &&
+          "registryPath" in item &&
+          item.registryPath !== undefined,
+      ),
+    ).toBe(false);
+  });
+
+  it("labels unpublished workspace components without treating them as npm releases", () => {
+    const workspacePreviewIds = componentCatalog
+      .filter((item) => item.delivery === "workspace-preview")
+      .map((item) => item.id);
+
+    expect(workspacePreviewIds).toEqual(["input", "label", "textarea", "card"]);
   });
 
   it("records the current component variant contracts", () => {
@@ -56,6 +92,21 @@ describe("public catalog", () => {
 
     expect(new Set(paths).size).toBe(paths.length);
     expect(paths).toContain("@iuvui/styles");
+    expect(paths).toContain("@iuvui/styles/components/card.css");
+    expect(paths).toContain("@iuvui/styles/components/input.css");
+    expect(paths).toContain("@iuvui/styles/components/label.css");
     expect(paths).toContain("@iuvui/styles/components/separator.css");
+    expect(paths).toContain("@iuvui/styles/components/textarea.css");
+
+    const workspaceStylePaths = styleExports
+      .filter((item) => item.delivery === "workspace-preview")
+      .map((item) => item.path);
+
+    expect(workspaceStylePaths).toEqual([
+      "@iuvui/styles/components/card.css",
+      "@iuvui/styles/components/input.css",
+      "@iuvui/styles/components/label.css",
+      "@iuvui/styles/components/textarea.css",
+    ]);
   });
 });

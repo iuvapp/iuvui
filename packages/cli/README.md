@@ -2,85 +2,58 @@
 
 The command-line entry point for the iuvui React UI system.
 
-> This `0.0.x` package is under active development. Project initialization and
-> verified Button and Separator source installation are available; managed
-> source updates remain planned.
+> This `0.0.1` workspace package is not yet published to npm. Its source
+> delivery workflow is verified locally from packed tarballs; public `pnpm dlx`
+> and global-install commands are future release interfaces.
 
-## Usage
+## Local development surface
 
-Run the CLI without installing it globally:
-
-```bash
-pnpm dlx @iuvui/cli --help
-pnpm dlx @iuvui/cli doctor
-```
-
-`@iuvui/cli` is the npm package name. The executable it exposes is named `iuvui`. After installing the package in a project, use the shorter command:
+The current local implementation provides `help`, `version`, `doctor`, `init`,
+and `add`.
 
 ```bash
-pnpm add -D @iuvui/cli
-pnpm iuvui --help
-pnpm exec iuvui doctor
+pnpm --filter @iuvui/cli exec iuvui help
+pnpm --filter @iuvui/cli exec iuvui doctor
+pnpm --filter @iuvui/cli exec iuvui init
+pnpm --filter @iuvui/cli exec iuvui add button card input label separator textarea
 ```
 
-The same executable can be installed globally:
+`init` creates `iuvui.json` and defaults to `components/iuv-ui`. Pass
+`--source-dir` with a safe relative project path to select another location.
+`add` requires prior initialization, verifies Registry integrity, records file
+hashes and immutable provenance in `iuvui.lock`, refuses to overwrite differing
+consumer files, and prints the required package-manager dependency command. It
+does not install dependencies automatically.
+
+The locally verified source items are Button, Card, Input, Label, Separator,
+and Textarea. Card, Input, Label, and Textarea use a local staging Registry
+because their matching package and CSS files are not publicly publishable at the
+already-used `0.0.1` version.
+
+## Future published interface
+
+When an explicitly authorized npm release is available, the package name will
+remain `@iuvui/cli` and the executable will remain `iuvui`:
+
+```bash
+pnpm dlx @iuvui/cli help
+pnpm dlx @iuvui/cli init
+pnpm dlx @iuvui/cli add button
+```
+
+The same executable is intended to support global installation:
 
 ```bash
 pnpm add -g @iuvui/cli
-iuvui --help
 iuvui add button
 ```
 
-The available V0 source workflow is:
+## Planned capabilities
 
-```bash
-pnpm dlx @iuvui/cli init
-pnpm dlx @iuvui/cli add button
-pnpm dlx @iuvui/cli add separator
-```
+Authentication, account inspection, diffing, migrations, managed updates,
+protected Registry artifacts, and Style Pack commands are not implemented yet.
+The future authentication boundary will keep free commands usable without an
+account and never include a Clerk Secret Key in this package.
 
-Planned lifecycle commands include:
-
-```bash
-iuvui check
-iuvui update button
-```
-
-By default, source components will be installed into `components/iuv-ui`:
-
-```text
-components/iuv-ui/button.tsx
-components/iuv-ui/separator.tsx
-```
-
-This intentionally keeps iuvui source separate from shadcn's conventional `components/ui` directory. Pass `--source-dir` to `iuvui init` to override the target directory; `components/iuv-ui` remains the default.
-
-`add` verifies Registry integrity, refuses to overwrite consumer changes, and records installed file hashes in `iuvui.lock`. It prints the required package-manager command but does not install dependencies automatically.
-
-React components, styles, tokens, and icons will be published separately under the `@iuvui` scope.
-
-## Authentication boundary
-
-Installing and using the CLI does not require an account. Help, diagnostics, project initialization, inspection, and access to free artifacts remain available while signed out.
-
-Authentication is requested only when a command needs a protected artifact or paid service:
-
-```bash
-iuvui style add base
-# No login required for a free artifact.
-
-iuvui style add editorial-pro
-# The CLI asks the user to sign in when this artifact requires entitlement.
-
-iuvui login
-iuvui whoami
-iuvui logout
-```
-
-The artifact manifest determines whether entitlement is required, so the CLI does not maintain separate free and paid command implementations. Paid Style Packs, premium variants, and animation configuration use the same protected artifact flow. Interactive login returns a user-scoped token. The Clerk Secret Key remains on the iuvui backend and is never included in this package.
-
-## Status
-
-The alpha package currently provides `--help`, `--version`, `doctor`, `init`, `add button`, and `add separator`. Authentication, inspection, diffing, updates, and protected Registry artifacts remain planned.
-
-See the [iuvui repository](https://github.com/iuvapp/iuvui) for development progress.
+See the [iuvui repository](https://github.com/iuvapp/iuvui) for development
+progress.

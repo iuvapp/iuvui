@@ -5,41 +5,94 @@ import type {
   SeparatorOrientation,
 } from "@iuvui/react";
 
-export type ComponentId = "button" | "dialog" | "separator" | "text-field";
+export type ComponentId =
+  | "button"
+  | "card"
+  | "dialog"
+  | "input"
+  | "label"
+  | "separator"
+  | "text-field"
+  | "textarea";
+
+export type ComponentDelivery = "published" | "workspace-preview";
+export type SourceDelivery = ComponentDelivery | "package-only";
 
 export interface ComponentCatalogItem {
   category: "actions" | "forms" | "layout" | "overlays";
+  delivery: ComponentDelivery;
   id: ComponentId;
   packagePath: string;
   registryPath?: string;
+  sourceDelivery: SourceDelivery;
   version: string;
 }
 
 export const componentCatalog = [
   {
     category: "actions",
+    delivery: "published",
     id: "button",
     packagePath: "@iuvui/react/button",
     registryPath: "/r/button.json",
+    sourceDelivery: "published",
     version: "0.0.1",
   },
   {
     category: "forms",
-    id: "text-field",
-    packagePath: "@iuvui/react/text-field",
+    delivery: "workspace-preview",
+    id: "input",
+    packagePath: "@iuvui/react/input",
+    sourceDelivery: "workspace-preview",
     version: "0.0.1",
   },
   {
-    category: "overlays",
-    id: "dialog",
-    packagePath: "@iuvui/react/dialog",
+    category: "forms",
+    delivery: "workspace-preview",
+    id: "label",
+    packagePath: "@iuvui/react/label",
+    sourceDelivery: "workspace-preview",
+    version: "0.0.1",
+  },
+  {
+    category: "forms",
+    delivery: "workspace-preview",
+    id: "textarea",
+    packagePath: "@iuvui/react/textarea",
+    sourceDelivery: "workspace-preview",
+    version: "0.0.1",
+  },
+  {
+    category: "forms",
+    delivery: "published",
+    id: "text-field",
+    packagePath: "@iuvui/react/text-field",
+    sourceDelivery: "package-only",
     version: "0.0.1",
   },
   {
     category: "layout",
+    delivery: "workspace-preview",
+    id: "card",
+    packagePath: "@iuvui/react/card",
+    sourceDelivery: "workspace-preview",
+    version: "0.0.1",
+  },
+  {
+    category: "overlays",
+    delivery: "published",
+    id: "dialog",
+    packagePath: "@iuvui/react/dialog",
+    sourceDelivery: "package-only",
+    version: "0.0.1",
+  },
+  {
+    category: "layout",
+    delivery: "published",
     id: "separator",
     packagePath: "@iuvui/react/separator",
     registryPath: "/r/separator.json",
+    sourceDelivery: "published",
     version: "0.0.1",
   },
 ] as const satisfies readonly ComponentCatalogItem[];
@@ -72,13 +125,57 @@ export const separatorOrientations = [
 ] as const satisfies readonly SeparatorOrientation[];
 
 export const styleExports = [
-  { group: "foundation", path: "@iuvui/styles" },
-  { group: "foundation", path: "@iuvui/styles/theme.css" },
-  { group: "foundation", path: "@iuvui/styles/base.css" },
-  { group: "component", path: "@iuvui/styles/components/button.css" },
-  { group: "component", path: "@iuvui/styles/components/text-field.css" },
-  { group: "component", path: "@iuvui/styles/components/dialog.css" },
-  { group: "component", path: "@iuvui/styles/components/separator.css" },
+  { delivery: "published", group: "foundation", path: "@iuvui/styles" },
+  {
+    delivery: "published",
+    group: "foundation",
+    path: "@iuvui/styles/theme.css",
+  },
+  {
+    delivery: "published",
+    group: "foundation",
+    path: "@iuvui/styles/base.css",
+  },
+  {
+    delivery: "published",
+    group: "component",
+    path: "@iuvui/styles/components/button.css",
+  },
+  {
+    delivery: "workspace-preview",
+    group: "component",
+    path: "@iuvui/styles/components/card.css",
+  },
+  {
+    delivery: "published",
+    group: "component",
+    path: "@iuvui/styles/components/text-field.css",
+  },
+  {
+    delivery: "published",
+    group: "component",
+    path: "@iuvui/styles/components/dialog.css",
+  },
+  {
+    delivery: "workspace-preview",
+    group: "component",
+    path: "@iuvui/styles/components/input.css",
+  },
+  {
+    delivery: "workspace-preview",
+    group: "component",
+    path: "@iuvui/styles/components/label.css",
+  },
+  {
+    delivery: "published",
+    group: "component",
+    path: "@iuvui/styles/components/separator.css",
+  },
+  {
+    delivery: "workspace-preview",
+    group: "component",
+    path: "@iuvui/styles/components/textarea.css",
+  },
 ] as const;
 
 export function matchesCatalogQuery(

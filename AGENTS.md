@@ -9,15 +9,16 @@
 - The canonical public repository is `iuvapp/iuvui`. It owns components,
   packages, the CLI, public Registry output, public documentation, Storybook,
   and `iuvui.com`.
-- The sibling private repository at `../iuvui-pro` (`iuv-tech/iuvui-pro`) owns Pro
-  assets, the private `@iuvui/dashboard` and `@iuvui/dashboard-ui` workspace
-  packages, the `iuvui.iuvdev.com` development dashboard, and the
-  `app.iuvui.com` production dashboard.
+- The former private `iuv-tech/iuvui-pro` repository is archived. Future
+  dashboard implementation and protected Pro assets belong in a separate
+  private `iuv-pro` repository when it is created. It is not currently present
+  locally and is not a workspace sibling of this repository.
 - This public repository may link to the dashboard and document public
   integration contracts, but it must not contain dashboard application code,
   Clerk integration, dashboard Worker configuration, dashboard credentials, or
   paid assets.
-- Treat the repositories as independent Git projects: inspect, validate, and commit each one separately.
+- Treat any future private repository as an independent Git project: inspect,
+  validate, and commit it separately.
 - Do not introduce cross-repository workspace dependencies or move paid assets into this repository.
 
 ## Product invariants
@@ -30,8 +31,9 @@
   public icon foundation must not be weakened to create a paywall.
 - Package mode and source mode are two delivery forms of the same canonical
   component implementation. `@iuvui/react` provides the maintained package;
-  `@iuvui/cli` exposes the `iuvui` executable and installs owned source under
-  `components/iuv-ui` for both `pnpm dlx` and global-install workflows.
+  the local `@iuvui/cli` workspace exposes the `iuvui` executable and installs
+  owned source under `components/iuv-ui`. Public `pnpm dlx` and global-install
+  workflows begin only after the CLI is explicitly published.
 - Styles and variants may have both free and paid offerings. Only explicitly
   classified premium Style Packs, presentation variants, animation
   configuration, motion presets, and related maintained design assets may
@@ -44,9 +46,10 @@
 - MCP is a free public documentation and capability-discovery surface. It may
   label and explain Pro capabilities, but it must never return paid assets,
   signed download URLs, credentials, or entitlement decisions.
-- Free and Pro users share the private dashboard. Authentication grants account
-  access; server-side entitlements decide which commercial capabilities are
-  available. Client-side visibility is never an authorization boundary.
+- Free and Pro users will share the future private dashboard. Authentication
+  grants account access; server-side entitlements decide which commercial
+  capabilities are available. Client-side visibility is never an authorization
+  boundary.
 
 ## Public website direction
 
@@ -64,6 +67,9 @@
 - HeroUI OSS is the website chrome and visual baseline until self-bootstrap. Use
   its components, semantic tokens, system typography, restrained surfaces, and
   documentation information patterns without copying HeroUI Pro assets.
+- Documentation routes use Fumadocs Glass layout and information patterns as
+  adapted from `iuv-stack/apps/iuv-docs`, while remaining inside `apps/web` and
+  retaining TanStack Start, Paraglide, and the existing Cloudflare Workers.
 - iuvui component previews may render the actual local public packages, but the
   surrounding application shell remains on HeroUI until the self-bootstrap gate
   is satisfied.
@@ -100,9 +106,10 @@
 - `docs/DEVELOPMENT_MEMO.md` is the only dated public execution record. Update it
   after verification, deployment, or publication instead of copying temporary
   status into stable architecture documents.
-- Dashboard implementation and deployment status belongs only in the private
-  `iuvui-pro` development memo. Public documents may state integration
-  contracts, but must not duplicate its operational checklist.
+- Dashboard implementation and deployment status belongs only in the future
+  private `iuv-pro` development memo after that repository exists. Public
+  documents may state integration contracts, but must not duplicate an
+  operational checklist.
 
 ## Enforcement
 

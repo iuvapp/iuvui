@@ -1,0 +1,65 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "textarea",
+  "type": "registry:ui",
+  "title": "Textarea",
+  "description": "A native multiline input with semantic focus, invalid, and disabled styling.",
+  "dependencies": ["@iuvui/styles@0.0.1", "@iuvui/utils@0.0.1"],
+  "files": [
+    {
+      "path": "registry/default/textarea.tsx",
+      "type": "registry:ui",
+      "target": "textarea.tsx",
+      "content": "// Installed from the iuvui canonical source. This copy belongs to your project.\nimport \"@iuvui/styles\";\n\nimport { forwardRef, type ComponentPropsWithoutRef } from \"react\";\nimport { cn } from \"@iuvui/utils\";\n\nexport type TextareaProps = ComponentPropsWithoutRef<\"textarea\">;\n\n// Derived from shadcn/ui Textarea under the MIT license. Immutable upstream\n// provenance and local deviations are recorded in the iuvui Registry item.\nexport const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(\n  function Textarea({ className, ...props }, ref) {\n    return (\n      <textarea\n        {...props}\n        ref={ref}\n        className={cn(\"ui-textarea\", className)}\n        data-slot=\"textarea\"\n        data-ui-root=\"\"\n      />\n    );\n  },\n);\n"
+    },
+    {
+      "path": "registry/default/textarea.third-party-notices.md",
+      "type": "registry:file",
+      "target": "textarea.third-party-notices.md",
+      "content": "<!-- Installed from the iuvui canonical source. This copy belongs to your project. -->\n\n# Third-Party Notice\n\n## shadcn/ui Textarea\n\nThis installed source is derived from the shadcn/ui Textarea implementation.\n\n- Repository: https://github.com/shadcn-ui/ui\n- Revision: 25be24cca34d06eed29a4779c3f48c4816aa812c\n- Source: apps/v4/registry/new-york-v4/ui/textarea.tsx\n- License: MIT\n\nMIT License\n\nCopyright (c) 2023 shadcn\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.\n"
+    }
+  ],
+  "meta": {
+    "iuvui": {
+      "schemaVersion": 1,
+      "version": "0.0.1",
+      "releaseStatus": "workspace-preview",
+      "availability": "free",
+      "style": "default",
+      "provenance": {
+        "kind": "derived",
+        "repository": "https://github.com/iuvapp/iuvui",
+        "path": "packages/react/src/textarea.tsx"
+      },
+      "references": [
+        {
+          "name": "shadcn/ui Textarea",
+          "component": "textarea",
+          "style": "new-york-v4",
+          "registry": "https://ui.shadcn.com/r/styles/new-york-v4/textarea.json",
+          "repository": "https://github.com/shadcn-ui/ui",
+          "revision": "25be24cca34d06eed29a4779c3f48c4816aa812c",
+          "blob": "e67d8fefe50c41dfa2deed9a5096d5be7691581a",
+          "source": "https://github.com/shadcn-ui/ui/blob/25be24cca34d06eed29a4779c3f48c4816aa812c/apps/v4/registry/new-york-v4/ui/textarea.tsx",
+          "path": "apps/v4/registry/new-york-v4/ui/textarea.tsx",
+          "syncedAt": "2026-08-20",
+          "license": "MIT",
+          "relationship": "derived",
+          "localChanges": [
+            "Moves upstream Tailwind utility classes into the @iuvui/styles CSS package.",
+            "Uses a forwardRef package export with native textarea semantics.",
+            "Adds stable iuvui class names and data attributes for source and package delivery."
+          ]
+        }
+      ],
+      "integrity": {
+        "algorithm": "sha256",
+        "item": "sha256-0cU/U6UarVbevYwYn22EmC9P88DFrgfjwGqyZ5ykmEI=",
+        "files": {
+          "registry/default/textarea.tsx": "sha256-MpRUTglHS7HcO/A0z4eqdpHerfsutZUbwQ59NB7qVII=",
+          "registry/default/textarea.third-party-notices.md": "sha256-a4wIBFEf9aDCDC9jvLLUmUeN+HarhCFYbPgMWEfrU1s="
+        }
+      }
+    }
+  }
+}

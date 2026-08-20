@@ -14,6 +14,17 @@ Styles, tokens, and icons provide system coherence. Source delivery preserves co
 
 Package and source delivery are equal product modes based on the same canonical component specifications, tests, and design assets.
 
+### Current availability
+
+The public `0.0.1` npm artifacts provide package delivery for Button, Text
+Field, Dialog, and Separator. Card, Input, Label, and Textarea are verified
+workspace previews whose matching package and CSS files cannot be added to the
+already-published `0.0.1` artifacts.
+
+The local `@iuvui/cli` workspace verifies source delivery from packed tarballs,
+but it is not published to npm. Public `pnpm dlx` and global-install workflows
+remain future interfaces until an explicitly authorized release.
+
 ### Package mode
 
 ```bash
@@ -24,18 +35,22 @@ pnpm add @iuvui/react @iuvui/styles
 import { Button } from "@iuvui/react";
 ```
 
-iuvui maintains implementation and upgrades. Consumers customize through stable props, CSS variables, `className`, and `extendVariants`.
+iuvui maintains implementation and upgrades. Consumers customize through stable
+props, CSS variables, `className`, and `extendVariants`.
 
 ### Source mode
+
+The installed source belongs to the consumer. The local packed CLI implements
+`help`, `version`, `doctor`, `init`, and `add` for Button, Card, Input, Label,
+Separator, and Textarea. It requires `init` before `add`, writes `iuvui.lock`,
+checks Registry integrity, and refuses to overwrite a differing owned file.
+
+The following public commands are future release syntax, not currently runnable
+from npm:
 
 ```bash
 pnpm dlx @iuvui/cli init
 pnpm dlx @iuvui/cli add button
-```
-
-The installed source belongs to the consumer. Planned lifecycle commands include:
-
-```bash
 iuvui check
 iuvui diff button
 iuvui update button
@@ -44,23 +59,26 @@ iuvui update --interactive
 
 These commands describe the roadmap and must not be presented as released until implemented.
 
-The CLI installs source components into `components/iuv-ui` by default. This namespace keeps iuvui-managed source distinct from shadcn's conventional `components/ui` directory. Project configuration may override the target directory, while initialization, installation, provenance, diffing, and updates must all resolve the same configured path.
+The CLI installs source components into `components/iuv-ui` by default. This
+namespace keeps iuvui-managed source distinct from shadcn's conventional
+`components/ui` directory. Project configuration may override the target
+directory. Future diffs and updates must resolve the same configured path.
 
-The CLI is publicly installable and its basic workflows do not require login. Free artifact commands work anonymously. Login is requested only when the selected source, Style Pack, variant, or managed service is explicitly classified as protected by its Registry manifest.
+When the CLI is published, its free workflows will remain usable without login.
+Login will be requested only when a future Style Pack, variant, or managed
+service is explicitly classified as protected by its Registry manifest.
 
 ## shadcn ecosystem interoperability
 
 Source delivery should follow public shadcn Registry protocols, directory conventions, and familiar workflows where practical instead of inventing a closed format.
 
-```bash
-# Ecosystem-compatible source installation
-pnpm dlx shadcn@latest add @iuvui/button
-
-# Managed source installation with lifecycle metadata
-pnpm dlx @iuvui/cli add button
-```
-
-The first path minimizes migration cost. The second currently adds verified source files, `iuvui.lock`, and provenance. Semantic diffs, migration rules, and three-way merging are later lifecycle stages. iuvui's differentiation comes from its coherent styles, tokens, icons, and ongoing source maintenance rather than a proprietary installation protocol.
+The current local `iuvui add` path adds verified source files and provenance to
+`iuvui.lock`. A future shadcn-compatible public Registry address and the future
+published `iuvui add` command will minimize migration cost without inventing a
+closed protocol. Semantic diffs, migration rules, and three-way merging are
+later lifecycle stages. iuvui's differentiation comes from its coherent styles,
+tokens, icons, and ongoing source maintenance rather than a proprietary
+installation protocol.
 
 ### V0 implementation strategy
 
@@ -98,7 +116,10 @@ This strategy accelerates the initial component catalog while leaving room to re
 | Consumer source    | Installed components, product compositions, custom variants         | Consumer      |
 | Synchronization    | Provenance, diffs, migrations, three-way merges, conflict reporting | iuvui CLI     |
 
-An upgrade compares the old upstream source, current consumer source, and new upstream source. The CLI automatically merges demonstrably independent changes and asks for confirmation when safety cannot be established. It never silently overwrites local work.
+The planned upgrade workflow will compare the old upstream source, current
+consumer source, and new upstream source. It must never silently overwrite
+local work; automatic merging will be introduced only after its safety contract
+is implemented and tested.
 
 ## One source, two artifacts
 
@@ -122,9 +143,11 @@ The Registry layer handles delivery differences such as path rewriting, dependen
 @iuvui/internal  Private workspace package; never published
 ```
 
-All public packages use the `@iuvui` npm scope. `@iuvui/cli` is the package name and `iuvui` is its executable:
+All public packages use the `@iuvui` npm scope. `@iuvui/cli` is the future
+published package name and `iuvui` is its executable:
 
 ```bash
+# Future public interface after an authorized npm release
 pnpm dlx @iuvui/cli add button
 pnpm add -g @iuvui/cli
 iuvui add button
@@ -151,4 +174,5 @@ All components remain free, including complex components. Styles and variants ha
 
 Because shipped CSS is observable in a browser, premium protection applies to authorized distribution, updates, and service access rather than runtime DRM. See [Commercial model](./COMMERCIAL_MODEL.md) for the Style Pack contract, entitlement flow, and licensing principles.
 
-See [Web platform](./WEB_PLATFORM.md) for the public site, private dashboard, HeroUI boundary, and deployment plan.
+See [Web platform](./WEB_PLATFORM.md) for the public site, future private
+dashboard boundary, HeroUI boundary, and deployment plan.

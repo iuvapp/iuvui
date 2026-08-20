@@ -7,14 +7,19 @@ iuvui is an ownable, customizable, and continuously upgradeable React UI system.
 iuvui is an independent project and is not affiliated with shadcn/ui or HeroUI. shadcn/ui is the design and source reference baseline, React Aria Components provide replaceable behavior behind an internal adapter, and the package API and delivery experience follow the convenience expected from a maintained component library.
 
 The canonical public repository is
-[`iuvapp/iuvui`](https://github.com/iuvapp/iuvui). The separate private
-`iuv-tech/iuvui-pro` repository owns the shared Free and Pro account dashboard and
-all protected product assets; no dashboard application code or paid asset is
-maintained here.
+[`iuvapp/iuvui`](https://github.com/iuvapp/iuvui). The former private
+`iuv-tech/iuvui-pro` repository is archived. A future private `iuv-pro`
+repository will own the shared Free and Pro account dashboard and protected
+product assets; no dashboard application code or paid asset is maintained here.
 
 The repository currently implements package delivery first. Public packages use the `@iuvui/*` scope. Consumers customize components through stable props, CSS variables, `className`, and `extendVariants`. React Aria Components provide behavior behind a private adapter; their types, contexts, and DOM structure are not public API.
 
-Source delivery is a first-class product mode. `@iuvui/cli` installs component source into a consumer project, records both iuvui and exact upstream provenance, compares local changes, and will provide safe migration paths. The registry follows public shadcn conventions where practical rather than introduce a closed distribution format. See [Product model](./docs/PRODUCT_MODEL.md).
+Source delivery is a first-class product mode. The local `@iuvui/cli` workspace
+installs component source into a consumer project, records iuvui and exact
+upstream provenance, and refuses to overwrite changed owned files. The CLI is
+not yet published to npm; diffs, migrations, and managed updates remain planned.
+The Registry follows public shadcn conventions where practical rather than
+introduce a closed distribution format. See [Product model](./docs/PRODUCT_MODEL.md).
 
 ## Install
 
@@ -163,10 +168,9 @@ pnpm public:check
 - `iuvui.com` is the public brand, component, and documentation site.
 - `ui.iuvdev.com` is the Cloudflare Access-protected development deployment of
   the public site.
-- `iuvui.iuvdev.com` and `app.iuvui.com` are the development and production
-  Clerk-authenticated dashboard domains for Free and Pro users. The private
-  `iuvui-pro` repository owns both; server-side entitlements control paid
-  capabilities.
+- The future private dashboard has no configured domain or deployment in this
+  repository. Its implementation and server-side entitlement boundary will live
+  in `iuv-pro` when that repository is created.
 - `storybook.iuvui.com` is the public component-development and contract surface.
 - `mcp.iuvui.com` is the planned authentication-free MCP documentation service.
   It exposes public documentation and Pro capability metadata, never paid asset

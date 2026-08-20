@@ -1,0 +1,48 @@
+---
+title: Source delivery
+description: The owned-source workflow, its current local verification boundary, and its future public command shape.
+---
+
+Source delivery writes owned files into `components/iuv-ui`, keeping them
+separate from shadcn's conventional `components/ui` directory. Each install
+records content integrity and immutable upstream provenance in `iuvui.lock`.
+
+## Current availability
+
+`@iuvui/cli@0.0.1` is implemented in this workspace and verified from a packed
+tarball. It is not published to npm, so no public `pnpm dlx` or global-install
+workflow is available yet.
+
+The locally verified command surface is:
+
+- `help` and `version` for command information;
+- `doctor` for environment information;
+- `init [--source-dir <relative-path>]` to create `iuvui.json`;
+- `add <component...>` for Button, Card, Input, Label, Separator, and Textarea.
+
+`add` requires a prior `init`, verifies each Registry item's integrity, writes
+`iuvui.lock`, refuses to overwrite a file whose contents differ from the
+generated source, and prints the package-manager dependency command without
+installing dependencies automatically.
+
+## Future public syntax
+
+After an explicitly authorized npm release, the public entry point will use the
+package name `@iuvui/cli` and executable name `iuvui`:
+
+```bash
+pnpm dlx @iuvui/cli help
+pnpm dlx @iuvui/cli init
+pnpm dlx @iuvui/cli add button
+```
+
+The same executable is intended to support a future global installation:
+
+```bash
+pnpm add -g @iuvui/cli
+iuvui add button
+```
+
+Inspection, diffs, migrations, managed updates, authentication, protected Style
+Pack delivery, and `iuvui style add` are planned capabilities. They are not
+implemented CLI commands today.

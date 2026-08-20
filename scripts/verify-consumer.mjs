@@ -14,7 +14,7 @@ import { tmpdir } from "node:os";
 import { join, relative, resolve, sep } from "node:path";
 
 const root = resolve(import.meta.dirname, "..");
-const registryDirectory = join(root, "apps", "web", "public", "r");
+const registryDirectory = join(root, "registry", "local", "r");
 const temporaryDirectory = mkdtempSync(join(tmpdir(), "iuvui-consumer-"));
 const tarballDirectory = join(temporaryDirectory, "tarballs");
 const consumerDirectory = join(temporaryDirectory, "consumer");
@@ -79,7 +79,14 @@ function packPackage(directory) {
 
 function assertLockProvenance(lock) {
   assert.equal(lock.lockfileVersion, 1);
-  assert.deepEqual(Object.keys(lock.items).sort(), ["button", "separator"]);
+  assert.deepEqual(Object.keys(lock.items).sort(), [
+    "button",
+    "card",
+    "input",
+    "label",
+    "separator",
+    "textarea",
+  ]);
 
   for (const [name, entry] of Object.entries(lock.items)) {
     assert.match(entry.version, /^0\.0\.\d+$/);
@@ -120,11 +127,13 @@ function assertLockProvenance(lock) {
     lock.items.button.provenance.upstreams[0].relationship,
     "architectural-reference",
   );
-  assert.equal(lock.items.separator.provenance.canonical.kind, "derived");
-  assert.equal(
-    lock.items.separator.provenance.upstreams[0].relationship,
-    "derived",
-  );
+  for (const name of ["card", "input", "label", "separator", "textarea"]) {
+    assert.equal(lock.items[name].provenance.canonical.kind, "derived");
+    assert.equal(
+      lock.items[name].provenance.upstreams[0].relationship,
+      "derived",
+    );
+  }
 }
 
 function writeConsumerFiles(packages) {
@@ -165,7 +174,17 @@ import { fileURLToPath } from "node:url";
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { SearchIcon } from "@iuvui/icons";
-import { Button, Separator } from "@iuvui/react";
+import {
+  Button,
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  Input,
+  Label,
+  Separator,
+  Textarea,
+} from "@iuvui/react";
 import { tokenVariable } from "@iuvui/tokens";
 import { cn } from "@iuvui/utils";
 
@@ -185,6 +204,18 @@ const markup = renderToStaticMarkup(
       "aria-label": "Content boundary",
       orientation: "vertical",
     }),
+    createElement(
+      Card,
+      null,
+      createElement(CardHeader, null, createElement(CardTitle, null, "Profile")),
+      createElement(
+        CardContent,
+        null,
+        createElement(Label, { htmlFor: "consumer-name" }, "Name"),
+        createElement(Input, { id: "consumer-name" }),
+        createElement(Textarea, { "aria-label": "Notes" }),
+      ),
+    ),
   ),
 );
 
@@ -193,6 +224,10 @@ assert.match(markup, /data-variant="outline"/);
 assert.match(markup, /<title>Search<\\/title>/);
 assert.match(markup, /data-slot="separator"/);
 assert.match(markup, /data-orientation="vertical"/);
+assert.match(markup, /data-slot="card"/);
+assert.match(markup, /data-slot="input"/);
+assert.match(markup, /data-slot="label"/);
+assert.match(markup, /data-slot="textarea"/);
 assert.equal(tokenVariable("primary"), "--ui-primary");
 assert.equal(cn("rounded", false, "font-medium"), "rounded font-medium");
 
@@ -212,19 +247,54 @@ assert.match(theme, /--ui-primary/);
   writeFileSync(
     join(consumerDirectory, "src", "typecheck.tsx"),
     `import { SearchIcon } from "@iuvui/icons";
-import { Button, Separator } from "@iuvui/react";
+import {
+  Button,
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  Input,
+  Label,
+  Separator,
+  Textarea,
+} from "@iuvui/react";
 import { tokenVariable } from "@iuvui/tokens";
 import { cn } from "@iuvui/utils";
 import { Button as OwnedButton } from "../components/iuv-ui/button";
+import {
+  Card as OwnedCard,
+  CardContent as OwnedCardContent,
+  CardHeader as OwnedCardHeader,
+  CardTitle as OwnedCardTitle,
+} from "../components/iuv-ui/card";
+import { Input as OwnedInput } from "../components/iuv-ui/input";
+import { Label as OwnedLabel } from "../components/iuv-ui/label";
 import { Separator as OwnedSeparator } from "../components/iuv-ui/separator";
+import { Textarea as OwnedTextarea } from "../components/iuv-ui/textarea";
 
 export function ConsumerFixture() {
   return (
     <div className={cn("grid", "gap-4")} data-token={tokenVariable("primary")}>
       <Button startContent={<SearchIcon title="Search" />}>Package Button</Button>
       <Separator />
+      <Card>
+        <CardHeader><CardTitle>Package card</CardTitle></CardHeader>
+        <CardContent>
+          <Label htmlFor="package-name">Name</Label>
+          <Input id="package-name" />
+          <Textarea aria-label="Package notes" />
+        </CardContent>
+      </Card>
       <OwnedButton variant="outline">Owned Button</OwnedButton>
       <OwnedSeparator orientation="vertical" />
+      <OwnedCard>
+        <OwnedCardHeader><OwnedCardTitle>Owned card</OwnedCardTitle></OwnedCardHeader>
+        <OwnedCardContent>
+          <OwnedLabel htmlFor="owned-name">Name</OwnedLabel>
+          <OwnedInput id="owned-name" />
+          <OwnedTextarea aria-label="Owned notes" />
+        </OwnedCardContent>
+      </OwnedCard>
     </div>
   );
 }
@@ -310,6 +380,10 @@ try {
     cwd: consumerDirectory,
     env: cliEnvironment,
   });
+  run(pnpm, ["exec", "iuvui", "add", "card", "input", "label", "textarea"], {
+    cwd: consumerDirectory,
+    env: cliEnvironment,
+  });
 
   const config = JSON.parse(
     readFileSync(join(consumerDirectory, "iuvui.json"), "utf8"),
@@ -317,9 +391,17 @@ try {
   assert.equal(config.sourceDirectory, "components/iuv-ui");
   for (const file of [
     "button.tsx",
+    "card.tsx",
+    "input.tsx",
+    "label.tsx",
     "separator.tsx",
+    "textarea.tsx",
     "types.ts",
-    "THIRD_PARTY_NOTICES.md",
+    "card.third-party-notices.md",
+    "input.third-party-notices.md",
+    "label.third-party-notices.md",
+    "separator.third-party-notices.md",
+    "textarea.third-party-notices.md",
   ]) {
     assert.ok(
       existsSync(join(consumerDirectory, "components", "iuv-ui", file)),

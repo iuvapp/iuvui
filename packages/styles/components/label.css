@@ -1,0 +1,17 @@
+@layer ui-components {
+  .ui-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--ui-foreground);
+    font-size: 0.875rem;
+    font-weight: 600;
+    line-height: 1;
+    user-select: none;
+  }
+
+  .ui-label:has(+ :disabled) {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+}

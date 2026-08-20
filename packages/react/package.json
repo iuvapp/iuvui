@@ -29,6 +29,10 @@
       "types": "./dist/button.d.ts",
       "import": "./dist/button.js"
     },
+    "./card": {
+      "types": "./dist/card.d.ts",
+      "import": "./dist/card.js"
+    },
     "./text-field": {
       "types": "./dist/text-field.d.ts",
       "import": "./dist/text-field.js"
@@ -37,9 +41,21 @@
       "types": "./dist/dialog.d.ts",
       "import": "./dist/dialog.js"
     },
+    "./input": {
+      "types": "./dist/input.d.ts",
+      "import": "./dist/input.js"
+    },
+    "./label": {
+      "types": "./dist/label.d.ts",
+      "import": "./dist/label.js"
+    },
     "./separator": {
       "types": "./dist/separator.d.ts",
       "import": "./dist/separator.js"
+    },
+    "./textarea": {
+      "types": "./dist/textarea.d.ts",
+      "import": "./dist/textarea.js"
     },
     "./extend-variants": {
       "types": "./dist/extend-variants.d.ts",

@@ -1,4 +1,14 @@
 {
   "title": "Components",
-  "pages": ["index", "button", "text-field", "dialog", "separator"]
+  "pages": [
+    "index",
+    "button",
+    "input",
+    "label",
+    "textarea",
+    "text-field",
+    "card",
+    "dialog",
+    "separator"
+  ]
 }

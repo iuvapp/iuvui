@@ -1,0 +1,38 @@
+@layer ui-components {
+  .ui-textarea {
+    display: flex;
+    width: 100%;
+    min-width: 0;
+    min-height: 4rem;
+    resize: vertical;
+    border: 1px solid var(--ui-input);
+    border-radius: var(--ui-radius-md);
+    background: var(--ui-background);
+    color: var(--ui-foreground);
+    padding: 0.5rem 0.75rem;
+    box-shadow: var(--ui-shadow-sm);
+    font: inherit;
+    line-height: 1.5;
+    outline: none;
+  }
+
+  .ui-textarea::placeholder {
+    color: var(--ui-muted-foreground);
+  }
+
+  .ui-textarea:focus-visible {
+    border-color: var(--ui-ring);
+    box-shadow: 0 0 0 3px color-mix(in oklch, var(--ui-ring), transparent 55%);
+  }
+
+  .ui-textarea[aria-invalid="true"] {
+    border-color: var(--ui-destructive);
+    box-shadow: 0 0 0 3px
+      color-mix(in oklch, var(--ui-destructive), transparent 78%);
+  }
+
+  .ui-textarea:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+}

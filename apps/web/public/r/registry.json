@@ -29,6 +29,7 @@
         "iuvui": {
           "schemaVersion": 1,
           "version": "0.0.1",
+          "releaseStatus": "published",
           "availability": "free",
           "style": "default",
           "provenance": {
@@ -77,15 +78,16 @@
           "target": "separator.tsx"
         },
         {
-          "path": "registry/default/THIRD_PARTY_NOTICES.md",
+          "path": "registry/default/separator.third-party-notices.md",
           "type": "registry:file",
-          "target": "THIRD_PARTY_NOTICES.md"
+          "target": "separator.third-party-notices.md"
         }
       ],
       "meta": {
         "iuvui": {
           "schemaVersion": 1,
           "version": "0.0.1",
+          "releaseStatus": "published",
           "availability": "free",
           "style": "default",
           "provenance": {

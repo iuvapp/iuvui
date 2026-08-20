@@ -3,6 +3,8 @@ import { hydrateRoot } from "react-dom/client";
 import { renderToString } from "react-dom/server";
 import { describe, expect, it } from "vitest";
 import { Button } from "../src/button";
+import { Card, CardContent, CardHeader, CardTitle } from "../src/card";
+import { Input } from "../src/input";
 import { Separator } from "../src/separator";
 
 describe("rendering contracts", () => {
@@ -24,5 +26,21 @@ describe("rendering contracts", () => {
 
   it("renders Separator on the server", () => {
     expect(renderToString(<Separator />)).toContain('data-slot="separator"');
+  });
+
+  it("renders the shadcn-derived foundation layer on the server", () => {
+    const markup = renderToString(
+      <Card>
+        <CardHeader>
+          <CardTitle>Server rendered</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <Input aria-label="Server input" />
+        </CardContent>
+      </Card>,
+    );
+
+    expect(markup).toContain('data-slot="card"');
+    expect(markup).toContain('data-slot="input"');
   });
 });

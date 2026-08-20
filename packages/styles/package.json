@@ -29,9 +29,13 @@
     "./theme.css": "./theme.css",
     "./base.css": "./base.css",
     "./components/button.css": "./components/button.css",
+    "./components/card.css": "./components/card.css",
     "./components/text-field.css": "./components/text-field.css",
     "./components/dialog.css": "./components/dialog.css",
-    "./components/separator.css": "./components/separator.css"
+    "./components/input.css": "./components/input.css",
+    "./components/label.css": "./components/label.css",
+    "./components/separator.css": "./components/separator.css",
+    "./components/textarea.css": "./components/textarea.css"
   },
   "scripts": {
     "build": "node -e \"import('node:fs').then(fs=>{if(!fs.existsSync('index.css'))process.exit(1)})\"",

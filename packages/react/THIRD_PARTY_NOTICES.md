@@ -1,5 +1,19 @@
 # Third-Party Notices
 
+## shadcn/ui Foundation Components
+
+The iuvui Card, Input, Label, and Textarea components are derived from the
+shadcn/ui implementations at:
+
+- Repository: https://github.com/shadcn-ui/ui
+- Revision: 25be24cca34d06eed29a4779c3f48c4816aa812c
+- Sources:
+  - apps/v4/registry/new-york-v4/ui/card.tsx
+  - apps/v4/registry/new-york-v4/ui/input.tsx
+  - apps/v4/registry/new-york-v4/ui/label.tsx
+  - apps/v4/registry/new-york-v4/ui/textarea.tsx
+- License: MIT
+
 ## shadcn/ui
 
 The iuvui Separator component is derived from the shadcn/ui Separator

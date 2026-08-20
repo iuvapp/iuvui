@@ -1,10 +1,11 @@
 @import "tailwindcss";
+@import "fumadocs-ui/css/generated/glass.css";
 @import "fumadocs-ui/css/neutral.css";
 @import "fumadocs-ui/css/preset.css";
 @import "@heroui/styles";
 @import "@iuvui/styles";
 
-#nd-docs-layout {
+#fd-glass-layout {
   --color-fd-background: var(--background);
   --color-fd-foreground: var(--foreground);
   --color-fd-muted: var(--surface-secondary);

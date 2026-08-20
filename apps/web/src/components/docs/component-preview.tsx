@@ -1,9 +1,25 @@
-import { Button, Dialog, Separator, TextField } from "@iuvui/react";
+import {
+  Button,
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+  Dialog,
+  Input,
+  Label,
+  Separator,
+  Textarea,
+  TextField,
+} from "@iuvui/react";
+import { useId } from "react";
 
 import type { ComponentId } from "../../catalog";
 import * as m from "../../paraglide/messages.js";
 
 export function ComponentPreview({ id }: { id: ComponentId }) {
+  const previewId = useId();
+
   if (id === "button") {
     return (
       <div className="flex flex-wrap gap-2">
@@ -11,6 +27,20 @@ export function ComponentPreview({ id }: { id: ComponentId }) {
         <Button variant="secondary">{m.web_preview_secondary()}</Button>
         <Button variant="outline">{m.web_preview_outline()}</Button>
       </div>
+    );
+  }
+
+  if (id === "card") {
+    return (
+      <Card className="max-w-xs gap-3 py-4 shadow-none">
+        <CardHeader>
+          <CardTitle>{m.web_preview_card_title()}</CardTitle>
+          <CardDescription>{m.web_preview_card_description()}</CardDescription>
+        </CardHeader>
+        <CardContent className="text-sm text-muted">
+          {m.web_preview_card_content()}
+        </CardContent>
+      </Card>
     );
   }
 
@@ -44,6 +74,43 @@ export function ComponentPreview({ id }: { id: ComponentId }) {
           </Dialog.Positioner>
         </Dialog.Backdrop>
       </Dialog.Root>
+    );
+  }
+
+  if (id === "input") {
+    const inputId = `${previewId}-input`;
+
+    return (
+      <div className="grid max-w-xs gap-2">
+        <Label htmlFor={inputId}>{m.web_preview_input_label()}</Label>
+        <Input id={inputId} placeholder={m.web_preview_input_placeholder()} />
+      </div>
+    );
+  }
+
+  if (id === "label") {
+    const inputId = `${previewId}-labelled-input`;
+
+    return (
+      <div className="grid max-w-xs gap-2">
+        <Label htmlFor={inputId}>{m.web_preview_label_text()}</Label>
+        <Input id={inputId} placeholder={m.web_preview_label_placeholder()} />
+      </div>
+    );
+  }
+
+  if (id === "textarea") {
+    const textareaId = `${previewId}-textarea`;
+
+    return (
+      <div className="grid max-w-xs gap-2">
+        <Label htmlFor={textareaId}>{m.web_preview_textarea_label()}</Label>
+        <Textarea
+          id={textareaId}
+          placeholder={m.web_preview_textarea_placeholder()}
+          rows={3}
+        />
+      </div>
     );
   }
 

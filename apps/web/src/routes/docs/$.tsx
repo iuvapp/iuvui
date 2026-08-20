@@ -1,16 +1,16 @@
 import { createFileRoute, notFound } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
 import { useFumadocsLoader } from "fumadocs-core/source/client";
-import { DocsLayout } from "fumadocs-ui/layouts/docs";
+import { GlassLayout } from "fumadocs-ui/layouts/glass";
 import {
   DocsBody,
   DocsDescription,
   DocsPage,
   DocsTitle,
-} from "fumadocs-ui/layouts/docs/page";
+} from "fumadocs-ui/layouts/glass/page";
 import { Suspense, use } from "react";
 
-import { docsLayoutOptions } from "../../docs/layout";
+import { docsLayoutOptions, docsTabs } from "../../docs/layout";
 import { useMDXComponents } from "../../docs/mdx";
 import { docs, source } from "../../docs/source";
 
@@ -72,10 +72,10 @@ function DocsRoute() {
   const { pageTree, path } = useFumadocsLoader(Route.useLoaderData());
 
   return (
-    <DocsLayout {...docsLayoutOptions()} tree={pageTree}>
+    <GlassLayout {...docsLayoutOptions()} tabs={docsTabs()} tree={pageTree}>
       <Suspense>
         <DocsContent path={path} />
       </Suspense>
-    </DocsLayout>
+    </GlassLayout>
   );
 }
