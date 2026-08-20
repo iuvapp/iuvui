@@ -11,7 +11,7 @@ dashboard and protected assets when it is created. This memo records only the
 public integration boundary with that future system.
 
 Last local verification: 2026-08-20.
-Last recorded external deployment: 2026-08-06.
+Last recorded external deployment: 2026-08-20.
 
 ## Decision baseline
 
@@ -69,7 +69,7 @@ package and CSS exports as Workspace preview.
 
 ## 2026-08-20 — Documentation surface and release-state synchronization
 
-Status: **Verified locally; not deployed.**
+Status: **Verified locally; development deployment recorded below.**
 
 The public documentation remains inside `apps/web`; no documentation-only app,
 Cloudflare Worker, or hostname was added. The existing TanStack Start routes now
@@ -107,7 +107,7 @@ Verification completed on 2026-08-20:
 
 ## 2026-08-20 — Homepage and documentation information architecture
 
-Status: **Verified locally; not deployed.**
+Status: **Verified locally; development deployment recorded below.**
 
 The public `/` route is now a concise brand landing page. It contains the
 product message and documentation entry point, but no component catalog,
@@ -123,9 +123,9 @@ content now belongs to the embedded Fumadocs surface:
   existing development and production Worker topology.
 
 The external `ui.iuvdev.com/docs` check returned `404` before this revision was
-deployed. No development or production Worker was changed by this work, so an
-external smoke check remains required after an authorized development
-deployment.
+deployed. The later `iuvui-web-dev` deployment and its successful external
+smoke checks are recorded in the public website and documentation section
+below. No production Worker was changed.
 
 Verification completed on 2026-08-20:
 
@@ -277,9 +277,13 @@ development and production:
 - `iuvui-web-dev` serves `ui.iuvdev.com`;
 - `iuvui-web-prod` serves `iuvui.com`.
 
-The following entries are historical deployment records, not validation of the
-current uncommitted documentation revision. Re-run external application and
-Registry smoke checks after any future deployment:
+The following entries separate the latest development deployment from older
+historical records:
+
+- `iuvui-web-dev` was deployed as Worker version
+  `e3237e6e-efff-4a25-add9-375f0022e25f` on 2026-08-20. External smoke checks
+  confirmed `200` responses and expected content for `/docs`,
+  `/docs/components/variants`, and `/api/search?query=CloseIcon`.
 
 - `iuvui-web-dev` was deployed as Worker version
   `2d0053f0-727c-4945-a938-37e4ffd2a959` on 2026-08-06. Anonymous root and
@@ -289,9 +293,9 @@ Registry smoke checks after any future deployment:
   `0455c0ad-4e2a-4853-bda0-ff965faa28f0`. This record is not a smoke result for
   the current source tree.
 
-The current local, undeployed website revision keeps `/` as a concise brand
-landing page and moves detailed product content into an embedded Fumadocs Glass
-documentation surface in the same `apps/web` project:
+The current local revision and `iuvui-web-dev` deployment keep `/` as a concise
+brand landing page and move detailed product content into an embedded Fumadocs
+Glass documentation surface in the same `apps/web` project:
 
 - Glass-layout documentation navigation, table of contents, search, and MDX
   component pages while TanStack Start remains the routing and Worker boundary;
@@ -319,12 +323,12 @@ Start architecture:
   Separator examples reuse the real local package workspace and catalog status;
 - the 2026-08-20 local HTTP smoke checks confirmed the Glass layout, localized
   Fumadocs chrome, Workspace preview status, and the Card search result;
-- the revision remains local and does not imply a Worker deployment or npm
-  publication.
+- the current development deployment does not imply a production Worker update
+  or npm publication.
 
 The commands recorded in the 2026-08-20 verification entry cover the current
-local revision. This revision has not been deployed, so the Worker versions
-above remain historical external deployment records.
+local revision. The latest development deployment is recorded above; production
+and npm publication remain unchanged.
 
 ### Storybook
 
