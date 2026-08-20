@@ -1,4 +1,6 @@
 {
   "title": "Guides",
-  "pages": ["index", "package-mode", "source-delivery", "registry"]
+  "root": true,
+  "pagesIndex": "(guides)/index",
+  "pages": ["(guides)"]
 }

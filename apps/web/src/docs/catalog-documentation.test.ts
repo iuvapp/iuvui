@@ -5,7 +5,7 @@ import { describe, expect, it } from "vitest";
 import { componentCatalog } from "../catalog";
 
 const componentsDirectory = fileURLToPath(
-  new URL("../../content/docs/components/", import.meta.url),
+  new URL("../../content/docs/components/(catalog)/", import.meta.url),
 );
 const componentMeta = JSON.parse(
   readFileSync(`${componentsDirectory}meta.json`, "utf8"),

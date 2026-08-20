@@ -136,6 +136,42 @@ Verification completed on 2026-08-20:
   `/docs/components/variants`, and `/api/search?query=CloseIcon`;
 - `pnpm format:check`, `pnpm language:check`, and `git diff --check` passed.
 
+## 2026-08-20 — Root-scoped documentation navigation
+
+Status: **Verified locally and deployed to development.**
+
+The Fumadocs Glass navigation now uses the documentation content tree as its
+source of truth. Overview, Guides, Components, Styles, Icons, and Brand are
+independent `root: true` folders. The Root Layout selector is generated from
+those folders, and the active root folder alone supplies the sidebar tree.
+Global sidebar links for those spaces were removed, so the navigation no longer
+mixes every documentation area into one list.
+
+Components and Guides add a transparent nested group with `pagesIndex` so each
+root keeps its canonical URL while displaying a visible, default-open,
+collapsible folder in the sidebar. The resulting URLs remain stable, including
+`/docs`, `/docs/components`, `/docs/components/button`, `/docs/guides`, and
+`/docs/guides/source-delivery`.
+
+Verification completed on 2026-08-20:
+
+- `pnpm --filter @iuvui/web test` passed with 12 tests, including page-tree
+  assertions for all Root Layout destinations and the visible Components and
+  Guides folders;
+- `pnpm --filter @iuvui/web typecheck`, `pnpm --filter @iuvui/web lint`, and
+  `pnpm --filter @iuvui/web build:dev` passed;
+- `pnpm language:check`, scoped Prettier verification, and `git diff --check`
+  passed before the deployment;
+- `pnpm web:deploy:dev` deployed the final structure to `iuvui-web-dev`;
+- external HTTP checks returned `200` for `/docs`, `/docs/components`, and
+  `/docs/guides/source-delivery` at `https://ui.iuvdev.com`;
+- browser verification confirmed the Root Layout selector lists the six root
+  spaces, Components and Guides render only their own sidebar entries, the
+  Guides folder collapses, and no browser console errors were reported.
+
+No production Worker, Storybook Worker, dashboard Worker, or npm package was
+changed.
+
 ## Component tooling workstream
 
 Status: **In progress**.

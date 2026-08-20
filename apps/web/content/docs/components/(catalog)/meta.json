@@ -1,0 +1,17 @@
+{
+  "title": "Components",
+  "collapsible": true,
+  "defaultOpen": true,
+  "pages": [
+    "index",
+    "variants",
+    "button",
+    "input",
+    "label",
+    "textarea",
+    "text-field",
+    "card",
+    "dialog",
+    "separator"
+  ]
+}

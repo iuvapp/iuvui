@@ -1,15 +1,6 @@
 {
   "title": "Components",
-  "pages": [
-    "index",
-    "variants",
-    "button",
-    "input",
-    "label",
-    "textarea",
-    "text-field",
-    "card",
-    "dialog",
-    "separator"
-  ]
+  "root": true,
+  "pagesIndex": "(catalog)/index",
+  "pages": ["(catalog)"]
 }

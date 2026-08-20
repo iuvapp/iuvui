@@ -12,7 +12,7 @@ import {
 } from "fumadocs-ui/layouts/glass/page";
 import { Suspense, use } from "react";
 
-import { docsLayoutOptions, docsTabs } from "./layout";
+import { docsLayoutOptions } from "./layout";
 import { useMDXComponents } from "./mdx";
 import { docs, source } from "./source";
 
@@ -73,7 +73,7 @@ export function DocumentationPage({ data }: { data: DocsPageData }) {
   const { pageTree, path } = useFumadocsLoader(data);
 
   return (
-    <GlassLayout {...docsLayoutOptions()} tabs={docsTabs()} tree={pageTree}>
+    <GlassLayout {...docsLayoutOptions()} tree={pageTree}>
       <Suspense>
         <DocsContent path={path} />
       </Suspense>
