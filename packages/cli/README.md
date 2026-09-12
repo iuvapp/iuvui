@@ -26,10 +26,11 @@ consumer files, and prints the required package-manager dependency command. It
 does not install dependencies automatically.
 
 The locally verified source items are Button, Card, Input, Label, Separator,
-and Textarea. Those items now share the same generated Registry path, including
-public Registry JSON in this repository. The last public npm release remains
-`0.0.1` and does not include Card, Input, Label, or Textarea until a later
-authorized `0.0.x` publication.
+and Textarea. Card, Input, Label, and Textarea remain in the local staging
+Registry because their matching package and CSS files are not part of the
+already-published npm `0.0.1` artifacts. Public Registry JSON stays limited to
+Button and Separator so a consumer cannot install source that depends on CSS
+npm `0.0.1` does not ship.
 
 ## Future published interface
 

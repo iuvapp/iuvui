@@ -27,51 +27,39 @@ describe("public catalog", () => {
     expect(new Set(ids).size).toBe(ids.length);
   });
 
-  it("keeps public Registry links on the same path as package source items", () => {
+  it("keeps public Registry links limited to released source items", () => {
     const registryItems = componentCatalog
       .filter((item) => "registryPath" in item)
       .map((item) => item.id);
 
-    expect(registryItems).toEqual([
-      "button",
-      "input",
-      "label",
-      "textarea",
-      "card",
-      "separator",
-    ]);
+    expect(registryItems).toEqual(["button", "separator"]);
 
-    expect(
-      componentCatalog
-        .filter((item) => item.sourceDelivery === "published")
-        .map((item) => item.id),
-    ).toEqual(registryItems);
-
-    expect(
-      componentCatalog
-        .filter((item) => item.sourceDelivery === "package-only")
-        .map((item) => item.id),
-    ).toEqual(["text-field", "dialog"]);
-  });
-
-  it("puts Card, Input, Label, and Textarea on the published package path", () => {
-    const publishedPackageIds = componentCatalog
-      .filter((item) => item.delivery === "published")
+    const workspaceSourceItems = componentCatalog
+      .filter((item) => item.sourceDelivery === "workspace-preview")
       .map((item) => item.id);
 
-    expect(publishedPackageIds).toEqual([
-      "button",
+    expect(workspaceSourceItems).toEqual([
       "input",
       "label",
       "textarea",
-      "text-field",
       "card",
-      "dialog",
-      "separator",
     ]);
     expect(
-      componentCatalog.every((item) => item.delivery === "published"),
-    ).toBe(true);
+      componentCatalog.some(
+        (item) =>
+          item.sourceDelivery === "workspace-preview" &&
+          "registryPath" in item &&
+          item.registryPath !== undefined,
+      ),
+    ).toBe(false);
+  });
+
+  it("labels unpublished workspace components without treating them as npm releases", () => {
+    const workspacePreviewIds = componentCatalog
+      .filter((item) => item.delivery === "workspace-preview")
+      .map((item) => item.id);
+
+    expect(workspacePreviewIds).toEqual(["input", "label", "textarea", "card"]);
   });
 
   it("records the current component variant contracts", () => {
@@ -110,13 +98,15 @@ describe("public catalog", () => {
     expect(paths).toContain("@iuvui/styles/components/separator.css");
     expect(paths).toContain("@iuvui/styles/components/textarea.css");
 
-    const publishedStylePaths = styleExports
-      .filter((item) => item.delivery === "published")
+    const workspaceStylePaths = styleExports
+      .filter((item) => item.delivery === "workspace-preview")
       .map((item) => item.path);
 
-    expect(publishedStylePaths).toEqual(paths);
-    expect(styleExports.every((item) => item.delivery === "published")).toBe(
-      true,
-    );
+    expect(workspaceStylePaths).toEqual([
+      "@iuvui/styles/components/card.css",
+      "@iuvui/styles/components/input.css",
+      "@iuvui/styles/components/label.css",
+      "@iuvui/styles/components/textarea.css",
+    ]);
   });
 });

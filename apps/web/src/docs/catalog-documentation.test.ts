@@ -28,7 +28,7 @@ describe("catalog documentation", () => {
     }
   });
 
-  it("keeps the public Registry catalog aligned with published source delivery", () => {
+  it("limits the public Registry catalog to released source delivery", () => {
     const releasedSourceIds = componentCatalog
       .filter((item) => item.sourceDelivery === "published")
       .map((item) => item.id)

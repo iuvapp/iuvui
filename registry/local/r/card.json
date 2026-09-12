@@ -23,7 +23,7 @@
     "iuvui": {
       "schemaVersion": 1,
       "version": "0.0.1",
-      "releaseStatus": "published",
+      "releaseStatus": "workspace-preview",
       "availability": "free",
       "style": "default",
       "provenance": {

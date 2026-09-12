@@ -9,27 +9,28 @@ each component page states the delivery availability that exists today.
 
 ## Delivery states
 
-**Published** means the component is on the canonical `@iuvui/react` package
-path in this repository, with matching styles and, when a source item exists,
-public Registry JSON. **Package only** means the canonical component package
-includes the component, but there is not yet a matching source Registry item.
-The last public npm release remains `0.0.1` and does not include Card, Input,
-Label, or Textarea until a later authorized `0.0.x` publication.
+**Published** means the component is available from the public
+`@iuvui/react@0.0.1` package. **Workspace preview** means its implementation
+and styles are present in this repository and verified locally, including pack
+and consumer checks, but it is not yet installable from the immutable public
+`0.0.1` npm artifact. **Package only** means the current public component package
+includes the component, but there is not yet a matching public source Registry
+item.
 
-| Component  | Package delivery | Source delivery         | Documentation                             |
-| ---------- | ---------------- | ----------------------- | ----------------------------------------- |
-| Button     | Published        | Published Registry item | [Button](/docs/components/button)         |
-| Text Field | Published        | Package only            | [Text Field](/docs/components/text-field) |
-| Dialog     | Published        | Package only            | [Dialog](/docs/components/dialog)         |
-| Separator  | Published        | Published Registry item | [Separator](/docs/components/separator)   |
-| Card       | Published        | Published Registry item | [Card](/docs/components/card)             |
-| Input      | Published        | Published Registry item | [Input](/docs/components/input)           |
-| Label      | Published        | Published Registry item | [Label](/docs/components/label)           |
-| Textarea   | Published        | Published Registry item | [Textarea](/docs/components/textarea)     |
+| Component  | Package delivery  | Source delivery         | Documentation                             |
+| ---------- | ----------------- | ----------------------- | ----------------------------------------- |
+| Button     | Published         | Published Registry item | [Button](/docs/components/button)         |
+| Text Field | Published         | Package only            | [Text Field](/docs/components/text-field) |
+| Dialog     | Published         | Package only            | [Dialog](/docs/components/dialog)         |
+| Separator  | Published         | Published Registry item | [Separator](/docs/components/separator)   |
+| Card       | Workspace preview | Workspace preview       | [Card](/docs/components/card)             |
+| Input      | Workspace preview | Workspace preview       | [Input](/docs/components/input)           |
+| Label      | Workspace preview | Workspace preview       | [Label](/docs/components/label)           |
+| Textarea   | Workspace preview | Workspace preview       | [Textarea](/docs/components/textarea)     |
 
-Public Registry JSON is generated for Button, Card, Input, Label, Separator,
-and Textarea. Text Field and Dialog remain package-only. npm publication is a
-separate step and is not implied by this catalog.
+Public Registry JSON is available only for Button and Separator. A local
+workspace preview is useful for development and documentation, but it must not
+be presented as an npm release or public Registry download.
 
 ## Variants and customization
 

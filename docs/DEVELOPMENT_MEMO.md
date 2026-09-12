@@ -48,31 +48,24 @@ Last recorded external deployment: 2026-08-20.
 
 Status: **Verified locally; not published to npm; not deployed.**
 
-Card, Input, Label, and Textarea are now on the same canonical package, style,
-and Registry delivery path as Button and Separator. The remaining gap was not
-missing implementations: those four components already had React exports,
+Card, Input, Label, and Textarea already had canonical React exports,
 precompiled CSS, local Registry staging, provenance, and CLI `add` coverage.
-They were still labeled `workspace-preview`, excluded from
-`apps/web/public/r/`, and not asserted by pack/consumer checks as first-class
-tarball entry points.
+The remaining gap was that pack and consumer checks did not treat their tarball
+entry points as first-class. Those checks now assert the packed `@iuvui/react`
+JS/declaration files and `@iuvui/styles` CSS files. A patch Changeset is ready
+for a future `0.0.x` bump.
 
-This revision:
+They remain `workspace-preview` in the catalog and stay out of the public
+Registry. Promoting them to public Registry JSON at version `0.0.1` would
+install source that depends on `@iuvui/styles@0.0.1`, which does not contain
+their CSS. Local `consumer:check` packs the current workspace tarballs and
+therefore cannot prove that npm path.
 
-- sets Registry `releaseStatus` to `published` for Card, Input, Label, and
-  Textarea;
-- generates public Registry JSON at `/r/card.json`, `/r/input.json`,
-  `/r/label.json`, and `/r/textarea.json`;
-- treats their `@iuvui/react` and `@iuvui/styles` entry points as first-class in
-  the catalog and pack/consumer verification;
-- adds a patch Changeset for a future `0.0.x` bump.
-
-This is not an npm publication, a production deployment, a development
-website deployment, or a Storybook deployment. The last public npm artifacts
-remain `@iuvui/*@0.0.1` and still contain only Button, Text Field, Dialog, and
-Separator. npm does not permit overwriting `0.0.1`. `@iuvui/cli` remains
-unpublished. A later authorized `0.0.x` publication is required before npm
-consumers can install the matching Card, Input, Label, and Textarea package
-and CSS files.
+This is not an npm publication, a production deployment, a development website
+deployment, or a Storybook deployment. The last public npm artifacts remain
+`@iuvui/*@0.0.1` and still contain only Button, Text Field, Dialog, and
+Separator. Public Registry JSON remains Button and Separator. `@iuvui/cli`
+remains unpublished.
 
 Verification completed on 2026-09-12:
 
@@ -88,13 +81,12 @@ Verification completed on 2026-09-12:
 - `pnpm pack:check` asserted packed `@iuvui/react` JS/declaration entry points
   and `@iuvui/styles` CSS files for the four components;
 - `pnpm consumer:check` packed local tarballs, imported the package APIs,
-  installed owned source from the generated Registry, and type-checked the
-  isolated consumer;
+  installed owned source from the local staging Registry, and type-checked
+  the isolated consumer;
 - `pnpm language:check`, `pnpm release:check`, and `git diff --check` passed.
 
 `pnpm public:check` was not used as a success gate: it smokes the live npm
-`0.0.1` surface, which still lacks these four components and the unpublished
-CLI.
+`0.0.1` surface, which still lacks these four components and the unpublished CLI.
 
 ## 2026-08-20 — Local foundation-component packaging baseline
 
@@ -369,23 +361,24 @@ package publication.
 
 ### Registry and CLI
 
-The generated public Registry catalog in this repository now contains Button,
-Card, Input, Label, Separator, and Textarea. Each item carries content
-integrity, canonical provenance, and immutable shadcn/ui upstream
-references. Text Field and Dialog remain package-only.
+Button and Separator are the two released Registry artifacts at `0.0.1`; they
+carry content integrity and exact canonical and upstream provenance. Card,
+Input, Label, and Textarea have equivalent local staging artifacts and
+component-scoped third-party notices, plus packed package and CSS entry points,
+but they are intentionally excluded from the public Registry catalog because
+npm `@iuvui/styles@0.0.1` does not contain their CSS.
 
 A clean consumer can install the packed local CLI, add Button, Card, Input,
-Label, Separator, and Textarea to `components/iuv-ui`, verify `iuvui.lock`,
-and type-check both package and owned source. The public `pnpm dlx` path
-remains blocked by the unpublished CLI package.
+Label, Separator, and Textarea to `components/iuv-ui`, verify `iuvui.lock`, and
+type-check the installed source. The public `pnpm dlx` path remains blocked by
+the unpublished CLI package.
 
-The committed public Registry build is the source of truth for the next Web
-deployment; it does not make an assertion about the live `iuvui.com` response
-until that deployment is explicitly requested and independently verified. Public
-npm runtime installation remains the `0.0.1` set (Button, Text Field, Dialog,
-and Separator). Installing the new Registry items against that npm set cannot
-pick up matching Card, Input, Label, or Textarea CSS until a later authorized
-`0.0.x` publication.
+The committed public Registry build contains only the released Button and
+Separator artifacts. It is the source of truth for the next Web deployment; it
+does not make an assertion about the live `iuvui.com` response until that
+deployment is explicitly requested and independently verified. Public npm
+runtime installation is available, but a clean public `pnpm dlx` smoke remains
+blocked by the unpublished CLI package.
 
 ### Public website and documentation
 
@@ -439,8 +432,9 @@ Start architecture:
   render through the TanStack Start application;
 - interactive Button, Card, Input, Label, Textarea, TextField, Dialog, and
   Separator examples reuse the real local package workspace and catalog status;
-- the 2026-09-12 local checks confirmed the four foundation components are on
-  the generated public Registry path; they do not update the live website;
+- the 2026-09-12 local checks confirmed packed Card, Input, Label, and Textarea
+  package/CSS entry points while keeping public Registry limited to Button and
+  Separator;
 - the current development deployment does not imply a production Worker update
   or npm publication.
 
@@ -486,7 +480,7 @@ Source mode has a verified local path:
 1. build versioned Registry artifacts;
 2. initialize a clean consumer project with the packed CLI;
 3. install Button, Card, Input, Label, Separator, and Textarea source into
-   `components/iuv-ui` from the generated Registry;
+   `components/iuv-ui` from the local staging Registry;
 4. verify Registry integrity and record canonical and upstream provenance in
    `iuvui.lock`;
 5. install the exact public runtime dependencies from npm;
@@ -505,8 +499,9 @@ Completed:
   catalog candidate with actual components, variants, and style exports;
 - TanStack Start SSR and separate dev and prod Cloudflare environments;
 - Button, Text Field, Dialog, and Separator public package outputs at `0.0.1`;
-- Button, Card, Input, Label, Separator, and Textarea generated public Registry
-  artifacts, with Card, Input, Label, and Textarea still unpublished on npm;
+- Button and Separator public Registry outputs at `0.0.1`, plus locally
+  verified Card, Input, Label, and Textarea staging artifacts with packed
+  package and CSS entry points;
 - five public runtime packages at `0.0.1`;
 - historical production website and Registry verification;
 - historical Access-protected development deployment at the Worker version
@@ -601,9 +596,8 @@ until the user explicitly unlocks that version.
    canonical `iuvapp/iuvui` links and Registry provenance.
 3. Publish and verify the CLI only when the exact release is authorized and npm
    verification can complete.
-4. Verify the local documentation catalog, availability labels, and generated
-   public Registry filtering before any Web deployment. The live site still
-   reflects the last recorded development deployment, not this revision.
+4. Verify the local Glass documentation routes, catalog availability labels, and
+   public Registry filtering before any Web deployment.
 5. Expand the component catalog through versioned shadcn provenance, package and
    Registry parity, planned contract tests, and patch-only release metadata.
 

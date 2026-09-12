@@ -4,4 +4,4 @@
 "@iuvui/styles": patch
 ---
 
-Promote Card, Input, Label, and Textarea onto the same package, style, and Registry delivery path as Button and Separator.
+Add packed Card, Input, Label, and Textarea package and CSS entry points, verified by pack and consumer checks, for a future 0.0.x release.
