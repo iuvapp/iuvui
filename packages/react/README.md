@@ -2,18 +2,14 @@
 
 Accessible React components maintained by iuvui.
 
-> This workspace snapshot includes unreleased foundation components. npm package
-> versions are immutable, so these local `0.0.1` artifacts must not be confused
-> with the already published `@iuvui/react@0.0.1` release.
+The canonical package now exports Button, Card, Dialog, Input, Label,
+Separator, Text Field, and Textarea on the same delivery path. The last public
+npm release remains `@iuvui/react@0.0.1` and does not include Card, Input,
+Label, or Textarea until a later authorized `0.0.x` publication.
 
 ```bash
 pnpm add @iuvui/react @iuvui/styles react react-dom
 ```
-
-The published `0.0.1` React exports are Button, Text Field, Dialog, and
-Separator. The following example is a local workspace preview: Card and Input
-will require a future authorized `0.0.x` release before they can be installed
-from npm.
 
 ```tsx
 import {
@@ -41,9 +37,9 @@ export function Actions() {
 }
 ```
 
-Published `0.0.1` entry points are `@iuvui/react/button`,
-`@iuvui/react/text-field`, `@iuvui/react/dialog`, and
-`@iuvui/react/separator`. Card, Input, Label, and Textarea entry points belong
-to the local workspace preview only.
+Standalone entry points are `@iuvui/react/button`, `@iuvui/react/card`,
+`@iuvui/react/dialog`, `@iuvui/react/input`, `@iuvui/react/label`,
+`@iuvui/react/separator`, `@iuvui/react/text-field`, and
+`@iuvui/react/textarea`.
 
 See [iuvui.com](https://iuvui.com) for documentation.

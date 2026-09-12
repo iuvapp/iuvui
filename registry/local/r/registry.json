@@ -83,7 +83,7 @@
         "iuvui": {
           "schemaVersion": 1,
           "version": "0.0.1",
-          "releaseStatus": "workspace-preview",
+          "releaseStatus": "published",
           "availability": "free",
           "style": "default",
           "provenance": {
@@ -137,7 +137,7 @@
         "iuvui": {
           "schemaVersion": 1,
           "version": "0.0.1",
-          "releaseStatus": "workspace-preview",
+          "releaseStatus": "published",
           "availability": "free",
           "style": "default",
           "provenance": {
@@ -191,7 +191,7 @@
         "iuvui": {
           "schemaVersion": 1,
           "version": "0.0.1",
-          "releaseStatus": "workspace-preview",
+          "releaseStatus": "published",
           "availability": "free",
           "style": "default",
           "provenance": {
@@ -245,7 +245,7 @@
         "iuvui": {
           "schemaVersion": 1,
           "version": "0.0.1",
-          "releaseStatus": "workspace-preview",
+          "releaseStatus": "published",
           "availability": "free",
           "style": "default",
           "provenance": {

@@ -81,9 +81,66 @@ try {
           );
         }
       }
+      for (const entry of [
+        "button",
+        "card",
+        "dialog",
+        "input",
+        "label",
+        "separator",
+        "text-field",
+        "textarea",
+      ]) {
+        for (const suffix of [".js", ".d.ts"]) {
+          const file = `package/dist/${entry}${suffix}`;
+          if (!files.includes(file)) {
+            throw new Error(`react package is missing ${file}`);
+          }
+        }
+        if (manifest.exports?.[`./${entry}`] == null) {
+          throw new Error(`react package is missing the ./${entry} export`);
+        }
+      }
     }
     if (name === "cli" && !files.includes("package/bin/iuvui.js")) {
       throw new Error("cli package is missing bin/iuvui.js");
+    }
+    if (name === "styles") {
+      const foundationCss = [
+        "package/components/button.css",
+        "package/components/card.css",
+        "package/components/dialog.css",
+        "package/components/input.css",
+        "package/components/label.css",
+        "package/components/separator.css",
+        "package/components/text-field.css",
+        "package/components/textarea.css",
+      ];
+      for (const file of foundationCss) {
+        if (!files.includes(file)) {
+          throw new Error(`styles package is missing ${file}`);
+        }
+      }
+      const indexCss = spawnSync(
+        "tar",
+        ["-xOf", tarballPath, "package/index.css"],
+        { encoding: "utf8" },
+      );
+      if (indexCss.status !== 0) {
+        throw new Error("Failed to read packed styles index.css");
+      }
+      for (const component of ["card", "input", "label", "textarea"]) {
+        if (!indexCss.stdout.includes(`./components/${component}.css`)) {
+          throw new Error(
+            `styles index.css does not import the ${component} component stylesheet`,
+          );
+        }
+        if (manifest.exports?.[`./components/${component}.css`] == null) {
+          throw new Error(
+            `styles package is missing the ./components/${component}.css export`,
+          );
+        }
+      }
     }
     if (
       !["styles", "cli"].includes(name) &&

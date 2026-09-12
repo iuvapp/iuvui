@@ -19,17 +19,17 @@ Import the complete published bundle once:
 @import "@iuvui/styles";
 ```
 
-The public `@iuvui/styles@0.0.1` package includes the released Button, Text
-Field, Dialog, and Separator styles. The current workspace stylesheet has
-additional preview imports for Card, Input, Label, and Textarea; those preview
-styles are not part of the immutable npm `0.0.1` artifact.
+The public `@iuvui/styles@0.0.1` npm package includes Button, Text Field,
+Dialog, and Separator styles. The canonical workspace stylesheet now also includes
+Card, Input, Label, and Textarea on the same path. Those additional files are
+not part of the immutable npm `0.0.1` artifact.
 
 ## Choose an entry point
 
-Use a published foundation or component-level entry point when an application
-needs a narrower import. Entries marked Workspace preview below are useful for
-repository development only; they must not be copied into an npm installation
-guide until a later authorized `0.0.x` release exists.
+Use a foundation or component-level entry point when an application needs a
+narrower import. Card, Input, Label, and Textarea CSS exports are first-class
+in this repository; they still require a later authorized `0.0.x` publication
+before they can be installed from npm.
 
 <StyleExports />
 

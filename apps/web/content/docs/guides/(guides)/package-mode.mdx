@@ -3,7 +3,7 @@ title: Package mode
 description: Install the maintained public component package and its precompiled styles.
 ---
 
-The public package release is `0.0.1`.
+The last public package release is `0.0.1`.
 
 ```bash
 pnpm add @iuvui/react @iuvui/styles
@@ -15,15 +15,14 @@ Import the complete style bundle once:
 @import "@iuvui/styles";
 ```
 
-The current public React exports are Button, Text Field, Dialog, and Separator.
-Their matching CSS is available from the published `@iuvui/styles@0.0.1`
-package.
+The last public npm React exports are Button, Text Field, Dialog, and
+Separator. The canonical workspace package now also exports Card, Input,
+Label, and Textarea, with matching `@iuvui/styles` entry points, on the same
+path as those foundation components.
 
-## Workspace previews
+## Next `0.0.x` publication
 
-Card, Input, Label, and Textarea are implemented and verified in the current
-workspace. They are deliberately labeled Workspace preview because npm package
-versions are immutable: the existing public `0.0.1` artifacts cannot be
-overwritten with those new files. A future explicitly authorized `0.0.x`
-release must complete package, Registry, and independent-consumer checks before
-these components become public package APIs.
+Card, Input, Label, and Textarea are first-class package and Registry artifacts
+in this repository. They cannot be added to the already-published npm `0.0.1`
+artifacts. A later explicitly authorized `0.0.x` release must complete package,
+Registry, and independent-consumer checks before npm consumers can install them.

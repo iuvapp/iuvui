@@ -26,9 +26,10 @@ consumer files, and prints the required package-manager dependency command. It
 does not install dependencies automatically.
 
 The locally verified source items are Button, Card, Input, Label, Separator,
-and Textarea. Card, Input, Label, and Textarea use a local staging Registry
-because their matching package and CSS files are not publicly publishable at the
-already-used `0.0.1` version.
+and Textarea. Those items now share the same generated Registry path, including
+public Registry JSON in this repository. The last public npm release remains
+`0.0.1` and does not include Card, Input, Label, or Textarea until a later
+authorized `0.0.x` publication.
 
 ## Future published interface
 

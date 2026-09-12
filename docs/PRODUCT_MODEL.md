@@ -17,9 +17,11 @@ Package and source delivery are equal product modes based on the same canonical 
 ### Current availability
 
 The public `0.0.1` npm artifacts provide package delivery for Button, Text
-Field, Dialog, and Separator. Card, Input, Label, and Textarea are verified
-workspace previews whose matching package and CSS files cannot be added to the
-already-published `0.0.1` artifacts.
+Field, Dialog, and Separator. Card, Input, Label, and Textarea now share that
+same canonical package, style, and Registry path in this repository. Their
+matching files are packed and verified locally, but they are not part of the
+already-published npm `0.0.1` artifacts; a later authorized `0.0.x` publication
+is required before npm consumers can install them.
 
 The local `@iuvui/cli` workspace verifies source delivery from packed tarballs,
 but it is not published to npm. Public `pnpm dlx` and global-install workflows
