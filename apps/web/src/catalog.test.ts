@@ -70,8 +70,8 @@ describe("public catalog", () => {
       "separator",
     ]);
     expect(
-      componentCatalog.filter((item) => item.delivery === "workspace-preview"),
-    ).toEqual([]);
+      componentCatalog.every((item) => item.delivery === "published"),
+    ).toBe(true);
   });
 
   it("records the current component variant contracts", () => {
@@ -115,8 +115,8 @@ describe("public catalog", () => {
       .map((item) => item.path);
 
     expect(publishedStylePaths).toEqual(paths);
-    expect(
-      styleExports.filter((item) => item.delivery === "workspace-preview"),
-    ).toEqual([]);
+    expect(styleExports.every((item) => item.delivery === "published")).toBe(
+      true,
+    );
   });
 });
