@@ -3,15 +3,11 @@
 Precompiled themes and component styles for iuvui. Applications can consume the
 package without configuring Tailwind CSS to scan library source.
 
-> This workspace snapshot includes unreleased foundation styles. npm package
-> versions are immutable, so these local `0.0.1` artifacts must not be confused
-> with the already published `@iuvui/styles@0.0.1` release.
-
 ```css
 @import "@iuvui/styles";
 ```
 
-Individual entry points are available when a project needs a smaller style set:
+The published `@iuvui/styles@0.0.1` package includes these entry points:
 
 ```css
 @import "@iuvui/styles/theme.css";
@@ -21,8 +17,12 @@ Individual entry points are available when a project needs a smaller style set:
 @import "@iuvui/styles/components/separator.css";
 ```
 
-The following entry points are local workspace previews. They are not included
-in the published `@iuvui/styles@0.0.1` package:
+## Workspace package
+
+The canonical workspace also includes Card, Input, Label, and Textarea
+styles. Those files are packed and verified locally, but they are not part of
+the published `@iuvui/styles@0.0.1` package. Do not copy the following imports
+into an npm `0.0.1` installation until a later authorized `0.0.x` release:
 
 ```css
 @import "@iuvui/styles/components/card.css";

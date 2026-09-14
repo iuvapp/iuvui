@@ -20,10 +20,11 @@ separate deployment and external verification.
 ## Local staging
 
 Card, Input, Label, and Textarea have generated source and provenance artifacts
-for local verification. They stay in the repository's local staging Registry
-until a fresh allowed `0.0.x` package release is authorized. They are excluded
-from the public Registry catalog so a user cannot accidentally install an item
-whose matching `@iuvui/styles@0.0.1` CSS has not been released.
+for local verification, including packed package and CSS entry points. They
+stay in the repository's local staging Registry until a fresh allowed `0.0.x`
+package release is authorized. They are excluded from the public Registry catalog
+so a user cannot accidentally install an item whose matching
+`@iuvui/styles@0.0.1` CSS has not been released.
 
 This separation lets package mode, source mode, notices, integrity, and
 upstream traceability be tested together without treating a local artifact as a

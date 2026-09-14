@@ -22,8 +22,9 @@ package.
 ## Workspace previews
 
 Card, Input, Label, and Textarea are implemented and verified in the current
-workspace. They are deliberately labeled Workspace preview because npm package
-versions are immutable: the existing public `0.0.1` artifacts cannot be
-overwritten with those new files. A future explicitly authorized `0.0.x`
-release must complete package, Registry, and independent-consumer checks before
-these components become public package APIs.
+workspace, including packed tarball entry points and local consumer checks.
+They are labeled Workspace preview because npm package versions are immutable:
+the existing public `0.0.1` artifacts cannot be overwritten with those new files.
+A future explicitly authorized `0.0.x` release must complete package, Registry,
+and independent-consumer checks before these components become public package
+APIs.

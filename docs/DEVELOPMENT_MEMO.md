@@ -10,7 +10,7 @@ operational authority. A future private `iuv-pro` repository will own the
 dashboard and protected assets when it is created. This memo records only the
 public integration boundary with that future system.
 
-Last local verification: 2026-08-20.
+Last local verification: 2026-09-12.
 Last recorded external deployment: 2026-08-20.
 
 ## Decision baseline
@@ -43,6 +43,50 @@ Last recorded external deployment: 2026-08-20.
   embedded directly in source files.
 - All public package and Registry releases remain in `0.0.x` until `0.1.0` is
   explicitly unlocked.
+
+## 2026-09-12 — Card, Input, Label, and Textarea package path
+
+Status: **Verified locally; not published to npm; not deployed.**
+
+Card, Input, Label, and Textarea already had canonical React exports,
+precompiled CSS, local Registry staging, provenance, and CLI `add` coverage.
+The remaining gap was that pack and consumer checks did not treat their tarball
+entry points as first-class. Those checks now assert the packed `@iuvui/react`
+JS/declaration files and `@iuvui/styles` CSS files. A patch Changeset is ready
+for a future `0.0.x` bump.
+
+They remain `workspace-preview` in the catalog and stay out of the public
+Registry. Promoting them to public Registry JSON at version `0.0.1` would
+install source that depends on `@iuvui/styles@0.0.1`, which does not contain
+their CSS. Local `consumer:check` packs the current workspace tarballs and
+therefore cannot prove that npm path.
+
+This is not an npm publication, a production deployment, a development website
+deployment, or a Storybook deployment. The last public npm artifacts remain
+`@iuvui/*@0.0.1` and still contain only Button, Text Field, Dialog, and
+Separator. Public Registry JSON remains Button and Separator. `@iuvui/cli`
+remains unpublished.
+
+Verification completed on 2026-09-12:
+
+- `pnpm registry:check` and `pnpm upstream:check` confirmed generated output
+  and six immutable upstream references;
+- `pnpm --filter @iuvui/react test` passed, including foundation, rendering,
+  and axe coverage for Card, Input, Label, and Textarea;
+- `pnpm --filter @iuvui/cli test` passed, including `add` for the four
+  components with component-scoped notices;
+- `pnpm --filter @iuvui/web test` and `pnpm --filter @iuvui/web typecheck`
+  passed, including catalog and public Registry alignment;
+- `pnpm lint`, `pnpm typecheck`, and `pnpm test` passed across the workspace;
+- `pnpm pack:check` asserted packed `@iuvui/react` JS/declaration entry points
+  and `@iuvui/styles` CSS files for the four components;
+- `pnpm consumer:check` packed local tarballs, imported the package APIs,
+  installed owned source from the local staging Registry, and type-checked
+  the isolated consumer;
+- `pnpm language:check`, `pnpm release:check`, and `git diff --check` passed.
+
+`pnpm public:check` was not used as a success gate: it smokes the live npm
+`0.0.1` surface, which still lacks these four components and the unpublished CLI.
 
 ## 2026-08-20 — Local foundation-component packaging baseline
 
@@ -320,8 +364,9 @@ package publication.
 Button and Separator are the two released Registry artifacts at `0.0.1`; they
 carry content integrity and exact canonical and upstream provenance. Card,
 Input, Label, and Textarea have equivalent local staging artifacts and
-component-scoped third-party notices, but they are intentionally excluded from
-the public Registry catalog.
+component-scoped third-party notices, plus packed package and CSS entry points,
+but they are intentionally excluded from the public Registry catalog because
+npm `@iuvui/styles@0.0.1` does not contain their CSS.
 
 A clean consumer can install the packed local CLI, add Button, Card, Input,
 Label, Separator, and Textarea to `components/iuv-ui`, verify `iuvui.lock`, and
@@ -387,12 +432,13 @@ Start architecture:
   render through the TanStack Start application;
 - interactive Button, Card, Input, Label, Textarea, TextField, Dialog, and
   Separator examples reuse the real local package workspace and catalog status;
-- the 2026-08-20 local HTTP smoke checks confirmed the Glass layout, localized
-  Fumadocs chrome, Workspace preview status, and the Card search result;
+- the 2026-09-12 local checks confirmed packed Card, Input, Label, and Textarea
+  package/CSS entry points while keeping public Registry limited to Button and
+  Separator;
 - the current development deployment does not imply a production Worker update
   or npm publication.
 
-The commands recorded in the 2026-08-20 verification entry cover the current
+The commands recorded in the 2026-09-12 verification entry cover the current
 local revision. The latest development deployment is recorded above; production
 and npm publication remain unchanged.
 
@@ -454,7 +500,8 @@ Completed:
 - TanStack Start SSR and separate dev and prod Cloudflare environments;
 - Button, Text Field, Dialog, and Separator public package outputs at `0.0.1`;
 - Button and Separator public Registry outputs at `0.0.1`, plus locally
-  verified Card, Input, Label, and Textarea staging artifacts;
+  verified Card, Input, Label, and Textarea staging artifacts with packed
+  package and CSS entry points;
 - five public runtime packages at `0.0.1`;
 - historical production website and Registry verification;
 - historical Access-protected development deployment at the Worker version

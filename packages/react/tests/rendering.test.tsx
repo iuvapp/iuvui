@@ -5,7 +5,9 @@ import { describe, expect, it } from "vitest";
 import { Button } from "../src/button";
 import { Card, CardContent, CardHeader, CardTitle } from "../src/card";
 import { Input } from "../src/input";
+import { Label } from "../src/label";
 import { Separator } from "../src/separator";
+import { Textarea } from "../src/textarea";
 
 describe("rendering contracts", () => {
   it("renders on the server without browser globals", () => {
@@ -35,12 +37,16 @@ describe("rendering contracts", () => {
           <CardTitle>Server rendered</CardTitle>
         </CardHeader>
         <CardContent>
-          <Input aria-label="Server input" />
+          <Label htmlFor="server-input">Server input</Label>
+          <Input id="server-input" />
+          <Textarea aria-label="Server notes" />
         </CardContent>
       </Card>,
     );
 
     expect(markup).toContain('data-slot="card"');
+    expect(markup).toContain('data-slot="label"');
     expect(markup).toContain('data-slot="input"');
+    expect(markup).toContain('data-slot="textarea"');
   });
 });

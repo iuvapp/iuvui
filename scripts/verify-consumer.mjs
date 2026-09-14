@@ -236,6 +236,19 @@ const styles = readFileSync(
   "utf8",
 );
 assert.match(styles, /components\\/button\\.css/);
+assert.match(styles, /components\\/card\\.css/);
+assert.match(styles, /components\\/input\\.css/);
+assert.match(styles, /components\\/label\\.css/);
+assert.match(styles, /components\\/textarea\\.css/);
+for (const stylesheet of ["card.css", "input.css", "label.css", "textarea.css"]) {
+  const css = readFileSync(
+    fileURLToPath(
+      import.meta.resolve(\`@iuvui/styles/components/\${stylesheet}\`),
+    ),
+    "utf8",
+  );
+  assert.match(css, /@layer ui-components/);
+}
 const theme = readFileSync(
   fileURLToPath(import.meta.resolve("@iuvui/tokens/theme.css")),
   "utf8",

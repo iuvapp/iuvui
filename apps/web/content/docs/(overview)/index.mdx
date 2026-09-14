@@ -36,9 +36,10 @@ pnpm add @iuvui/react @iuvui/styles
 ```
 
 Card, Input, Label, and Textarea are workspace previews in this repository.
-Their package exports and CSS are verified locally, but they are not npm
-releases and must not be installed from `@iuvui/react@0.0.1` or
-`@iuvui/styles@0.0.1` yet.
+Their package exports and CSS are packed and verified locally, but they are
+not npm releases and must not be installed from `@iuvui/react@0.0.1` or
+`@iuvui/styles@0.0.1` yet. They also stay out of the public Registry so source
+install cannot depend on CSS that npm `0.0.1` does not ship.
 
 ### Source mode
 
