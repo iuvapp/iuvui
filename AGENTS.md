@@ -146,6 +146,12 @@
   application-layer integration must comply with the purchased license and keep
   protected credentials outside source control.
 
+## Local preview
+
+- When the user asks to preview changes locally, provide the start command
+  (e.g. `pnpm storybook` for components, `pnpm web` for the site) instead of
+  starting the server; the user runs and inspects it themselves.
+
 ## Upstream traceability
 
 - Treat shadcn/ui as the design and source reference baseline, React Aria Components as a replaceable behavior implementation behind `@iuvui/internal`, and HeroUI as a product and delivery experience reference.
