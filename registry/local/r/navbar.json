@@ -1,0 +1,38 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "navbar",
+  "type": "registry:ui",
+  "title": "Navbar",
+  "description": "A scroll-aware glass capsule navbar that contracts on scroll with hysteresis and reduced-motion support.",
+  "dependencies": ["@iuvui/styles@0.0.1", "@iuvui/utils@0.0.1"],
+  "files": [
+    {
+      "path": "registry/default/navbar.tsx",
+      "type": "registry:ui",
+      "target": "navbar.tsx",
+      "content": "// Installed from the iuvui canonical source. This copy belongs to your project.\nimport \"@iuvui/styles\";\n\nimport {\n  forwardRef,\n  useEffect,\n  useLayoutEffect,\n  useRef,\n  useState,\n  type ComponentPropsWithoutRef,\n} from \"react\";\nimport { cn } from \"@iuvui/utils\";\n\nconst NAVBAR_COLLAPSE_AT = 30;\nconst NAVBAR_EXPAND_AT = 8;\n\nconst useBrowserLayoutEffect =\n  typeof window === \"undefined\" ? useEffect : useLayoutEffect;\n\nfunction useCollapsedState() {\n  const [collapsed, setCollapsed] = useState(false);\n  const [motionReady, setMotionReady] = useState(false);\n  const collapsedRef = useRef(false);\n\n  useBrowserLayoutEffect(() => {\n    let scrollFrame = 0;\n    let readyFrame = 0;\n    let secondReadyFrame = 0;\n\n    const readScrollPosition = () => {\n      scrollFrame = 0;\n      const scrollY = Math.max(window.scrollY, 0);\n      const nextCollapsed = collapsedRef.current\n        ? scrollY > NAVBAR_EXPAND_AT\n        : scrollY > NAVBAR_COLLAPSE_AT;\n\n      if (nextCollapsed !== collapsedRef.current) {\n        collapsedRef.current = nextCollapsed;\n        setCollapsed(nextCollapsed);\n      }\n    };\n\n    const scheduleScrollRead = () => {\n      if (scrollFrame !== 0) {\n        return;\n      }\n\n      scrollFrame = requestAnimationFrame(readScrollPosition);\n    };\n\n    readScrollPosition();\n    window.addEventListener(\"scroll\", scheduleScrollRead, { passive: true });\n\n    readyFrame = requestAnimationFrame(() => {\n      secondReadyFrame = requestAnimationFrame(() => {\n        setMotionReady(true);\n      });\n    });\n\n    return () => {\n      cancelAnimationFrame(scrollFrame);\n      cancelAnimationFrame(readyFrame);\n      cancelAnimationFrame(secondReadyFrame);\n      window.removeEventListener(\"scroll\", scheduleScrollRead);\n    };\n  }, []);\n\n  return { collapsed, motionReady };\n}\n\nexport type NavbarProps = ComponentPropsWithoutRef<\"nav\">;\nexport type NavbarBrandProps = ComponentPropsWithoutRef<\"div\">;\nexport type NavbarContentProps = ComponentPropsWithoutRef<\"div\">;\nexport type NavbarActionsProps = ComponentPropsWithoutRef<\"div\">;\nexport type NavbarSpacerProps = ComponentPropsWithoutRef<\"span\">;\n\nexport interface NavbarItemProps extends ComponentPropsWithoutRef<\"a\"> {\n  /** Marks the item as the current page for assistive technology. */\n  current?: boolean;\n}\n\n// Independent iuvui component. The scroll-aware capsule uses hysteresis\n// thresholds and requestAnimationFrame batching; styling lives in\n// @iuvui/styles.\nexport const Navbar = forwardRef<HTMLElement, NavbarProps>(function Navbar(\n  { className, children, ...props },\n  ref,\n) {\n  const { collapsed, motionReady } = useCollapsedState();\n\n  return (\n    <nav\n      {...props}\n      ref={ref}\n      className={cn(\"ui-navbar\", className)}\n      data-slot=\"navbar\"\n      data-ui-root=\"\"\n      data-collapsed={collapsed ? \"true\" : \"false\"}\n      data-motion-ready={motionReady ? \"true\" : \"false\"}\n    >\n      <div className=\"ui-navbar__bar\" data-slot=\"navbar-bar\">\n        <span aria-hidden=\"true\" className=\"ui-navbar__surface\">\n          <span className=\"ui-navbar__surface-clip\">\n            <span className=\"ui-navbar__backdrop\" />\n          </span>\n        </span>\n        <div className=\"ui-navbar__header\" data-slot=\"navbar-header\">\n          {children}\n        </div>\n      </div>\n    </nav>\n  );\n});\n\nexport const NavbarBrand = forwardRef<HTMLDivElement, NavbarBrandProps>(\n  function NavbarBrand({ className, ...props }, ref) {\n    return (\n      <div\n        {...props}\n        ref={ref}\n        className={cn(\"ui-navbar__brand\", className)}\n        data-slot=\"navbar-brand\"\n      />\n    );\n  },\n);\n\nexport const NavbarContent = forwardRef<HTMLDivElement, NavbarContentProps>(\n  function NavbarContent({ className, ...props }, ref) {\n    return (\n      <div\n        {...props}\n        ref={ref}\n        className={cn(\"ui-navbar__content\", className)}\n        data-slot=\"navbar-content\"\n      />\n    );\n  },\n);\n\nexport const NavbarActions = forwardRef<HTMLDivElement, NavbarActionsProps>(\n  function NavbarActions({ className, ...props }, ref) {\n    return (\n      <div\n        {...props}\n        ref={ref}\n        className={cn(\"ui-navbar__actions\", className)}\n        data-slot=\"navbar-actions\"\n      />\n    );\n  },\n);\n\nexport const NavbarSpacer = forwardRef<HTMLSpanElement, NavbarSpacerProps>(\n  function NavbarSpacer({ className, ...props }, ref) {\n    return (\n      <span\n        {...props}\n        ref={ref}\n        className={cn(\"ui-navbar__spacer\", className)}\n        data-slot=\"navbar-spacer\"\n      />\n    );\n  },\n);\n\nexport const NavbarItem = forwardRef<HTMLAnchorElement, NavbarItemProps>(\n  function NavbarItem({ className, current, ...props }, ref) {\n    return (\n      <a\n        {...props}\n        ref={ref}\n        aria-current={current ? \"page\" : undefined}\n        className={cn(\"ui-navbar__item\", className)}\n        data-slot=\"navbar-item\"\n        data-current={current ? \"true\" : undefined}\n      />\n    );\n  },\n);\n"
+    }
+  ],
+  "meta": {
+    "iuvui": {
+      "schemaVersion": 1,
+      "version": "0.0.1",
+      "releaseStatus": "workspace-preview",
+      "availability": "free",
+      "style": "default",
+      "provenance": {
+        "kind": "independent",
+        "repository": "https://github.com/iuvapp/iuvui",
+        "path": "packages/react/src/navbar.tsx"
+      },
+      "references": [],
+      "integrity": {
+        "algorithm": "sha256",
+        "item": "sha256-hd4Cr44sfwUYJj4QRP1LO3MMhja2eGnHGL/pCeo5/V8=",
+        "files": {
+          "registry/default/navbar.tsx": "sha256-xtNcK4YvQ8pcI5gcIdkzcu/9yQaBryTOhc/Xmfj79M0="
+        }
+      }
+    }
+  }
+}

@@ -178,6 +178,7 @@ const generatedFiles = new Map([
       }),
     ),
   ],
+  ["registry/default/navbar.tsx", generateFoundationSource("navbar")],
   ["registry/default/separator.tsx", generateSeparatorSource()],
   [
     "registry/default/separator.third-party-notices.md",

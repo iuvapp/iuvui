@@ -49,6 +49,10 @@
       "types": "./dist/label.d.ts",
       "import": "./dist/label.js"
     },
+    "./navbar": {
+      "types": "./dist/navbar.d.ts",
+      "import": "./dist/navbar.js"
+    },
     "./separator": {
       "types": "./dist/separator.d.ts",
       "import": "./dist/separator.js"

@@ -224,6 +224,35 @@
       }
     },
     {
+      "name": "navbar",
+      "type": "registry:ui",
+      "title": "Navbar",
+      "description": "A scroll-aware glass capsule navbar that contracts on scroll with hysteresis and reduced-motion support.",
+      "dependencies": ["@iuvui/styles@0.0.1", "@iuvui/utils@0.0.1"],
+      "files": [
+        {
+          "path": "registry/default/navbar.tsx",
+          "type": "registry:ui",
+          "target": "navbar.tsx"
+        }
+      ],
+      "meta": {
+        "iuvui": {
+          "schemaVersion": 1,
+          "version": "0.0.1",
+          "releaseStatus": "workspace-preview",
+          "availability": "free",
+          "style": "default",
+          "provenance": {
+            "kind": "independent",
+            "repository": "https://github.com/iuvapp/iuvui",
+            "path": "packages/react/src/navbar.tsx"
+          },
+          "references": []
+        }
+      }
+    },
+    {
       "name": "textarea",
       "type": "registry:ui",
       "title": "Textarea",

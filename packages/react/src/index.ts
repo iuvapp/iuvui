@@ -34,6 +34,22 @@ export { Input } from "./input";
 export type { InputProps } from "./input";
 export { Label } from "./label";
 export type { LabelProps } from "./label";
+export {
+  Navbar,
+  NavbarActions,
+  NavbarBrand,
+  NavbarContent,
+  NavbarItem,
+  NavbarSpacer,
+} from "./navbar";
+export type {
+  NavbarActionsProps,
+  NavbarBrandProps,
+  NavbarContentProps,
+  NavbarItemProps,
+  NavbarProps,
+  NavbarSpacerProps,
+} from "./navbar";
 export { Separator } from "./separator";
 export type { SeparatorOrientation, SeparatorProps } from "./separator";
 export { TextField } from "./text-field";
