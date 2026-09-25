@@ -166,8 +166,9 @@ pnpm public:check
 ## Web platform
 
 - `iuvui.com` is the public brand, component, and documentation site.
-- `ui.iuvdev.com` is the Cloudflare Access-protected development deployment of
-  the public site.
+- `iuvui.iuvdev.com` is the Cloudflare Access-protected development deployment
+  of the public site. The retired `iuvui-dashboard-dev` Worker previously held
+  this hostname; it is no longer in use.
 - The future private dashboard has no configured domain or deployment in this
   repository. Its implementation and server-side entitlement boundary will live
   in `iuv-pro` when that repository is created.
