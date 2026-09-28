@@ -166,10 +166,13 @@ pnpm public:check
 ## Web platform
 
 - `iuvui.com` is the public brand, component, and documentation site.
-- Staging and production deploys run only through manual promotion workflows in
-  CI. Staging uploads a Worker version with the `staging` preview alias on the
-  single `iuvui` Worker; production serves `iuvui.com`. There is no separate
-  development Worker or `*.iuvdev.com` hostname for the public site.
+- Staging and production deploys run only through the `CI Staging and Production
+  Promotion` workflow. Staging validates `origin/main` (or an explicit SHA),
+  uploads Worker preview versions with the `staging` alias, tags
+  `staging/<UTC>-<shortsha>`, and records a `Staging` GitHub Deployment.
+  Production ships only SHAs that already have a staging tag and successful
+  `Staging` deployment, then serves `iuvui.com` and `ui.iuvui.com`. Merges and
+  pull requests do not trigger deploys.
 - The future private dashboard has no configured domain or deployment in this
   repository. Its implementation and server-side entitlement boundary will live
   in `iuv-pro` when that repository is created.

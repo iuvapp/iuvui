@@ -163,8 +163,8 @@ rollback, logs, and observability. R2 or KV may still be introduced later for
 immutable asset delivery or edge caching when a concrete requirement exists.
 
 A staging version upload does not imply a production promotion. Production
-promotion requires an explicit workflow dispatch to the `production` GitHub
-environment.
+promotion requires a matching `staging/*` tag, a successful `Staging` GitHub
+Deployment for the same SHA, and an explicit workflow dispatch to `production`.
 
 Only the two public Workers are configured or deployed from this repository. No
 dashboard Worker is configured here. Future private dashboard Worker configuration
@@ -172,32 +172,39 @@ and operations belong in `iuv-pro` after that repository exists.
 
 ### Promotion deployment
 
-Deployments run only through manual promotion workflows in CI. Merges, pushes to
-`main`, and pull requests do not trigger deploys. Authenticate Wrangler in CI with
-`CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` repository secrets.
+Deployments run only through the `CI Staging and Production Promotion` workflow
+(`ci-deploy.yml`). Merges, pushes to `main`, and pull requests do not trigger
+deploys. Configure `CLOUDFLARE_ACCOUNT_ID` as a repository variable and
+`CLOUDFLARE_API_TOKEN` as a repository secret.
 
-Run the `Deploy Web` workflow from the Actions tab (or `gh workflow run
-deploy-web.yml`). Choose `staging` or `production`, and optionally a `ref`
-(branch, tag, or SHA). The selected GitHub environment supplies protection rules
-and secrets.
+#### Staging promotion
 
-Staging uploads a Worker version with the `staging` preview alias:
+Trigger: Actions → **CI Staging and Production Promotion** → `promotion=staging`
+(optional `sha`; default resolves to `origin/main` HEAD). Pushing an existing
+`staging/*` tag re-runs staging deploy without creating a new tag.
+
+1. Run reusable quality checks (`ci.yml`) against the target SHA.
+2. Deploy `iuvui` and `iuvui-storybook` staging previews
+   (`wrangler versions upload --preview-alias staging`).
+3. Create annotated tag `staging/<UTC>-<shortsha>` when all gates pass.
+4. Record a successful GitHub Deployment in environment `Staging`.
+
+#### Production promotion
+
+Trigger: same workflow with `promotion=production` and `sha` or `staging_tag`.
+
+1. Verify the SHA has a `staging/*` tag and a successful `Staging` deployment.
+2. Fast-forward the `production` git branch to that SHA.
+3. Deploy `iuvui` to `iuvui.com` and `iuvui-storybook` to `ui.iuvui.com`.
+4. Record a successful GitHub Deployment in environment `Production`.
+
+Local deploy scripts remain available for debugging only:
 
 ```bash
 pnpm web:deploy:staging
-```
-
-Production promotes the built site to the `iuvui` Worker and serves `iuvui.com`:
-
-```bash
 pnpm web:deploy
-```
-
-Storybook follows the same model through the `Deploy Storybook` workflow:
-
-```bash
-pnpm storybook:deploy:staging   # staging version alias
-pnpm storybook:deploy           # production at ui.iuvui.com
+pnpm storybook:deploy:staging
+pnpm storybook:deploy
 ```
 
 The deployment commands build each application before deploying it. No prebuilt

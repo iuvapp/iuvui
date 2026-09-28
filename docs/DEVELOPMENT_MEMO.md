@@ -13,32 +13,39 @@ public integration boundary with that future system.
 Last local verification: 2026-09-28.
 Last recorded external deployment: 2026-08-20.
 
-## 2026-09-28 — Promotion-only CI/CD for staging and production
+## 2026-09-28 — iuv-stack promotion coordinator for staging and production
 
 Status: **Configuration updated locally; external deployment pending Cloudflare dashboard and CI setup.**
 
 The public website uses one Worker named `iuvui` with production at
 `iuvui.com`. Storybook uses `iuvui-storybook` at `ui.iuvui.com`. Deploys run
-only through manual promotion workflows; merges, pushes to `main`, and pull
-requests do not trigger deploys.
+only through `ci-deploy.yml`; merges, pushes to `main`, and pull requests do
+not trigger deploys or quality checks.
 
-Staging uploads a Worker version with the `staging` preview alias
-(`wrangler versions upload --preview-alias staging`) and exposes a stable
-version URL such as `staging-iuvui.<subdomain>.workers.dev`. Production runs
-`wrangler deploy` against the live custom domain. There is no development
-Worker and no `*.iuvdev.com` hostname for the public site.
+Staging promotion (default SHA = `origin/main` HEAD):
+
+1. reusable `ci.yml` quality checks against the target SHA;
+2. staging preview deploy for `iuvui` and `iuvui-storybook`
+   (`wrangler versions upload --preview-alias staging`);
+3. annotated tag `staging/<UTC>-<shortsha>` when gates pass;
+4. GitHub Deployment recorded in environment `Staging`.
+
+Production promotion:
+
+1. requires a matching `staging/*` tag and successful `Staging` deployment;
+2. fast-forwards `production` branch to the promoted SHA;
+3. `wrangler deploy` for `iuvui.com` and `ui.iuvui.com`;
+4. GitHub Deployment recorded in environment `Production`.
 
 Changes:
 
-- removed `deploy-web-preview.yml` and the pull-request deploy trigger;
-- replaced `deploy-web-production.yml` with `deploy-web.yml`, a
-  `workflow_dispatch` promotion workflow with `staging` and `production`
-  environments;
-- updated `deploy-storybook.yml` to the same staging/production promotion model;
-- root scripts now expose `web:deploy:staging` and `storybook:deploy:staging`
-  instead of `web:preview`;
-- `apps/storybook/wrangler.jsonc` enables `preview_urls` for staging version
-  URLs;
+- added `ci-deploy.yml` promotion coordinator and `cloudflare-deploy.yml`
+  reusable deploy workflow;
+- converted `ci.yml` to `workflow_call` only (no `pull_request` / `push`
+  triggers);
+- removed standalone `deploy-web.yml` and `deploy-storybook.yml`;
+- added `scripts/ci-promotion.mjs`, `scripts/ci-staging-promotion.mjs`, and
+  `scripts/ci-cloudflare-deploy.mjs`;
 - README, `AGENTS.md`, and `WEB_PLATFORM.md` updated to match.
 
 Owner follow-up in Cloudflare and GitHub:
@@ -47,10 +54,10 @@ Owner follow-up in Cloudflare and GitHub:
 - enable preview URLs on `iuvui` and `iuvui-storybook`;
 - bind `ui.iuvui.com` to `iuvui-storybook` and remove `storybook.iuvui.com`;
 - remove retired `iuvui-web-dev`, `iuvui-web-prod`, and `*.iuvdev.com` routes;
-- configure `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` repository
-  secrets;
-- create GitHub environments named `staging` and `production`, and protect
-  `production` with required reviewers.
+- set repository variable `CLOUDFLARE_ACCOUNT_ID` and secret
+  `CLOUDFLARE_API_TOKEN`;
+- create GitHub environments `Staging` and `Production`, and protect
+  `Production` with required reviewers.
 
 No Worker, Storybook, or npm package was deployed from this revision.
 

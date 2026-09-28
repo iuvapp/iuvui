@@ -130,14 +130,15 @@
 - This repository may configure and deploy only the `iuvui` public website
   Worker and the `iuvui-storybook` Worker. It must never configure or deploy a
   dashboard Worker.
-- Deploy the public website and Storybook only through the promotion workflows
-  (`Deploy Web`, `Deploy Storybook`). These run on `workflow_dispatch` only;
-  merges, pushes to `main`, and pull requests must not trigger deploys.
-  Staging uploads a Worker version with the `staging` preview alias
-  (`pnpm web:deploy:staging`, `pnpm storybook:deploy:staging`). Production
-  promotes the build to the live custom domain (`pnpm web:deploy`,
-  `pnpm storybook:deploy`). Do not run deploy commands locally unless explicitly
-  authorized for debugging.
+- Deploy the public website and Storybook only through the
+  `CI Staging and Production Promotion` workflow (`ci-deploy.yml`). Merges,
+  pushes to `main`, and pull requests must not trigger deploys. Staging runs
+  quality checks, uploads Worker preview versions with the `staging` alias, tags
+  `staging/<UTC>-<shortsha>`, and records a GitHub Deployment in environment
+  `Staging`. Production requires a matching staging tag and successful `Staging`
+  deployment, fast-forwards the `production` branch, deploys live Workers, and
+  records a GitHub Deployment in environment `Production`. Do not run deploy
+  commands locally unless explicitly authorized for debugging.
 - The Cloudflare Vite build writes a flattened Wrangler configuration into
   `dist`. Do not use a bare `wrangler deploy` against an unbuilt tree or assume
   a later `--env` flag can correct a bundle built for the wrong target.
