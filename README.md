@@ -166,13 +166,13 @@ pnpm public:check
 ## Web platform
 
 - `iuvui.com` is the public brand, component, and documentation site.
-- `iuvui.iuvdev.com` is the Cloudflare Access-protected development deployment
-  of the public site. The retired `iuvui-dashboard-dev` Worker previously held
-  this hostname; it is no longer in use.
+- Branch and pull-request previews use Cloudflare Worker preview URLs on the
+  single `iuvui` Worker (`wrangler versions upload` in CI). There is no
+  separate development Worker or `*.iuvdev.com` hostname for the public site.
 - The future private dashboard has no configured domain or deployment in this
   repository. Its implementation and server-side entitlement boundary will live
   in `iuv-pro` when that repository is created.
-- `storybook.iuvui.com` is the public component-development and contract surface.
+- `ui.iuvui.com` is the public component-development and contract surface.
 - `mcp.iuvui.com` is the planned authentication-free MCP documentation service.
   It exposes public documentation and Pro capability metadata, never paid asset
   contents.

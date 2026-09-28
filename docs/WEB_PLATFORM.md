@@ -2,13 +2,12 @@
 
 ## Product surfaces
 
-| Domain                | Role                                                    | Access                 |
-| --------------------- | ------------------------------------------------------- | ---------------------- |
-| `iuvui.iuvdev.com`    | Development build of the public website                 | Cloudflare Access      |
-| `iuvui.com`           | Brand, components, documentation, and public content    | Public, frontend-first |
-| `storybook.iuvui.com` | Component development and contract reference            | Public                 |
-| `mcp.iuvui.com`       | Planned documentation and capability discovery over MCP | Public, no login       |
-| Not configured        | Future Free and Pro account dashboard                   | Private, outside iuvui |
+| Domain           | Role                                                    | Access                 |
+| ---------------- | ------------------------------------------------------- | ---------------------- |
+| `iuvui.com`      | Brand, components, documentation, and public content    | Public, frontend-first |
+| `ui.iuvui.com`   | Component development and contract reference            | Public                 |
+| `mcp.iuvui.com`  | Planned documentation and capability discovery over MCP | Public, no login       |
+| Not configured   | Future Free and Pro account dashboard                   | Private, outside iuvui |
 
 Each application deploys from its owning repository with independent code,
 configuration, secrets, custom domains, and release processes. The public site
@@ -24,8 +23,8 @@ by this public repository.
 
 ```text
 iuvapp/iuvui                       public repository
-├── apps/web/                        landing, catalog, and Fumadocs routes for iuvui.iuvdev.com and iuvui.com
-├── apps/storybook/                  storybook.iuvui.com
+├── apps/web/                        landing, catalog, and Fumadocs routes for iuvui.com
+├── apps/storybook/                  ui.iuvui.com
 ├── packages/cli/                    @iuvui/cli; `iuvui` executable
 ├── packages/site-ui/                public-site presentation primitives
 ├── packages/react/                  @iuvui/react
@@ -103,9 +102,8 @@ website chrome until self-bootstrap.
 `apps/web` is the single public web and documentation project. Its `/` route is
 a concise brand entry point, while the Fumadocs routes own the Overview,
 component catalog and references, variants, styles, icons, brand guidance,
-guides, search endpoint, and Registry surface. They are built together into
-`iuvui-web-dev` and `iuvui-web-prod`; there is no docs-only Worker, domain, or
-deployment pipeline.
+guides, search endpoint, and Registry surface. They are built together into the
+`iuvui` Worker; there is no docs-only Worker, domain, or deployment pipeline.
 
 Additional TanStack packages are preferred for matching application concerns
 such as asynchronous state, forms, tables, and virtualization when those needs
@@ -146,55 +144,57 @@ English is the canonical source language and the default display language. Engli
 
 ```text
 iuvui repository:
-iuvui-web-dev   -> iuvui.iuvdev.com
-iuvui-web-prod  -> iuvui.com
-iuvui-storybook -> storybook.iuvui.com
+iuvui           -> iuvui.com (production custom domain)
+                -> Worker preview URLs / version URLs (branch previews in CI)
+iuvui-storybook -> ui.iuvui.com
 ```
 
-The retired `iuvui-dashboard-dev` Worker previously held `iuvui.iuvdev.com`.
-That hostname now belongs to `iuvui-web-dev`. The dashboard Worker itself is
-retired and is not redeployed from this repository.
+The public website uses one Cloudflare Worker named `iuvui`. Production traffic
+serves `iuvui.com`. Branch and pull-request previews upload Worker versions in
+CI (`wrangler versions upload`) and expose preview URLs; there is no separate
+development Worker and no `*.iuvdev.com` hostname for the public site.
 
-The public website is built separately for the `dev` and `prod` Cloudflare
-environments before deployment. The Vite plugin selects the environment at build
-time and produces the flattened Wrangler deployment configuration. Storybook has
-one production Worker. Each Worker owns its custom domain, deployment, rollback,
-logs, and observability. R2 or KV may still be introduced later for immutable
-asset delivery or edge caching when a concrete requirement exists.
+The Vite plugin produces the flattened Wrangler deployment configuration at build
+time. Storybook has one production Worker. Each Worker owns its custom domain,
+deployment, rollback, logs, and observability. R2 or KV may still be introduced
+later for immutable asset delivery or edge caching when a concrete requirement
+exists.
 
-Development deploys precede production promotion. An anonymous `302` response
-from a Cloudflare Access-protected hostname verifies only that the access policy
-is active; authenticated SSR, navigation, locale, and Registry checks require an
-authorized session. A development deployment never implies that production was
-promoted.
+Preview uploads do not imply a production promotion. A successful preview version
+URL verifies the uploaded build; production promotion requires an explicit CI
+deploy to the `iuvui` Worker.
 
-Only the three public Workers are configured or deployed from this repository.
-No dashboard Worker is configured here. Future private dashboard Worker
-configuration and operations belong in `iuv-pro` after that repository exists.
+Only the two public Workers are configured or deployed from this repository. No
+dashboard Worker is configured here. Future private dashboard Worker configuration
+and operations belong in `iuv-pro` after that repository exists.
 
-### Manual deployment
+### CI deployment
 
-Authenticate Wrangler once from the repository root:
+Deployments run only in CI. Authenticate Wrangler in CI with
+`CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` repository secrets.
+
+Pull requests to `main` upload a preview Worker version:
 
 ```bash
-pnpm --filter @iuvui/web exec wrangler login
+pnpm web:preview
 ```
 
-Deploy the development website first:
+Production promotion deploys the built site to the `iuvui` Worker and serves
+`iuvui.com`. This runs manually from the `Deploy Web Production` workflow
+(protected by the `production` GitHub environment):
 
 ```bash
-pnpm web:deploy:dev
+pnpm web:deploy
 ```
 
-After independent verification and an explicit production decision, promote the
-public website or deploy Storybook with their separate commands:
+Storybook deploys separately through the `Deploy Storybook` workflow:
 
 ```bash
-pnpm web:deploy:prod
 pnpm storybook:deploy
 ```
 
-The deployment commands build each application before deploying it. No prebuilt output needs to be committed.
+The deployment commands build each application before deploying it. No prebuilt
+output needs to be committed.
 
 ## Future Clerk authentication and organizations
 
