@@ -1,0 +1,126 @@
+{
+  "schemaVersion": 1,
+  "name": "button",
+  "exportName": "Button",
+  "packageEntry": "@iuvui/react/button",
+  "sourcePath": "packages/react/src/button.tsx",
+  "stylePath": "packages/styles/components/button.css",
+  "rootSlot": "button",
+  "slots": [
+    "button",
+    "button-spinner",
+    "button-start-content",
+    "button-label",
+    "button-end-content"
+  ],
+  "axes": [
+    {
+      "prop": "variant",
+      "type": "ButtonVariant",
+      "attribute": "data-variant",
+      "values": [
+        "default",
+        "secondary",
+        "destructive",
+        "outline",
+        "ghost",
+        "link"
+      ],
+      "default": "default",
+      "cssSelectorValues": [
+        "secondary",
+        "destructive",
+        "outline",
+        "ghost",
+        "link"
+      ]
+    },
+    {
+      "prop": "size",
+      "type": "ButtonSize",
+      "attribute": "data-size",
+      "values": ["sm", "md", "lg"],
+      "default": "md",
+      "cssSelectorValues": ["sm", "lg"]
+    },
+    {
+      "prop": "radius",
+      "type": "ButtonRadius",
+      "attribute": "data-radius",
+      "values": ["sm", "md", "lg", "full"],
+      "default": "md",
+      "cssSelectorValues": ["sm", "lg", "full"]
+    }
+  ],
+  "booleanProps": [
+    {
+      "prop": "fullWidth",
+      "attribute": "data-full-width",
+      "emittedBy": "component",
+      "default": false
+    },
+    {
+      "prop": "isIconOnly",
+      "attribute": "data-icon-only",
+      "emittedBy": "component",
+      "default": false
+    },
+    {
+      "prop": "isPending",
+      "attribute": "data-pending",
+      "emittedBy": "component",
+      "default": false
+    },
+    {
+      "prop": "isDisabled",
+      "attribute": "data-disabled",
+      "emittedBy": "primitive",
+      "default": false
+    }
+  ],
+  "states": [
+    "data-disabled",
+    "data-focus-visible",
+    "data-hovered",
+    "data-pending"
+  ],
+  "tokens": [
+    "--ui-accent",
+    "--ui-accent-foreground",
+    "--ui-background",
+    "--ui-destructive",
+    "--ui-destructive-foreground",
+    "--ui-foreground",
+    "--ui-input",
+    "--ui-primary",
+    "--ui-primary-foreground",
+    "--ui-radius-lg",
+    "--ui-radius-md",
+    "--ui-radius-sm",
+    "--ui-ring",
+    "--ui-secondary",
+    "--ui-secondary-foreground"
+  ],
+  "storybook": {
+    "path": "apps/storybook/src/stories/Button.stories.tsx",
+    "stories": [
+      "Default",
+      "AllVariants",
+      "AllSizes",
+      "Disabled",
+      "Loading",
+      "WithContent",
+      "IconOnly",
+      "FullWidth",
+      "Link",
+      "DarkTheme",
+      "CustomVariables",
+      "CustomClassName",
+      "ExtendedVariants"
+    ]
+  },
+  "registry": {
+    "name": "button",
+    "sourcePath": "registry/default/button.tsx"
+  }
+}
