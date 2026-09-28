@@ -54,10 +54,11 @@ Owner follow-up in Cloudflare and GitHub:
 - enable preview URLs on `iuvui` and `iuvui-storybook`;
 - bind `ui.iuvui.com` to `iuvui-storybook` and remove `storybook.iuvui.com`;
 - remove retired `iuvui-web-dev`, `iuvui-web-prod`, and `*.iuvdev.com` routes;
-- set repository variable `CLOUDFLARE_ACCOUNT_ID` and secret
-  `CLOUDFLARE_API_TOKEN`;
-- create GitHub environments `Staging` and `Production`, and protect
-  `Production` with required reviewers.
+- set organization- or repository-level Actions secrets `CLOUDFLARE_API_TOKEN`
+  and `CLOUDFLARE_ACCOUNT_ID` (a repository variable `CLOUDFLARE_ACCOUNT_ID`
+  is also accepted as a fallback);
+- GitHub environments `Staging` and `Production` exist; `Production` requires a
+  reviewer.
 
 No Worker, Storybook, or npm package was deployed from this revision.
 

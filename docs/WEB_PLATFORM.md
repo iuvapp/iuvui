@@ -174,8 +174,11 @@ and operations belong in `iuv-pro` after that repository exists.
 
 Deployments run only through the `CI Staging and Production Promotion` workflow
 (`ci-deploy.yml`). Merges, pushes to `main`, and pull requests do not trigger
-deploys. Configure `CLOUDFLARE_ACCOUNT_ID` as a repository variable and
-`CLOUDFLARE_API_TOKEN` as a repository secret.
+deploys. Configure `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` as
+organization- or repository-level Actions secrets. A repository variable
+`CLOUDFLARE_ACCOUNT_ID` is also accepted as a fallback when the secret is not
+set. GitHub environments `Staging` and `Production` gate deploy jobs;
+`Production` requires a reviewer.
 
 #### Staging promotion
 
