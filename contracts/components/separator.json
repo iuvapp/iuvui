@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "name": "separator",
+  "exportName": "Separator",
+  "packageEntry": "@iuvui/react/separator",
+  "sourcePath": "packages/react/src/separator.tsx",
+  "stylePath": "packages/styles/components/separator.css",
+  "rootSlot": "separator",
+  "slots": ["separator"],
+  "axes": [
+    {
+      "prop": "orientation",
+      "type": "SeparatorOrientation",
+      "attribute": "data-orientation",
+      "values": ["horizontal", "vertical"],
+      "default": "horizontal",
+      "cssSelectorValues": ["horizontal", "vertical"]
+    }
+  ],
+  "booleanProps": [],
+  "states": [],
+  "tokens": ["--ui-border"],
+  "storybook": {
+    "path": "apps/storybook/src/stories/Separator.stories.tsx",
+    "stories": ["Horizontal", "Vertical", "NamedBoundary"]
+  },
+  "registry": {
+    "name": "separator",
+    "sourcePath": "registry/default/separator.tsx"
+  }
+}

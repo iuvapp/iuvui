@@ -13,8 +13,8 @@
   installation, provenance, and future lifecycle operations.
 - `packages/site-ui`: private presentation primitives for the public website.
 - `registry`: versioned release and local-staging component-delivery metadata
-  generated from canonical package source. A machine-readable component-contract
-  layer is planned and does not exist yet.
+  generated from canonical package source. Private machine-readable contracts
+  currently validate the published Button and Separator delivery paths.
 - `apps/storybook`: consumes real package entry points and hosts Playwright contract fixtures.
 - `apps/web`: the public `iuvui.com` Cloudflare Worker application.
 
@@ -70,25 +70,26 @@ The architecture separates three concerns that are often conflated:
 
 The public API belongs to iuvui. Upstream source may accelerate implementation, but it does not decide permanent props, DOM anatomy, variants, tokens, or upgrade guarantees.
 
-### Planned machine-readable component contracts
+### Machine-readable component contract pilot
 
-The planned private build-time contract will describe each canonical component's
-identity, public anatomy, stable slots, documented states, variant axes,
-defaults, semantic tokens, examples, package entry points, and Registry delivery
-paths. The contract is metadata about the canonical implementation; it is not a
-second implementation and is not automatically part of the public React API.
+`contracts/components` contains private build-time metadata for the published
+Button and Separator components. The pilot records component identity, public
+variant axes and defaults, stable slots and attributes, semantic tokens, named
+Storybook stories, package entry points, and Registry source-delivery paths.
+`pnpm contract:check` compares these records with canonical TypeScript, CSS,
+package exports, Storybook source, and published Registry metadata; it is also
+part of `pnpm registry:check`. The contracts do not create another runtime
+implementation or public React API.
 
-Registry artifacts, component reference documentation, compatibility checks,
-agent guidance, and future design-tool adapters will consume this contract. Until
-then, TypeScript source, precompiled CSS, behavioral tests, and explicit Registry
-metadata remain the authoritative implementation surfaces.
-
-The first contract implementation must validate existing components before it
-generates new runtime code. Generation may be introduced only for deterministic
-artifacts where reviewable source inputs, stable output, and package/source parity
-are preserved. Design tools are downstream consumers: Figma exports and drift
-reports never override component source, accessibility behavior, or Registry
-provenance.
+The static check establishes consistency for the fields it inspects. It does not
+inspect attributes emitted by the internal behavior primitives. Behavioral
+tests remain responsible for rendering, accessibility, and state transitions.
+The contract format must expand and prove package/source parity before Registry
+generation, component documentation, agent guidance, or design-tool adapters
+consume it. Generation may be introduced only for deterministic artifacts with
+reviewable source inputs and stable output. Design tools remain downstream:
+Figma exports and drift reports never override component source, accessibility
+behavior, or Registry provenance.
 
 ### Versioned upstream provenance
 
@@ -106,9 +107,9 @@ workflow and requests maintainer review without modifying source. Maintainers
 then classify the shadcn diff, update the pinned revision, blob, sync date, and
 local-change notes, rerun relevant package, Registry, and consumer checks, and
 publish a new `0.0.x` Registry item only when explicitly authorized. Contract
-checks will join that workflow after the planned contract layer exists. Consumer
-updates can then distinguish upstream changes from iuvui adaptations and local
-variants.
+checks cover published Button and Separator today and must expand with each
+new published component. Consumer updates can then distinguish upstream
+changes from iuvui adaptations and local variants.
 
 ## Styles and tokens
 

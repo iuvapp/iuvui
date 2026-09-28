@@ -10,7 +10,7 @@ operational authority. A future private `iuv-pro` repository will own the
 dashboard and protected assets when it is created. This memo records only the
 public integration boundary with that future system.
 
-Last local verification: 2026-09-25.
+Last local verification: 2026-09-28.
 Last recorded external deployment: 2026-08-20.
 
 ## 2026-09-25 — Development hostname reassignment
@@ -65,6 +65,54 @@ package was changed in this revision.
   embedded directly in source files.
 - All public package and Registry releases remain in `0.0.x` until `0.1.0` is
   explicitly unlocked.
+
+## 2026-09-28 — Component contract review hardening
+
+Status: **Verified locally; not released or deployed.**
+
+Review of the Button and Separator pilot found three machine-checkable drift
+gaps. The validator now records the CSS selector values for each axis, including
+defaults that require a selector; checks the exact package and style export
+targets; and accepts a root marker only when its value is a static string.
+Three negative tests cover those cases, bringing the contract suite to ten
+tests. Primitive-emitted states and rendered behavior remain outside this
+static check.
+
+Verification completed on 2026-09-28: `pnpm build`, `pnpm test`,
+`pnpm typecheck`, `pnpm lint`, `pnpm registry:check`, and
+`pnpm language:check` passed. No package, Registry item, Worker, or Storybook
+deployment was published.
+
+## 2026-09-23 — Component contract pilot and Agent-ready feasibility route
+
+Status: **Verified locally; not released or deployed.**
+
+The Button and Separator pilot now stores private component metadata in
+`contracts/components`. A static validator compares public string-union axes,
+defaults, boolean props, slots, data attributes, CSS selectors, semantic token
+declarations, package and style exports, named Storybook stories, and published
+Registry identity and paths against the canonical source. `pnpm registry:check`
+runs the contract check. The root test command runs negative contract tests.
+Runtime component tests remain the evidence for behavior and accessibility.
+The metadata validator does not prove rendered semantics or state transitions.
+Attributes emitted by the internal behavior primitives remain outside the
+static check.
+
+The Agent-ready route is tracked in the iuvui.com Linear project. The immediate
+next delivery gate is package/source parity and compatibility with the stock
+shadcn CLI. A dry run of the current public Button and Separator Registry items
+places files in the consumer's `src/` root; a target using the documented
+`@components/iuv-ui/` alias places them in the intended component directory.
+The current iuvui CLI rejects that alias, so both delivery paths need a shared
+solution. A separate integrity probe showed that the current Registry item
+digest does not cover file targets or npm dependencies. These findings are
+tracked for a versioned integrity fix and independent-consumer verification
+before any release.
+
+Verification completed on 2026-09-23: `pnpm contract:test` (seven tests),
+`pnpm registry:check`, `pnpm test`, `pnpm typecheck`, `pnpm lint`,
+`pnpm language:check`, targeted Prettier, and `git diff --check` passed. No npm
+package, Registry item, Worker, or Storybook deployment was published.
 
 ## 2026-09-12 — Card, Input, Label, and Textarea package path
 
@@ -305,9 +353,9 @@ Adopted decisions:
 
 Execution plan:
 
-1. **Contract pilot** — define and validate the private contract format against
-   Button and Separator, covering current variants, defaults, stable slots,
-   documented states, semantic tokens, package paths, and Registry paths.
+1. **Contract pilot (implemented)** — validate private Button and Separator
+   contracts against current variants, defaults, stable slots, documented
+   states, semantic tokens, package paths, and Registry paths.
 2. **Registry and documentation integration** — generate or validate catalog
    descriptions and component reference data from the contract, then extend the
    pilot to Dialog and TextField so every current public component is covered.
@@ -345,8 +393,12 @@ Current work log:
   required behavior boundary, precompiled style delivery, stable slots and
   states, versioned Registry provenance, package/source parity, Storybook
   contracts, and Blocks-compatible CLI direction. Identified component contract
-  metadata as the missing shared layer; implementation of the Button and
-  Separator pilot is the next active slice.
+  metadata as the missing shared layer and chose Button and Separator for the
+  first validation pilot.
+- **2026-09-23 — Contract pilot:** added the private metadata and static checks
+  for published Button and Separator, with negative tests and Registry gating.
+  Independent-consumer source installation and integrity coverage remain the
+  next delivery work.
 
 ## Status rules
 
