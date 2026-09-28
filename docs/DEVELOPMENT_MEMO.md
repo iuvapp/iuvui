@@ -13,6 +13,40 @@ public integration boundary with that future system.
 Last local verification: 2026-09-28.
 Last recorded external deployment: 2026-08-20.
 
+## 2026-09-28 — Single Worker and preview-based deployment
+
+Status: **Configuration updated locally; external deployment pending Cloudflare dashboard and CI setup.**
+
+The public website moves from separate `iuvui-web-dev` and `iuvui-web-prod`
+Workers to one Worker named `iuvui`. Production keeps the `iuvui.com` custom
+domain. Branch and pull-request previews use Cloudflare Worker preview URLs via
+`wrangler versions upload` in CI; there is no development Worker and no
+`*.iuvdev.com` hostname for the public site.
+
+Storybook moves from `storybook.iuvui.com` to `ui.iuvui.com`.
+
+Changes:
+
+- `apps/web/wrangler.jsonc` consolidated to Worker `iuvui` with
+  `preview_urls: true`, production route `iuvui.com`, and no `env` block;
+- `apps/storybook/wrangler.jsonc` route updated to `ui.iuvui.com`;
+- root and `@iuvui/web` scripts replaced `web:deploy:dev` / `web:deploy:prod`
+  with `web:preview` and `web:deploy`; removed `CLOUDFLARE_ENV` build split;
+- CI workflows added for preview upload, production deploy, and Storybook
+  deploy;
+- README, `AGENTS.md`, and `WEB_PLATFORM.md` updated to match.
+
+Owner follow-up in Cloudflare and GitHub:
+
+- create or rename the production Worker to `iuvui` and attach `iuvui.com`;
+- enable preview URLs on the Worker;
+- bind `ui.iuvui.com` to `iuvui-storybook` and remove `storybook.iuvui.com`;
+- remove retired `iuvui-web-dev`, `iuvui-web-prod`, and `*.iuvdev.com` routes;
+- configure `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` repository
+  secrets and protect the `production` GitHub environment for promotion deploys.
+
+No Worker, Storybook, or npm package was deployed from this revision.
+
 ## 2026-09-25 — Development hostname reassignment
 
 Status: **Configuration updated locally; external deployment pending Cloudflare credentials.**
@@ -405,13 +439,14 @@ Current work log:
 - A phase is complete only when every exit criterion is satisfied.
 - A successful local build or commit is not a deployment.
 - A successful package build or pack check is not an npm release.
-- An anonymous Cloudflare Access redirect verifies the access boundary, not the
-  protected application content.
+- An anonymous Cloudflare Access redirect on a legacy hostname verifies the
+  access boundary, not the protected application content.
 - Public and private repositories are validated, committed, deployed, and
   released independently.
 - No npm publication occurs without explicit authorization for the exact
   release.
-- A development deployment does not authorize or imply a production promotion.
+- A preview Worker version upload does not authorize or imply a production
+  promotion.
 
 ## Verified delivery snapshot
 
@@ -456,13 +491,12 @@ blocked by the unpublished CLI package.
 
 ### Public website and documentation
 
-The public website has separate TanStack Start builds and Cloudflare Workers for
-development and production:
+The public website uses one TanStack Start build and one Cloudflare Worker:
 
-- `iuvui-web-dev` serves `iuvui.iuvdev.com`;
-- `iuvui-web-prod` serves `iuvui.com`.
+- `iuvui` serves `iuvui.com` in production;
+- CI preview uploads expose version URLs on the same Worker.
 
-The following entries separate the latest development deployment from older
+The following entries separate the latest preview deployment from older
 historical records:
 
 - `iuvui-web-dev` was deployed as Worker version
@@ -520,7 +554,7 @@ and npm publication remain unchanged.
 
 The following is the last recorded Storybook deployment, not validation of the
 current source tree: Worker version `81b9a987-cd69-40b5-87f9-1241858f6dc4` was
-recorded at `storybook.iuvui.com` with Button and Separator documentation and
+recorded at `ui.iuvui.com` with Button and Separator documentation and
 contract stories. Re-run the Storybook build, Playwright contract tests, and
 external smoke checks before treating that record as current.
 

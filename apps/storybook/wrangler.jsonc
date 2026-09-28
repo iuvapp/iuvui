@@ -7,7 +7,7 @@
   "assets": {
     "directory": "./storybook-static",
   },
-  "routes": [{ "pattern": "storybook.iuvui.com", "custom_domain": true }],
+  "routes": [{ "pattern": "ui.iuvui.com", "custom_domain": true }],
   "observability": {
     "enabled": true,
   },

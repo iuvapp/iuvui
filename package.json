@@ -34,10 +34,9 @@
     "upstream:check": "node scripts/check-upstream-provenance.mjs",
     "version-packages": "pnpm release:check && changeset version && pnpm release:check",
     "web": "pnpm --filter @iuvui/web dev",
-    "web:build:dev": "pnpm --filter @iuvui/web build:dev",
-    "web:build:prod": "pnpm --filter @iuvui/web build:prod",
-    "web:deploy:dev": "pnpm --filter @iuvui/web deploy:dev",
-    "web:deploy:prod": "pnpm --filter @iuvui/web deploy:prod"
+    "web:build": "pnpm --filter @iuvui/web build",
+    "web:deploy": "pnpm --filter @iuvui/web deploy",
+    "web:preview": "pnpm --filter @iuvui/web deploy:preview"
   },
   "devDependencies": {
     "@changesets/cli": "latest",

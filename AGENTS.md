@@ -127,19 +127,17 @@
 
 ## Deployment and secret safety
 
-- This repository may configure and deploy only `iuvui-web-dev`,
-  `iuvui-web-prod`, and `iuvui-storybook`. It must never configure or deploy a
+- This repository may configure and deploy only the `iuvui` public website
+  Worker and the `iuvui-storybook` Worker. It must never configure or deploy a
   dashboard Worker.
-- Deploy the public website only through `pnpm web:deploy:dev` or
-  `pnpm web:deploy:prod`, and deploy Storybook only through its dedicated script.
-  A development deployment authorizes neither production, Storybook, nor npm
-  publication.
-- The Cloudflare Vite build selects `dev` or `prod` through `CLOUDFLARE_ENV` and
-  writes a flattened Wrangler configuration into `dist`. Do not use a bare
-  `wrangler deploy` or assume a later `--env` flag can correct a bundle built for
-  the wrong environment.
-- Treat a Cloudflare Access redirect on a protected development hostname as an
-  access-boundary result, not as an authenticated application smoke test.
+- Deploy the public website only through CI: `pnpm web:preview` uploads a
+  Worker version for pull-request previews, and `pnpm web:deploy` promotes the
+  production build to the `iuvui` Worker. Deploy Storybook only through
+  `pnpm storybook:deploy` in CI. Do not run deploy commands locally unless
+  explicitly authorized for debugging.
+- The Cloudflare Vite build writes a flattened Wrangler configuration into
+  `dist`. Do not use a bare `wrangler deploy` against an unbuilt tree or assume
+  a later `--env` flag can correct a bundle built for the wrong target.
 - Never commit Clerk keys, Cloudflare tokens, HeroUI credentials, signed asset
   URLs, or local secret files. Public client builds may contain only values that
   are explicitly publishable.
