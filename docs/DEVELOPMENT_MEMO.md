@@ -13,37 +13,44 @@ public integration boundary with that future system.
 Last local verification: 2026-09-28.
 Last recorded external deployment: 2026-08-20.
 
-## 2026-09-28 — Single Worker and preview-based deployment
+## 2026-09-28 — Promotion-only CI/CD for staging and production
 
 Status: **Configuration updated locally; external deployment pending Cloudflare dashboard and CI setup.**
 
-The public website moves from separate `iuvui-web-dev` and `iuvui-web-prod`
-Workers to one Worker named `iuvui`. Production keeps the `iuvui.com` custom
-domain. Branch and pull-request previews use Cloudflare Worker preview URLs via
-`wrangler versions upload` in CI; there is no development Worker and no
-`*.iuvdev.com` hostname for the public site.
+The public website uses one Worker named `iuvui` with production at
+`iuvui.com`. Storybook uses `iuvui-storybook` at `ui.iuvui.com`. Deploys run
+only through manual promotion workflows; merges, pushes to `main`, and pull
+requests do not trigger deploys.
 
-Storybook moves from `storybook.iuvui.com` to `ui.iuvui.com`.
+Staging uploads a Worker version with the `staging` preview alias
+(`wrangler versions upload --preview-alias staging`) and exposes a stable
+version URL such as `staging-iuvui.<subdomain>.workers.dev`. Production runs
+`wrangler deploy` against the live custom domain. There is no development
+Worker and no `*.iuvdev.com` hostname for the public site.
 
 Changes:
 
-- `apps/web/wrangler.jsonc` consolidated to Worker `iuvui` with
-  `preview_urls: true`, production route `iuvui.com`, and no `env` block;
-- `apps/storybook/wrangler.jsonc` route updated to `ui.iuvui.com`;
-- root and `@iuvui/web` scripts replaced `web:deploy:dev` / `web:deploy:prod`
-  with `web:preview` and `web:deploy`; removed `CLOUDFLARE_ENV` build split;
-- CI workflows added for preview upload, production deploy, and Storybook
-  deploy;
+- removed `deploy-web-preview.yml` and the pull-request deploy trigger;
+- replaced `deploy-web-production.yml` with `deploy-web.yml`, a
+  `workflow_dispatch` promotion workflow with `staging` and `production`
+  environments;
+- updated `deploy-storybook.yml` to the same staging/production promotion model;
+- root scripts now expose `web:deploy:staging` and `storybook:deploy:staging`
+  instead of `web:preview`;
+- `apps/storybook/wrangler.jsonc` enables `preview_urls` for staging version
+  URLs;
 - README, `AGENTS.md`, and `WEB_PLATFORM.md` updated to match.
 
 Owner follow-up in Cloudflare and GitHub:
 
 - create or rename the production Worker to `iuvui` and attach `iuvui.com`;
-- enable preview URLs on the Worker;
+- enable preview URLs on `iuvui` and `iuvui-storybook`;
 - bind `ui.iuvui.com` to `iuvui-storybook` and remove `storybook.iuvui.com`;
 - remove retired `iuvui-web-dev`, `iuvui-web-prod`, and `*.iuvdev.com` routes;
 - configure `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` repository
-  secrets and protect the `production` GitHub environment for promotion deploys.
+  secrets;
+- create GitHub environments named `staging` and `production`, and protect
+  `production` with required reviewers.
 
 No Worker, Storybook, or npm package was deployed from this revision.
 
@@ -494,10 +501,11 @@ blocked by the unpublished CLI package.
 The public website uses one TanStack Start build and one Cloudflare Worker:
 
 - `iuvui` serves `iuvui.com` in production;
-- CI preview uploads expose version URLs on the same Worker.
+- staging promotion uploads a Worker version with the `staging` preview alias on
+  the same Worker.
 
-The following entries separate the latest preview deployment from older
-historical records:
+The following entries separate the latest historical deployment from older
+records:
 
 - `iuvui-web-dev` was deployed as Worker version
   `e3237e6e-efff-4a25-add9-375f0022e25f` on 2026-08-20. External smoke checks

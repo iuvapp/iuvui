@@ -145,52 +145,59 @@ English is the canonical source language and the default display language. Engli
 ```text
 iuvui repository:
 iuvui           -> iuvui.com (production custom domain)
-                -> Worker preview URLs / version URLs (branch previews in CI)
-iuvui-storybook -> ui.iuvui.com
+                -> staging-<worker>.<subdomain>.workers.dev (staging version alias)
+iuvui-storybook -> ui.iuvui.com (production custom domain)
+                -> staging-<worker>.<subdomain>.workers.dev (staging version alias)
 ```
 
 The public website uses one Cloudflare Worker named `iuvui`. Production traffic
-serves `iuvui.com`. Branch and pull-request previews upload Worker versions in
-CI (`wrangler versions upload`) and expose preview URLs; there is no separate
-development Worker and no `*.iuvdev.com` hostname for the public site.
+serves `iuvui.com`. Staging uploads a Worker version with the `staging` preview
+alias (`wrangler versions upload --preview-alias staging`) and exposes a stable
+version URL; there is no separate development Worker and no `*.iuvdev.com`
+hostname for the public site.
 
 The Vite plugin produces the flattened Wrangler deployment configuration at build
-time. Storybook has one production Worker. Each Worker owns its custom domain,
-deployment, rollback, logs, and observability. R2 or KV may still be introduced
-later for immutable asset delivery or edge caching when a concrete requirement
-exists.
+time. Storybook uses one Worker named `iuvui-storybook` with the same staging and
+production promotion model. Each Worker owns its custom domain, deployment,
+rollback, logs, and observability. R2 or KV may still be introduced later for
+immutable asset delivery or edge caching when a concrete requirement exists.
 
-Preview uploads do not imply a production promotion. A successful preview version
-URL verifies the uploaded build; production promotion requires an explicit CI
-deploy to the `iuvui` Worker.
+A staging version upload does not imply a production promotion. Production
+promotion requires an explicit workflow dispatch to the `production` GitHub
+environment.
 
 Only the two public Workers are configured or deployed from this repository. No
 dashboard Worker is configured here. Future private dashboard Worker configuration
 and operations belong in `iuv-pro` after that repository exists.
 
-### CI deployment
+### Promotion deployment
 
-Deployments run only in CI. Authenticate Wrangler in CI with
+Deployments run only through manual promotion workflows in CI. Merges, pushes to
+`main`, and pull requests do not trigger deploys. Authenticate Wrangler in CI with
 `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` repository secrets.
 
-Pull requests to `main` upload a preview Worker version:
+Run the `Deploy Web` workflow from the Actions tab (or `gh workflow run
+deploy-web.yml`). Choose `staging` or `production`, and optionally a `ref`
+(branch, tag, or SHA). The selected GitHub environment supplies protection rules
+and secrets.
+
+Staging uploads a Worker version with the `staging` preview alias:
 
 ```bash
-pnpm web:preview
+pnpm web:deploy:staging
 ```
 
-Production promotion deploys the built site to the `iuvui` Worker and serves
-`iuvui.com`. This runs manually from the `Deploy Web Production` workflow
-(protected by the `production` GitHub environment):
+Production promotes the built site to the `iuvui` Worker and serves `iuvui.com`:
 
 ```bash
 pnpm web:deploy
 ```
 
-Storybook deploys separately through the `Deploy Storybook` workflow:
+Storybook follows the same model through the `Deploy Storybook` workflow:
 
 ```bash
-pnpm storybook:deploy
+pnpm storybook:deploy:staging   # staging version alias
+pnpm storybook:deploy           # production at ui.iuvui.com
 ```
 
 The deployment commands build each application before deploying it. No prebuilt

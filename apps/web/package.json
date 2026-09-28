@@ -8,7 +8,7 @@
     "build": "pnpm preview:prepare && pnpm --workspace-root registry:build && vite build --mode production",
     "clean": "rm -rf dist .wrangler",
     "deploy": "pnpm build && wrangler deploy",
-    "deploy:preview": "pnpm build && wrangler versions upload",
+    "deploy:staging": "pnpm build && wrangler versions upload --preview-alias staging",
     "dev": "pnpm preview:prepare && vite",
     "i18n:generate": "paraglide-js compile --project ../../project.inlang --outdir ./src/paraglide --strategy cookie baseLocale --emit-ts-declarations --silent",
     "lint": "eslint src vite.config.ts",

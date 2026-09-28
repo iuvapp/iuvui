@@ -8,6 +8,7 @@
     "build": "storybook build",
     "clean": "rm -rf storybook-static test-results playwright-report",
     "deploy": "pnpm build && wrangler deploy",
+    "deploy:staging": "pnpm build && wrangler versions upload --preview-alias staging",
     "dev": "storybook dev -p 6006 --no-open",
     "lint": "eslint .storybook src e2e",
     "storybook": "storybook dev -p 6006 --no-open",

@@ -28,6 +28,7 @@
     "registry:check": "pnpm contract:check && node scripts/build-registry.mjs --check",
     "storybook": "pnpm --filter @iuvui/storybook storybook",
     "storybook:deploy": "pnpm --filter @iuvui/storybook run deploy",
+    "storybook:deploy:staging": "pnpm --filter @iuvui/storybook run deploy:staging",
     "test": "pnpm contract:test && turbo run test",
     "test:e2e": "pnpm --filter @iuvui/storybook test:e2e",
     "typecheck": "turbo run typecheck",
@@ -36,7 +37,7 @@
     "web": "pnpm --filter @iuvui/web dev",
     "web:build": "pnpm --filter @iuvui/web build",
     "web:deploy": "pnpm --filter @iuvui/web deploy",
-    "web:preview": "pnpm --filter @iuvui/web deploy:preview"
+    "web:deploy:staging": "pnpm --filter @iuvui/web deploy:staging"
   },
   "devDependencies": {
     "@changesets/cli": "latest",

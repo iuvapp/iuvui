@@ -166,9 +166,10 @@ pnpm public:check
 ## Web platform
 
 - `iuvui.com` is the public brand, component, and documentation site.
-- Branch and pull-request previews use Cloudflare Worker preview URLs on the
-  single `iuvui` Worker (`wrangler versions upload` in CI). There is no
-  separate development Worker or `*.iuvdev.com` hostname for the public site.
+- Staging and production deploys run only through manual promotion workflows in
+  CI. Staging uploads a Worker version with the `staging` preview alias on the
+  single `iuvui` Worker; production serves `iuvui.com`. There is no separate
+  development Worker or `*.iuvdev.com` hostname for the public site.
 - The future private dashboard has no configured domain or deployment in this
   repository. Its implementation and server-side entitlement boundary will live
   in `iuv-pro` when that repository is created.
