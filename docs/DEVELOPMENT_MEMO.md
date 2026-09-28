@@ -10,8 +10,30 @@ operational authority. A future private `iuv-pro` repository will own the
 dashboard and protected assets when it is created. This memo records only the
 public integration boundary with that future system.
 
-Last local verification: 2026-09-12.
+Last local verification: 2026-09-25.
 Last recorded external deployment: 2026-08-20.
+
+## 2026-09-25 — Development hostname reassignment
+
+Status: **Configuration updated locally; external deployment pending Cloudflare credentials.**
+
+The development public website hostname moves from `ui.iuvdev.com` to
+`iuvui.iuvdev.com`. Production `iuvui.com` (`iuvui-web-prod`) is unchanged.
+`ui.iuvdev.com` is released for another project's Storybook.
+
+The retired `iuvui-dashboard-dev` Worker previously held `iuvui.iuvdev.com`. That
+custom domain must be removed from the dashboard Worker before or during the
+`iuvui-web-dev` deployment so the hostname can attach to the public site Worker.
+
+Changes:
+
+- `apps/web/wrangler.jsonc` dev route updated to `iuvui.iuvdev.com` with
+  `custom_domain: true`;
+- documentation and README references updated from `ui.iuvdev.com` to
+  `iuvui.iuvdev.com`.
+
+No production Worker, Storybook Worker, dashboard Worker redeploy, or npm
+package was changed in this revision.
 
 ## Decision baseline
 
@@ -166,7 +188,7 @@ content now belongs to the embedded Fumadocs surface:
 - the documentation remains part of the same `apps/web` application and the
   existing development and production Worker topology.
 
-The external `ui.iuvdev.com/docs` check returned `404` before this revision was
+The external `iuvui.iuvdev.com/docs` check returned `404` before this revision was
 deployed. The later `iuvui-web-dev` deployment and its successful external
 smoke checks are recorded in the public website and documentation section
 below. No production Worker was changed.
@@ -208,7 +230,7 @@ Verification completed on 2026-08-20:
   passed before the deployment;
 - `pnpm web:deploy:dev` deployed the final structure to `iuvui-web-dev`;
 - external HTTP checks returned `200` for `/docs`, `/docs/components`, and
-  `/docs/guides/source-delivery` at `https://ui.iuvdev.com`;
+  `/docs/guides/source-delivery` at `https://iuvui.iuvdev.com`;
 - browser verification confirmed the Root Layout selector lists the six root
   spaces, Components and Guides render only their own sidebar entries, the
   Guides folder collapses, and no browser console errors were reported.
@@ -239,7 +261,7 @@ Verification completed on 2026-08-20:
   `pnpm --filter @iuvui/web build:dev` passed;
 - `pnpm web:deploy:dev` deployed Worker version
   `4e1ff412-250a-47c7-ba69-5df266805ef9` to `iuvui-web-dev`;
-- browser verification at `https://ui.iuvdev.com/docs/guides` confirmed the
+- browser verification at `https://iuvui.iuvdev.com/docs/guides` confirmed the
   Guides selector label and a right-side language control, with no sidebar
   language item.
 
@@ -385,7 +407,7 @@ blocked by the unpublished CLI package.
 The public website has separate TanStack Start builds and Cloudflare Workers for
 development and production:
 
-- `iuvui-web-dev` serves `ui.iuvdev.com`;
+- `iuvui-web-dev` serves `iuvui.iuvdev.com`;
 - `iuvui-web-prod` serves `iuvui.com`.
 
 The following entries separate the latest development deployment from older
@@ -513,7 +535,7 @@ Completed:
 Exit criteria still open:
 
 - complete authenticated SSR, locale, navigation, and Registry content checks on
-  `ui.iuvdev.com`;
+  `iuvui.iuvdev.com`;
 - add first-class component detail, styles, icons, releases, installation,
   accessibility, API, and provenance routes beyond the initial catalog sections;
 - publish and smoke-test `@iuvui/cli` when that exact npm release is explicitly

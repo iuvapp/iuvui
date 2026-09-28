@@ -4,7 +4,7 @@
 
 | Domain                | Role                                                    | Access                 |
 | --------------------- | ------------------------------------------------------- | ---------------------- |
-| `ui.iuvdev.com`       | Development build of the public website                 | Cloudflare Access      |
+| `iuvui.iuvdev.com`    | Development build of the public website                 | Cloudflare Access      |
 | `iuvui.com`           | Brand, components, documentation, and public content    | Public, frontend-first |
 | `storybook.iuvui.com` | Component development and contract reference            | Public                 |
 | `mcp.iuvui.com`       | Planned documentation and capability discovery over MCP | Public, no login       |
@@ -24,7 +24,7 @@ by this public repository.
 
 ```text
 iuvapp/iuvui                       public repository
-├── apps/web/                        landing, catalog, and Fumadocs routes for ui.iuvdev.com and iuvui.com
+├── apps/web/                        landing, catalog, and Fumadocs routes for iuvui.iuvdev.com and iuvui.com
 ├── apps/storybook/                  storybook.iuvui.com
 ├── packages/cli/                    @iuvui/cli; `iuvui` executable
 ├── packages/site-ui/                public-site presentation primitives
@@ -146,10 +146,14 @@ English is the canonical source language and the default display language. Engli
 
 ```text
 iuvui repository:
-iuvui-web-dev   -> ui.iuvdev.com
+iuvui-web-dev   -> iuvui.iuvdev.com
 iuvui-web-prod  -> iuvui.com
 iuvui-storybook -> storybook.iuvui.com
 ```
+
+The retired `iuvui-dashboard-dev` Worker previously held `iuvui.iuvdev.com`.
+That hostname now belongs to `iuvui-web-dev`. The dashboard Worker itself is
+retired and is not redeployed from this repository.
 
 The public website is built separately for the `dev` and `prod` Cloudflare
 environments before deployment. The Vite plugin selects the environment at build
