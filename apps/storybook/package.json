@@ -38,6 +38,6 @@
     "typescript": "latest",
     "vite": "latest",
     "vitest": "latest",
-    "wrangler": "4.118.0"
+    "wrangler": "4.136.3"
   }
 }
