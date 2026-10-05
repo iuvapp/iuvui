@@ -34,7 +34,7 @@ test("resolvePromotionSha requires staging tag for production", () => {
         requestedSha: sha,
         tags: [],
       }),
-    /No staging tag found/
+    /No staging tag found/,
   );
   const resolved = resolvePromotionSha({
     promotion: "production",
@@ -60,5 +60,8 @@ test("assertStagingDeployment accepts Staging environment", () => {
 
 test("parseStagingTag accepts legacy preview prefix", () => {
   assert.ok(isStagingTag("preview/20260928T080000Z-abcdef0"));
-  assert.equal(parseStagingTag("preview/20260928T080000Z-abcdef0")?.prefix, "preview");
+  assert.equal(
+    parseStagingTag("preview/20260928T080000Z-abcdef0")?.prefix,
+    "preview",
+  );
 });

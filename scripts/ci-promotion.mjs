@@ -130,7 +130,7 @@ export function resolvePromotionSha({
   const matchingTags = findStagingTagsForSha(tags, normalized);
   if (!matchingTags.length) {
     throw new Error(
-      `No staging tag found for SHA ${shortSha(normalized)}; deploy staging first`
+      `No staging tag found for SHA ${shortSha(normalized)}; deploy staging first`,
     );
   }
   return {
@@ -151,11 +151,11 @@ export function assertStagingDeployment({
     (deployment) =>
       allowed.has(deployment.environment?.toLowerCase() ?? "") &&
       deployment.sha?.toLowerCase() === normalized &&
-      deployment.state === "success"
+      deployment.state === "success",
   );
   if (!successes.length) {
     throw new Error(
-      `No successful staging deployment found for SHA ${shortSha(normalized)}`
+      `No successful staging deployment found for SHA ${shortSha(normalized)}`,
     );
   }
   return successes[0];

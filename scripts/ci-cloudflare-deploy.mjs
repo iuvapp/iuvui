@@ -19,7 +19,11 @@ export function resolveProfileCommands(profile) {
   return commands;
 }
 
-export function deployWorkers({ profile, cwd = process.cwd(), env = process.env }) {
+export function deployWorkers({
+  profile,
+  cwd = process.cwd(),
+  env = process.env,
+}) {
   const commands = resolveProfileCommands(profile);
   const failures = [];
 
@@ -42,7 +46,9 @@ export function deployWorkers({ profile, cwd = process.cwd(), env = process.env 
 async function main(argv = process.argv.slice(2)) {
   const profile = argv[0];
   if (!profile) {
-    throw new Error("Usage: node scripts/ci-cloudflare-deploy.mjs <develop|production>");
+    throw new Error(
+      "Usage: node scripts/ci-cloudflare-deploy.mjs <develop|production>",
+    );
   }
   deployWorkers({ profile });
 }
