@@ -166,8 +166,9 @@ pnpm public:check
 ## Web platform
 
 - `iuvui.com` is the public brand, component, and documentation site.
-- Staging and production deploys run only through the `CI Staging and Production
-  Promotion` workflow. Staging validates `origin/main` (or an explicit SHA),
+- Staging and production deploys run only through the
+  `CI Staging and Production Promotion` workflow. Staging validates
+  `origin/main` (or an explicit SHA),
   uploads Worker preview versions with the `staging` alias, tags
   `staging/<UTC>-<shortsha>`, and records a `Staging` GitHub Deployment.
   Production ships only SHAs that already have a staging tag and successful

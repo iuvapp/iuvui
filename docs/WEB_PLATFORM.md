@@ -2,12 +2,12 @@
 
 ## Product surfaces
 
-| Domain           | Role                                                    | Access                 |
-| ---------------- | ------------------------------------------------------- | ---------------------- |
-| `iuvui.com`      | Brand, components, documentation, and public content    | Public, frontend-first |
-| `ui.iuvui.com`   | Component development and contract reference            | Public                 |
-| `mcp.iuvui.com`  | Planned documentation and capability discovery over MCP | Public, no login       |
-| Not configured   | Future Free and Pro account dashboard                   | Private, outside iuvui |
+| Domain          | Role                                                    | Access                 |
+| --------------- | ------------------------------------------------------- | ---------------------- |
+| `iuvui.com`     | Brand, components, documentation, and public content    | Public, frontend-first |
+| `ui.iuvui.com`  | Component development and contract reference            | Public                 |
+| `mcp.iuvui.com` | Planned documentation and capability discovery over MCP | Public, no login       |
+| Not configured  | Future Free and Pro account dashboard                   | Private, outside iuvui |
 
 Each application deploys from its owning repository with independent code,
 configuration, secrets, custom domains, and release processes. The public site

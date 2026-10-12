@@ -32,7 +32,7 @@ export function formatStagingGateSummary({ blockers, warnings, runUrl }) {
       lines.push("### Blocking failures (tag-staging will not run)");
       for (const blocker of blockers) {
         lines.push(
-          `- **${gateLabels[blocker.gate] ?? blocker.gate}**: ${blocker.message}`
+          `- **${gateLabels[blocker.gate] ?? blocker.gate}**: ${blocker.message}`,
         );
       }
       lines.push("");
@@ -42,7 +42,7 @@ export function formatStagingGateSummary({ blockers, warnings, runUrl }) {
       lines.push("### Warnings");
       for (const warning of warnings) {
         lines.push(
-          `- **${gateLabels[warning.gate] ?? warning.gate}**: ${warning.message}`
+          `- **${gateLabels[warning.gate] ?? warning.gate}**: ${warning.message}`,
         );
       }
       lines.push("");
@@ -107,7 +107,7 @@ async function main() {
   if (process.env.GITHUB_OUTPUT) {
     await appendFile(
       process.env.GITHUB_OUTPUT,
-      `can_tag=${evaluation.canTag ? "true" : "false"}\n`
+      `can_tag=${evaluation.canTag ? "true" : "false"}\n`,
     );
   }
 
