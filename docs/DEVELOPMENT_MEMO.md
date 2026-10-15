@@ -10,8 +10,31 @@ operational authority. A future private `iuv-pro` repository will own the
 dashboard and protected assets when it is created. This memo records only the
 public integration boundary with that future system.
 
-Last local verification: 2026-09-28.
+Last local verification: 2026-10-15.
 Last recorded external deployment: 2026-08-20.
+
+## 2026-10-15 — Open-source website chrome
+
+The public website now uses the existing `@iuvui/react` Button
+and Card, with website-only action links and status labels in `@iuvui/site-ui`.
+Application utilities and Fumadocs colors share `@iuvui/styles` semantic tokens.
+TanStack Start, Fumadocs Glass, MDX, search, and Paraglide remain in place.
+The proposed English slogan is "React components, made yours."; the
+Simplified Chinese translation lives in the message catalog.
+
+Local verification passed for repository tests, lint, typecheck, build,
+language, release policy, Registry, and upstream provenance. The web-scoped
+typecheck, tests, and production build also passed, as did the repository
+formatting check after formatting the ignored generated
+`project.inlang/.meta.json` and `project.inlang/README.md` locally; only
+`settings.json` is tracked in that directory. Desktop visual checks passed for
+the homepage, docs, search, and variant interaction. The English mobile homepage
+and dark documentation were also checked; Fumadocs and iuvui share the resolved
+theme so syntax highlighting remains legible. Locale switching and Chinese
+content were verified, but Chinese glyph rendering remains unverified because
+the local browser lacks working CJK font fallback. Package archive and consumer
+checks were not run because public component outputs were unchanged. No
+deployment or npm publication is part of this change.
 
 ## 2026-09-28 — iuv-stack promotion coordinator for staging and production
 
@@ -85,11 +108,11 @@ package was changed in this revision.
 
 ## Decision baseline
 
-- The product shorthand is "Use shadcn like HeroUI": shadcn/ui is the design,
-  source, and ecosystem baseline; HeroUI is the maintained-package and product
-  experience reference; React Aria Components remain replaceable behavior behind
-  iuvui-owned adapters. Reference products do not supply copied implementation
-  code.
+- The product shorthand is "React components, made yours.": iuvui provides
+  accessible React components through maintained packages and ownable source.
+  Website chrome consumes the same local components and semantic tokens.
+  React Aria Components remain replaceable behavior behind iuvui-owned adapters,
+  with provenance retained for adapted upstream code.
 - `iuvapp/iuvui` is the canonical public repository for components, public npm
   packages, the CLI, Registry output, public documentation, Storybook, and the
   public website.
@@ -236,7 +259,7 @@ Status: **Verified locally; development deployment recorded below.**
 The public documentation remains inside `apps/web`; no documentation-only app,
 Cloudflare Worker, or hostname was added. The existing TanStack Start routes now
 embed the Fumadocs Glass layout pattern used by `iuv-stack/apps/iuv-docs`, while
-retaining iuvui's MDX source, Paraglide localization, HeroUI application chrome,
+retaining iuvui's MDX source, Paraglide localization, application chrome,
 component previews, and Cloudflare build boundary.
 
 The documentation now distinguishes the actual public package surface (Button,
@@ -371,12 +394,12 @@ Status: **In progress**.
 Started: 2026-08-06.
 
 This workstream records the adopted outcomes of an implementation review of
-Cloudflare Kumo at commit `e9f8f93e8221b665caa5262bcd05d81dba854be9`
-and HeroUI v3 at package version `3.2.3`. Kumo is an engineering reference for
+Cloudflare Kumo at commit `e9f8f93e8221b665caa5262bcd05d81dba854be9`.
+Kumo is an engineering reference for
 machine-readable component metadata, generated Registry documentation,
-source-owned Blocks, design-tool synchronization, and agent guidance. HeroUI
-remains the product-experience and styling-boundary reference. Neither project
-defines iuvui's public API or supplies unreviewed implementation code.
+source-owned Blocks, design-tool synchronization, and agent guidance. It does
+not define iuvui's public API or supply unreviewed implementation code. The
+component design and source contracts remain owned by iuvui.
 
 Adopted decisions:
 
@@ -434,9 +457,8 @@ Current work log:
 - **2026-08-06 — Research and adoption:** inspected Kumo's Base UI wrappers,
   Tailwind token generation, component Registry pipeline, CLI Blocks, JSON UI
   catalog, Figma generators, build packaging, and representative Button, Dialog,
-  Select, and Table implementations; compared them with HeroUI v3 React Aria
-  components, independent styles package, compound anatomy, semantic themes,
-  and agent tooling.
+  Select, and Table implementations, alongside React Aria behavior,
+  independent styles, compound anatomy, semantic themes, and agent tooling.
 - **2026-08-06 — Repository fit audit:** confirmed that iuvui already has the
   required behavior boundary, precompiled style delivery, stable slots and
   states, versioned Registry provenance, package/source parity, Storybook
@@ -537,8 +559,7 @@ Glass documentation surface in the same `apps/web` project:
 - Overview, Components, Variants, Styles, Icons, Brand, and Guides content with
   truthful package, Registry, and `@iuvui/styles` availability labels;
 - live previews and the Button variant matrix rendered by real local iuvui
-  components inside documentation pages while HeroUI remains the application
-  chrome;
+  components inside documentation pages;
 - no Dashboard link and no unpublished CLI installation command;
 - English-default Paraglide copy with Simplified Chinese switching;
 - one Cloudflare Web build for both landing and documentation routes, rather
@@ -618,7 +639,7 @@ Status: **In progress**.
 
 Completed:
 
-- HeroUI OSS website baseline and an English-first localized documentation
+- Public website foundation and an English-first localized documentation
   catalog candidate with actual components, variants, and style exports;
 - TanStack Start SSR and separate dev and prod Cloudflare environments;
 - Button, Text Field, Dialog, and Separator public package outputs at `0.0.1`;
@@ -681,15 +702,13 @@ entitlement verification, protected artifact delivery, project tokens, integrity
 verification, and non-secret provenance. Free commands and free component access
 must remain usable without an account.
 
-## Phase 5 — Self-bootstrap
+## Phase 5 — Continuous dogfooding
 
-Status: **Not started**.
-
-The self-bootstrap phase will audit iuvui components against the production
-accessibility and compatibility gates, replace HeroUI incrementally, and use the
-public site, future private dashboard, Storybook, and examples as continuous
-dogfooding consumers. HeroUI OSS remains in production until each replacement
-satisfies the contracts already exercised by those surfaces.
+The public site consumes local iuvui components for both chrome
+and previews. Continue auditing those components against accessibility and
+compatibility contracts through the public site, Storybook, and examples.
+Future private dashboard adoption belongs to its own repository and verification
+plan, not a prerequisite for the public website's component baseline.
 
 ## `0.0.x` release gate
 

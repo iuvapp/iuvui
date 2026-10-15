@@ -1,6 +1,11 @@
-import { Button as HeroButton, Card } from "@heroui/react";
 import {
   Button,
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
   type ButtonRadius,
   type ButtonSize,
   type ButtonVariant,
@@ -22,21 +27,24 @@ function OptionGroup<T extends string>({
   value: T;
 }) {
   return (
-    <div>
-      <p className="mb-2 text-sm font-medium text-foreground">{label}</p>
+    <fieldset>
+      <legend className="mb-2 text-sm font-medium text-foreground">
+        {label}
+      </legend>
       <div className="flex flex-wrap gap-1">
         {options.map((option) => (
-          <HeroButton
+          <Button
             key={option}
             size="sm"
-            variant={value === option ? "primary" : "ghost"}
+            variant={value === option ? "default" : "ghost"}
+            aria-pressed={value === option}
             onPress={() => onChange(option)}
           >
             {option}
-          </HeroButton>
+          </Button>
         ))}
       </div>
-    </div>
+    </fieldset>
   );
 }
 
@@ -51,35 +59,35 @@ export function ButtonVariantExplorer() {
   return (
     <div className="not-prose grid gap-4 lg:grid-cols-[minmax(0,1fr)_20rem]">
       <Card className="min-w-0">
-        <Card.Header>
-          <Card.Title>{m.web_variant_matrix_title()}</Card.Title>
-          <Card.Description>
+        <CardHeader>
+          <CardTitle>{m.web_variant_matrix_title()}</CardTitle>
+          <CardDescription>
             {m.web_variant_matrix_description()}
-          </Card.Description>
-        </Card.Header>
-        <Card.Content>
-          <div className="grid gap-3 rounded-xl bg-surface-secondary p-5 sm:grid-cols-2 xl:grid-cols-3">
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="grid gap-3 rounded-xl bg-muted p-5 sm:grid-cols-2 xl:grid-cols-3">
             {buttonVariants.map((item) => (
               <div className="grid gap-2" key={item}>
-                <span className="text-xs text-muted">{item}</span>
+                <span className="text-xs text-muted-foreground">{item}</span>
                 <Button fullWidth variant={item}>
                   {m.web_preview_button()}
                 </Button>
               </div>
             ))}
           </div>
-        </Card.Content>
+        </CardContent>
       </Card>
 
       <Card className="min-w-0">
-        <Card.Header>
-          <Card.Title>{m.web_variant_configure_title()}</Card.Title>
-          <Card.Description>
+        <CardHeader>
+          <CardTitle>{m.web_variant_configure_title()}</CardTitle>
+          <CardDescription>
             {m.web_variant_configure_description()}
-          </Card.Description>
-        </Card.Header>
-        <Card.Content className="grid gap-5">
-          <div className="grid min-h-24 place-items-center rounded-xl border border-separator bg-surface-secondary p-4">
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="grid gap-5">
+          <div className="grid min-h-24 place-items-center rounded-xl border border-border bg-muted p-4">
             <Button radius={radius} size={size} variant={variant}>
               {m.web_preview_button()}
             </Button>
@@ -102,12 +110,12 @@ export function ButtonVariantExplorer() {
             value={radius}
             onChange={setRadius}
           />
-        </Card.Content>
-        <Card.Footer>
-          <pre className="w-full overflow-x-auto rounded-xl bg-surface-secondary p-4 text-xs leading-5">
+        </CardContent>
+        <CardFooter>
+          <pre className="w-full overflow-x-auto rounded-xl bg-muted p-4 text-xs leading-5">
             <code>{code}</code>
           </pre>
-        </Card.Footer>
+        </CardFooter>
       </Card>
     </div>
   );

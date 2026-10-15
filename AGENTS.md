@@ -64,15 +64,16 @@
 - Prefer the TanStack ecosystem for application concerns when a concrete need
   exists, while keeping each package adoption explicit and independently
   justified. Do not install unused TanStack packages solely for branding.
-- HeroUI OSS is the website chrome and visual baseline until self-bootstrap. Use
-  its components, semantic tokens, system typography, restrained surfaces, and
-  documentation information patterns without copying HeroUI Pro assets.
+- Open-source shadcn/ui is the sole design and source baseline, including website
+  chrome. Prefer the existing shadcn-derived `@iuvui/*` components, semantic
+  tokens, system typography, and restrained surfaces. Do not add a second UI kit
+  or paid third-party design assets.
 - Documentation routes use Fumadocs Glass layout and information patterns as
   adapted from `iuv-stack/apps/iuv-docs`, while remaining inside `apps/web` and
   retaining TanStack Start, Paraglide, and the existing Cloudflare Workers.
-- iuvui component previews may render the actual local public packages, but the
-  surrounding application shell remains on HeroUI until the self-bootstrap gate
-  is satisfied.
+- Both component previews and application chrome consume the actual local
+  `@iuvui/*` packages where available. Website-only composition belongs in the
+  private `@iuvui/site-ui` workspace, not the public component catalog.
 - Catalog, variant, style, package, and Registry claims must match real exports
   in the repository. Do not invent planned components, protected style names,
   Registry availability, or package versions to fill the interface.
@@ -142,17 +143,15 @@
 - The Cloudflare Vite build writes a flattened Wrangler configuration into
   `dist`. Do not use a bare `wrangler deploy` against an unbuilt tree or assume
   a later `--env` flag can correct a bundle built for the wrong target.
-- Never commit Clerk keys, Cloudflare tokens, HeroUI credentials, signed asset
+- Never commit Clerk keys, Cloudflare tokens, service credentials, signed asset
   URLs, or local secret files. Public client builds may contain only values that
   are explicitly publishable.
-- HeroUI OSS may remain the website baseline until self-bootstrap. Do not commit
-  HeroUI Pro source or licensed assets to this public repository; any future
-  application-layer integration must comply with the purchased license and keep
-  protected credentials outside source control.
+- Keep protected credentials outside source control. Paid third-party source
+  and licensed design assets must not enter this public repository.
 
 ## Upstream traceability
 
-- Treat shadcn/ui as the design and source reference baseline, React Aria Components as a replaceable behavior implementation behind `@iuvui/internal`, and HeroUI as a product and delivery experience reference.
+- Treat open-source shadcn/ui as the sole design and source reference baseline and React Aria Components as a replaceable behavior implementation behind `@iuvui/internal`.
 - Every component derived from or architecturally referenced against shadcn/ui must record the upstream repository, exact commit revision, immutable source URL, source path, sync date, license, relationship, and local deviations in Registry metadata.
 - Never use a mutable branch, `latest`, or an unversioned Registry URL as the sole provenance for component source.
 - Preserve upstream provenance in generated Registry items and in `iuvui.lock` so future checks and upgrades can distinguish upstream changes from consumer-owned changes.

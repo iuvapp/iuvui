@@ -21,14 +21,9 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@heroui/react": "3.2.3",
-    "@heroui/styles": "3.2.3",
     "@iuvui/react": "workspace:*",
+    "@iuvui/site-ui": "workspace:*",
     "@iuvui/styles": "workspace:*",
-    "@react-aria/i18n": "^3.13.1",
-    "@react-aria/ssr": "^3.10.1",
-    "@react-aria/utils": "^3.34.1",
-    "@react-spectrum/provider": "^3.0.0",
     "@tanstack/react-router": "1.170.19",
     "@tanstack/react-start": "1.168.36",
     "fumadocs-core": "16.14.1",
