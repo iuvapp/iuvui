@@ -2,9 +2,9 @@
 
 iuvui is an ownable, customizable, and continuously upgradeable React UI system. It combines a maintained design system, installable React packages, source delivery, and lifecycle tooling.
 
-**Use shadcn/ui like HeroUI.**
+**React components, made yours.**
 
-iuvui is an independent project and is not affiliated with shadcn/ui or HeroUI. shadcn/ui is the design and source reference baseline, React Aria Components provide replaceable behavior behind an internal adapter, and the package API and delivery experience follow the convenience expected from a maintained component library.
+iuvui is an independent React UI system with accessible components, semantic styles, and a maintained package API. Use ready-to-install packages or own the source, with consistent behavior and versioned provenance across both delivery forms.
 
 The canonical public repository is
 [`iuvapp/iuvui`](https://github.com/iuvapp/iuvui). The former private
@@ -183,10 +183,9 @@ pnpm public:check
   contents.
 - Each surface has an independent Cloudflare Worker, configuration, secrets, and
   release process in its owning repository.
-- HeroUI OSS is the production UI baseline until iuvui can safely bootstrap
-  itself. HeroUI Pro source and licensed assets must not be committed to this
-  public repository; any future application-layer integration must comply with
-  its purchased license.
+- Website chrome uses local `@iuvui/*` components and semantic tokens.
+  Fumadocs remains the documentation layer inside TanStack Start. Paid
+  third-party source and licensed assets must not enter this public repository.
 - Paraglide provides the shared localization foundation. English and Simplified Chinese are enabled, with English as the canonical source locale.
 
 See [Web platform](./docs/WEB_PLATFORM.md) for the complete boundary and rollout plan.

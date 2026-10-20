@@ -1,27 +1,43 @@
+@layer theme, base, ui-theme, ui-base, ui-components, ui-utilities, components, utilities;
+
 @import "tailwindcss";
 @import "fumadocs-ui/css/generated/glass.css";
 @import "fumadocs-ui/css/neutral.css";
 @import "fumadocs-ui/css/preset.css";
-@import "@heroui/styles";
 @import "@iuvui/styles";
 
-#fd-glass-layout {
-  --color-fd-background: var(--background);
-  --color-fd-foreground: var(--foreground);
-  --color-fd-muted: var(--surface-secondary);
-  --color-fd-muted-foreground: var(--muted);
-  --color-fd-popover: var(--overlay);
-  --color-fd-popover-foreground: var(--overlay-foreground);
-  --color-fd-card: var(--surface);
-  --color-fd-card-foreground: var(--surface-foreground);
-  --color-fd-border: var(--separator);
-  --color-fd-primary: var(--accent);
-  --color-fd-primary-foreground: var(--accent-foreground);
-  --color-fd-secondary: var(--surface-secondary);
-  --color-fd-secondary-foreground: var(--surface-secondary-foreground);
-  --color-fd-accent: var(--accent-soft);
-  --color-fd-accent-foreground: var(--accent-soft-foreground);
-  --color-fd-ring: var(--focus);
+@source "../../../packages/site-ui/src";
+
+@theme inline {
+  --color-background: var(--ui-background);
+  --color-foreground: var(--ui-foreground);
+  --color-card: var(--ui-card);
+  --color-muted: var(--ui-muted);
+  --color-muted-foreground: var(--ui-muted-foreground);
+  --color-primary: var(--ui-primary);
+  --color-secondary: var(--ui-secondary);
+  --color-secondary-foreground: var(--ui-secondary-foreground);
+  --color-border: var(--ui-border);
+  --font-sans: var(--ui-font-sans);
+}
+
+:root {
+  --color-fd-background: var(--ui-background);
+  --color-fd-foreground: var(--ui-foreground);
+  --color-fd-muted: var(--ui-muted);
+  --color-fd-muted-foreground: var(--ui-muted-foreground);
+  --color-fd-popover: var(--ui-popover);
+  --color-fd-popover-foreground: var(--ui-popover-foreground);
+  --color-fd-card: var(--ui-card);
+  --color-fd-card-foreground: var(--ui-card-foreground);
+  --color-fd-border: var(--ui-border);
+  --color-fd-primary: var(--ui-primary);
+  --color-fd-primary-foreground: var(--ui-primary-foreground);
+  --color-fd-secondary: var(--ui-secondary);
+  --color-fd-secondary-foreground: var(--ui-secondary-foreground);
+  --color-fd-accent: var(--ui-accent);
+  --color-fd-accent-foreground: var(--ui-accent-foreground);
+  --color-fd-ring: var(--ui-ring);
 }
 
 html {
@@ -32,8 +48,9 @@ body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
-  background: var(--background);
-  color: var(--foreground);
+  background: var(--ui-background);
+  color: var(--ui-foreground);
+  font-family: var(--ui-font-sans);
 }
 
 button,

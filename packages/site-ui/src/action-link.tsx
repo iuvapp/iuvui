@@ -1,10 +1,10 @@
-import { Link, type LinkProps } from "@heroui/react";
+import { Button, type ButtonProps } from "@iuvui/react";
 import type { ReactNode } from "react";
 
 import { ArrowUpRightIcon } from "./icons";
 
 export interface ActionLinkProps extends Omit<
-  LinkProps,
+  Extract<ButtonProps, { href: string }>,
   "children" | "className"
 > {
   arrow?: boolean;
@@ -19,9 +19,19 @@ export function ActionLink({
   ...props
 }: ActionLinkProps) {
   return (
-    <Link className={`iuv-action-link ${className ?? ""}`} {...props}>
-      <span>{children}</span>
-      {arrow ? <ArrowUpRightIcon aria-hidden="true" /> : null}
-    </Link>
+    <Button
+      variant="link"
+      {...(className === undefined ? {} : { className })}
+      {...(arrow
+        ? {
+            endContent: (
+              <ArrowUpRightIcon aria-hidden="true" width={16} height={16} />
+            ),
+          }
+        : {})}
+      {...props}
+    >
+      {children}
+    </Button>
   );
 }

@@ -1,4 +1,4 @@
-import { Button } from "@heroui/react";
+import { Button } from "@iuvui/react";
 
 import * as m from "../paraglide/messages.js";
 import { getLocale, setLocale } from "../paraglide/runtime.js";

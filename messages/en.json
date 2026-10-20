@@ -20,7 +20,7 @@
   "web_home_status": "React UI system",
   "web_home_docs_action": "Explore documentation",
   "web_status": "React components · public packages + workspace previews",
-  "web_slogan": "Use shadcn/ui like HeroUI.",
+  "web_slogan": "React components, made yours.",
   "web_summary": "An ownable React component system with package distribution, source delivery, and versioned upstream provenance. Every component is free; your team chooses how much code to own.",
   "web_component_count": "{count} components",
   "web_package_version": "Workspace package version {version}",
@@ -113,5 +113,5 @@
   "web_fumadocs_search": "Search",
   "web_fumadocs_show_sidebar": "Show sidebar",
   "web_fumadocs_toggle_menu": "Toggle menu",
-  "web_independence_notice": "iuvui is an independent project and is not affiliated with shadcn/ui or HeroUI."
+  "web_independence_notice": "iuvui is an independent, open-source React UI system."
 }

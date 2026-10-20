@@ -60,15 +60,15 @@ React Aria Components provide tested keyboard, focus, form, and overlay behavior
 
 A primitive may be replaced after its adapter passes the same contract suite. Public APIs and CSS selectors must not change merely because the underlying primitive changes.
 
-## Design and source baseline
+## Component and website foundations
 
 The architecture separates three concerns that are often conflated:
 
-- shadcn/ui defines the initial design vocabulary, component source reference, semantic token direction, and Registry ecosystem compatibility;
+- iuvui defines component anatomy, semantic tokens, and package and Registry delivery contracts;
 - React Aria Components supplies replaceable behavior primitives behind `packages/internal`;
-- HeroUI informs the maintained-package ergonomics and product presentation without becoming a source-code dependency of public components.
+- iuvui owns maintained-package ergonomics and product presentation; the website consumes local `@iuvui/*` components and keeps Fumadocs as its documentation layer.
 
-The public API belongs to iuvui. Upstream source may accelerate implementation, but it does not decide permanent props, DOM anatomy, variants, tokens, or upgrade guarantees.
+The public API belongs to iuvui. Adapted upstream source is tracked through the immutable provenance contract below; it does not decide permanent props, DOM anatomy, variants, tokens, or upgrade guarantees.
 
 ### Machine-readable component contract pilot
 
