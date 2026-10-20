@@ -139,10 +139,10 @@ test("production deployment remains on the unchanged deploy scripts", async () =
   const storybookPackage = JSON.parse(
     await readFile("apps/storybook/package.json", "utf8"),
   );
-  assert.equal(webPackage.scripts.deploy, "pnpm build && wrangler deploy");
-  assert.equal(
+  assert.match(webPackage.scripts.deploy, /\bturbo run build --filter=@iuvui\/web\b/);
+  assert.match(
     storybookPackage.scripts.deploy,
-    "pnpm build && wrangler deploy",
+    /\bturbo run build --filter=@iuvui\/storybook\b/,
   );
 
   const rootPackage = JSON.parse(await readFile("package.json", "utf8"));
@@ -151,5 +151,6 @@ test("production deployment remains on the unchanged deploy scripts", async () =
     rootPackage.scripts["web:deploy:staging"],
     /\brun deploy:staging\b/,
   );
-  assert.match(storybookPackage.scripts.build, /\bpreview:prepare\b/);
+  assert.doesNotMatch(storybookPackage.scripts.build, /\bpreview:prepare\b/);
+  assert.doesNotMatch(webPackage.scripts.build, /\bpreview:prepare\b/);
 });
