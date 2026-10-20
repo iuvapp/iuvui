@@ -139,7 +139,10 @@ test("production deployment remains on the unchanged deploy scripts", async () =
   const storybookPackage = JSON.parse(
     await readFile("apps/storybook/package.json", "utf8"),
   );
-  assert.match(webPackage.scripts.deploy, /\bturbo run build --filter=@iuvui\/web\b/);
+  assert.match(
+    webPackage.scripts.deploy,
+    /\bturbo run build --filter=@iuvui\/web\b/,
+  );
   assert.match(
     storybookPackage.scripts.deploy,
     /\bturbo run build --filter=@iuvui\/storybook\b/,
