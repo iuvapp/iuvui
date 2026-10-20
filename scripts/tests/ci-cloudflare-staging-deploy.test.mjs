@@ -144,4 +144,12 @@ test("production deployment remains on the unchanged deploy scripts", async () =
     storybookPackage.scripts.deploy,
     "pnpm build && wrangler deploy",
   );
+
+  const rootPackage = JSON.parse(await readFile("package.json", "utf8"));
+  assert.match(rootPackage.scripts["web:deploy"], /\brun deploy\b/);
+  assert.match(
+    rootPackage.scripts["web:deploy:staging"],
+    /\brun deploy:staging\b/,
+  );
+  assert.match(storybookPackage.scripts.build, /\bpreview:prepare\b/);
 });
