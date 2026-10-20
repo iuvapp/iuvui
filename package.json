@@ -36,8 +36,8 @@
     "version-packages": "pnpm release:check && changeset version && pnpm release:check",
     "web": "pnpm --filter @iuvui/web dev",
     "web:build": "pnpm --filter @iuvui/web build",
-    "web:deploy": "pnpm --filter @iuvui/web deploy",
-    "web:deploy:staging": "pnpm --filter @iuvui/web deploy:staging"
+    "web:deploy": "pnpm --filter @iuvui/web run deploy",
+    "web:deploy:staging": "pnpm --filter @iuvui/web run deploy:staging"
   },
   "devDependencies": {
     "@changesets/cli": "latest",

@@ -5,7 +5,8 @@
   "license": "Apache-2.0",
   "type": "module",
   "scripts": {
-    "build": "storybook build",
+    "build": "pnpm preview:prepare && storybook build",
+    "preview:prepare": "pnpm --filter '@iuvui/react...' --filter '@iuvui/styles...' --if-present build",
     "clean": "rm -rf storybook-static test-results playwright-report",
     "deploy": "pnpm build && wrangler deploy",
     "deploy:staging": "pnpm build && node ../../scripts/ci-cloudflare-staging-deploy.mjs iuvui-storybook wrangler.jsonc",
