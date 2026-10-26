@@ -73,6 +73,14 @@ describe("Button", () => {
     expect(onPress).not.toHaveBeenCalled();
   });
 
+  it("marks a disabled button through the disabled state contract", () => {
+    render(<Button isDisabled>Save</Button>);
+    const button = screen.getByRole("button", { name: "Save" });
+    expect(button).toBeDisabled();
+    expect(button).toHaveAttribute("data-disabled");
+    expect(button).not.toHaveAttribute("data-pending");
+  });
+
   it("renders link semantics when href is provided", () => {
     render(<Button href="/docs">Docs</Button>);
     expect(screen.getByRole("link", { name: "Docs" })).toHaveAttribute(

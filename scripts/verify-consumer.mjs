@@ -151,6 +151,7 @@ function writeConsumerFiles(packages) {
     packageManager: "pnpm@10.14.0",
     dependencies: {
       ...localDependencies,
+      "@base-ui/react": "1.9.0",
       react: "19.2.8",
       "react-aria-components": "1.20.0",
       "react-dom": "19.2.8",
@@ -425,7 +426,7 @@ try {
     join(consumerDirectory, "components", "iuv-ui", "button.tsx"),
     "utf8",
   );
-  assert.match(buttonSource, /from "react-aria-components"/);
+  assert.match(buttonSource, /from "@base-ui\/react\/button"/);
   assert.doesNotMatch(buttonSource, /@iuvui\/internal/);
   assertLockProvenance(
     JSON.parse(readFileSync(join(consumerDirectory, "iuvui.lock"), "utf8")),

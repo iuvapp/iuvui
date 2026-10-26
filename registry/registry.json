@@ -9,9 +9,9 @@
       "title": "Button",
       "description": "An accessible action component with semantic variants and link support.",
       "dependencies": [
+        "@base-ui/react@^1.9.0",
         "@iuvui/styles@0.0.1",
-        "@iuvui/utils@0.0.1",
-        "react-aria-components@^1.20.0"
+        "@iuvui/utils@0.0.1"
       ],
       "files": [
         {
@@ -52,9 +52,10 @@
               "license": "MIT",
               "relationship": "architectural-reference",
               "localChanges": [
-                "Uses React Aria Components instead of the upstream Radix Slot composition.",
+                "Uses Base UI Button instead of the upstream Radix Slot composition.",
                 "Preserves the upstream variant vocabulary while adding pending state, content slots, and link semantics.",
-                "Moves component styling into the @iuvui/styles CSS package."
+                "Moves component styling into the @iuvui/styles CSS package.",
+                "Keeps hover, press, and focus-visible on iuvui data attributes. Base UI Button only emits disabled state."
               ]
             }
           ]

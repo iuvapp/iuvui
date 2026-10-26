@@ -34,6 +34,14 @@ export { Input } from "./input";
 export type { InputProps } from "./input";
 export { Label } from "./label";
 export type { LabelProps } from "./label";
+export { Select } from "./select";
+export type {
+  SelectContentProps,
+  SelectItemProps,
+  SelectRootProps,
+  SelectTriggerProps,
+  SelectValueProps,
+} from "./select";
 export { Separator } from "./separator";
 export type { SeparatorOrientation, SeparatorProps } from "./separator";
 export { TextField } from "./text-field";
