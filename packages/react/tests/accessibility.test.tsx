@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "../src/card";
 import { Input } from "../src/input";
 import { Label } from "../src/label";
 import { Button } from "../src/button";
+import { Select } from "../src/select";
 import { Separator } from "../src/separator";
 import { Textarea } from "../src/textarea";
 import { TextField } from "../src/text-field";
@@ -14,6 +15,14 @@ describe("automated accessibility", () => {
     const { container } = render(
       <main>
         <Button>Save</Button>
+        <Select.Root>
+          <Select.Trigger aria-label="Fruit">
+            <Select.Value placeholder="Choose a fruit" />
+          </Select.Trigger>
+          <Select.Content>
+            <Select.Item value="apple">Apple</Select.Item>
+          </Select.Content>
+        </Select.Root>
         <Separator />
         <TextField.Root>
           <TextField.Label>Name</TextField.Label>

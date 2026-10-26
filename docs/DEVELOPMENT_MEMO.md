@@ -10,8 +10,26 @@ operational authority. A future private `iuv-pro` repository will own the
 dashboard and protected assets when it is created. This memo records only the
 public integration boundary with that future system.
 
-Last local verification: 2026-10-15.
+Last local verification: 2026-10-26.
 Last recorded external deployment: 2026-08-20.
+
+## 2026-10-26 — Base UI spike for Button, Dialog, and Select
+
+Button and Dialog now use `@base-ui/react` behind the existing public props.
+Select did not exist, so this spike adds it as a package and CSS export with
+the same compound shape. It is not in the website catalog or Registry.
+Text Field and Separator still use React Aria Components. No package was
+published and no Worker was deployed.
+
+Local verification passed for language, formatting, release policy, component
+contracts, upstream provenance, lint, typecheck, workspace tests, the frozen
+lockfile, package archives, and an independent consumer install. Button,
+Dialog, and Select unit tests passed, including the closed Select axe check.
+Storybook contract tests passed in Chromium for keyboard activation, dialog
+focus restoration, and the representative axe scan. The Select story shows the
+item label for its default value and updates that label after a selection.
+Registry output was regenerated so the owned Button source imports
+`@base-ui/react/button`. No package was published and no Worker was deployed.
 
 ## 2026-10-15 — Open-source website chrome
 
@@ -111,8 +129,9 @@ package was changed in this revision.
 - The product shorthand is "React components, made yours.": iuvui provides
   accessible React components through maintained packages and ownable source.
   Website chrome consumes the same local components and semantic tokens.
-  React Aria Components remain replaceable behavior behind iuvui-owned adapters,
-  with provenance retained for adapted upstream code.
+  Button, Dialog, and Select use Base UI behind iuvui-owned adapters. Text
+  Field and Separator still use React Aria Components. Primitive types stay
+  private, with provenance retained for adapted upstream code.
 - `iuvapp/iuvui` is the canonical public repository for components, public npm
   packages, the CLI, Registry output, public documentation, Storybook, and the
   public website.
@@ -403,8 +422,10 @@ component design and source contracts remain owned by iuvui.
 
 Adopted decisions:
 
-- preserve the existing React Aria adapter boundary and do not expose or switch
-  the public component API to Base UI primitives;
+- keep primitive types out of the public component API. The 2026-08-06 note
+  deferred a Base UI switch; the 2026-10-26 spike moves Button, Dialog, and
+  Select behavior to Base UI while Text Field, Separator, and future date,
+  table, and tree work stay on React Aria Components;
 - preserve precompiled `@iuvui/styles` CSS and do not require consumers to scan
   package source with Tailwind `@source` directives;
 - introduce a private build-time component contract that records identity,

@@ -16,6 +16,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@base-ui/react": "^1.9.0",
     "react-aria-components": "^1.20.0"
   },
   "peerDependencies": {
