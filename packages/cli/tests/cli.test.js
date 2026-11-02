@@ -142,7 +142,7 @@ test("installs Button source and a verified lock entry", () => {
     const button = readFileSync(buttonPath, "utf8");
     const lock = JSON.parse(readFileSync(join(cwd, "iuvui.lock"), "utf8"));
     assert.match(button, /This copy belongs to your project/);
-    assert.match(button, /from "react-aria-components"/);
+    assert.match(button, /from "@base-ui\/react\/button"/);
     assert.doesNotMatch(button, /@iuvui\/internal/);
     assert.equal(
       lock.items.button.files["components/iuv-ui/button.tsx"],

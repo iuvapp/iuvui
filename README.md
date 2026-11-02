@@ -12,7 +12,7 @@ The canonical public repository is
 repository will own the shared Free and Pro account dashboard and protected
 product assets; no dashboard application code or paid asset is maintained here.
 
-The repository currently implements package delivery first. Public packages use the `@iuvui/*` scope. Consumers customize components through stable props, CSS variables, `className`, and `extendVariants`. React Aria Components provide behavior behind a private adapter; their types, contexts, and DOM structure are not public API.
+The repository currently implements package delivery first. Public packages use the `@iuvui/*` scope. Consumers customize components through stable props, CSS variables, `className`, and `extendVariants`. Button, Dialog, and Select take their behavior from Base UI. Text Field and Separator still take theirs from React Aria Components. Both sit behind a private adapter, and neither primitive's types, contexts, nor DOM structure is public API.
 
 Source delivery is a first-class product mode. The local `@iuvui/cli` workspace
 installs component source into a consumer project, records iuvui and exact
@@ -124,7 +124,7 @@ Tailwind CSS v4 is the recommended utility extension environment. `tailwind-merg
 
 ## Accessibility and support
 
-The private React Aria adapter implements keyboard interaction, focus visibility, dialog focus containment and restoration, and form relationships. Unit tests, Playwright, and axe treat essential behavior and stable `data-slot` or state attributes as contracts. Automated scans do not replace manual assistive-technology testing.
+The private behavior adapter implements keyboard interaction, focus visibility, dialog focus containment and restoration, and form relationships. Button, Dialog, and Select use Base UI for that behavior. Text Field and Separator still use React Aria Components. Unit tests, Playwright, and axe treat essential behavior and stable `data-slot` or state attributes as contracts. Automated scans do not replace manual assistive-technology testing.
 
 The browser policy targets the current two stable releases of Chromium, Firefox, and Safari, with React 18.3+ and React 19 while those releases receive upstream security support. Packages are ESM-only unless real consumer data establishes a CJS requirement.
 

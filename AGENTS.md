@@ -151,7 +151,7 @@
 
 ## Upstream traceability
 
-- Treat open-source shadcn/ui as the sole design and source reference baseline and React Aria Components as a replaceable behavior implementation behind `@iuvui/internal`.
+- Treat open-source shadcn/ui as the sole design and source reference baseline. Base UI is the behavior implementation for Button, Dialog, and Select. React Aria Components remain the replaceable behavior implementation for the other current components. Both stay behind `@iuvui/internal`.
 - Every component derived from or architecturally referenced against shadcn/ui must record the upstream repository, exact commit revision, immutable source URL, source path, sync date, license, relationship, and local deviations in Registry metadata.
 - Never use a mutable branch, `latest`, or an unversioned Registry URL as the sole provenance for component source.
 - Preserve upstream provenance in generated Registry items and in `iuvui.lock` so future checks and upgrades can distinguish upstream changes from consumer-owned changes.

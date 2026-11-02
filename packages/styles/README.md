@@ -19,7 +19,7 @@ The published `@iuvui/styles@0.0.1` package includes these entry points:
 
 ## Workspace package
 
-The canonical workspace also includes Card, Input, Label, and Textarea
+The canonical workspace also includes Card, Input, Label, Select, and Textarea
 styles. Those files are packed and verified locally, but they are not part of
 the published `@iuvui/styles@0.0.1` package. Do not copy the following imports
 into an npm `0.0.1` installation until a later authorized `0.0.x` release:
@@ -28,6 +28,7 @@ into an npm `0.0.1` installation until a later authorized `0.0.x` release:
 @import "@iuvui/styles/components/card.css";
 @import "@iuvui/styles/components/input.css";
 @import "@iuvui/styles/components/label.css";
+@import "@iuvui/styles/components/select.css";
 @import "@iuvui/styles/components/textarea.css";
 ```
 

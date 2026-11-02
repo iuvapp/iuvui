@@ -83,18 +83,8 @@ function remove(path) {
 }
 
 function generateButtonSource() {
-  const canonicalImport = `import {
-  AriaButton,
-  AriaLink,
-  type AriaButtonRenderProps,
-  type AriaLinkRenderProps,
-} from "@iuvui/internal";`;
-  const registryImport = `import {
-  Button as AriaButton,
-  Link as AriaLink,
-  type ButtonRenderProps as AriaButtonRenderProps,
-  type LinkRenderProps as AriaLinkRenderProps,
-} from "react-aria-components";`;
+  const canonicalImport = `import { BaseButton } from "@iuvui/internal";`;
+  const registryImport = `import { Button as BaseButton } from "@base-ui/react/button";`;
   const canonical = read("packages/react/src/button.tsx");
 
   if (!canonical.includes(canonicalImport)) {

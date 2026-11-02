@@ -34,6 +34,7 @@
     "./components/dialog.css": "./components/dialog.css",
     "./components/input.css": "./components/input.css",
     "./components/label.css": "./components/label.css",
+    "./components/select.css": "./components/select.css",
     "./components/separator.css": "./components/separator.css",
     "./components/textarea.css": "./components/textarea.css"
   },

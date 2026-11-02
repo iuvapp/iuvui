@@ -9,6 +9,7 @@ export default defineConfig({
     dialog: "src/dialog.tsx",
     input: "src/input.tsx",
     label: "src/label.tsx",
+    select: "src/select.tsx",
     separator: "src/separator.tsx",
     textarea: "src/textarea.tsx",
     "extend-variants": "src/extend-variants.tsx",

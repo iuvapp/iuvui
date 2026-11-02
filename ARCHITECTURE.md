@@ -3,7 +3,7 @@
 ## Package and release boundaries
 
 - `packages/react`: the only public component API; React remains a peer dependency.
-- `packages/internal`: private React Aria behavior adapters, bundled into `@iuvui/react` and never imported by consumers.
+- `packages/internal`: private behavior adapters, bundled into `@iuvui/react` and never imported by consumers.
 - `packages/styles`: publishable precompiled CSS with no runtime injection or consumer source scanning.
 - `packages/tokens`: semantic CSS variables and matching TypeScript types.
 - `packages/utils`: class merging, Tailwind v4 conflict handling, and multi-slot variant resolution.
@@ -48,24 +48,24 @@ paid recipes, signed URLs, or credentials. Browser-delivered code is observable,
 so sensitive account, billing, and entitlement decisions stay on verified server
 boundaries in the private system.
 
-## React Aria boundary
+## Behavior primitive boundary
 
-React Aria Components provide tested keyboard, focus, form, and overlay behavior while iuvui owns its visual system and stable API.
+iuvui owns the visual system and the stable public API. Behavior primitives stay replaceable behind `packages/internal`.
 
 1. Public props use React, standard DOM types, and iuvui-owned types only.
-2. React Aria components, contexts, and types are never re-exported.
-3. Only `packages/internal` may aggregate React Aria primitives directly.
+2. Behavior-primitive components, contexts, and types are never re-exported.
+3. Only `packages/internal` may import `@base-ui/react` or `react-aria-components` directly. Source-mode Registry output for a migrated component imports that same primitive package.
 4. `packages/react` maps render state to iuvui state types and stable data attributes.
 5. Tests target semantic roles, public props, `data-slot`, and documented state rather than internal DOM structure.
 
-A primitive may be replaced after its adapter passes the same contract suite. Public APIs and CSS selectors must not change merely because the underlying primitive changes.
+Button, Dialog, and Select use Base UI. Text Field and Separator still use React Aria Components. Date, table, and tree behavior stay on React Aria when those components exist. Public APIs and CSS selectors must not change merely because the underlying primitive changes.
 
 ## Component and website foundations
 
 The architecture separates three concerns that are often conflated:
 
 - iuvui defines component anatomy, semantic tokens, and package and Registry delivery contracts;
-- React Aria Components supplies replaceable behavior primitives behind `packages/internal`;
+- Base UI supplies Button, Dialog, and Select behavior, and React Aria Components supplies the remaining behavior, both behind `packages/internal`;
 - iuvui owns maintained-package ergonomics and product presentation; the website consumes local `@iuvui/*` components and keeps Fumadocs as its documentation layer.
 
 The public API belongs to iuvui. Adapted upstream source is tracked through the immutable provenance contract below; it does not decide permanent props, DOM anatomy, variants, tokens, or upgrade guarantees.
