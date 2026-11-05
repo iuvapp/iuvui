@@ -50,6 +50,14 @@ export type {
   NavbarProps,
   NavbarSpacerProps,
 } from "./navbar";
+export { Select } from "./select";
+export type {
+  SelectContentProps,
+  SelectItemProps,
+  SelectRootProps,
+  SelectTriggerProps,
+  SelectValueProps,
+} from "./select";
 export { Separator } from "./separator";
 export type { SeparatorOrientation, SeparatorProps } from "./separator";
 export { TextField } from "./text-field";

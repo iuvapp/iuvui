@@ -1,0 +1,386 @@
+name: CI Staging and Production Promotion
+
+# Staging is an environment-bound SHA, not a git branch. main merges stay silent;
+# explicit promotion runs quality + staging preview deploy, then tags
+# staging/<UTC>-<shortsha>. Production only ships the same SHA after a successful
+# Staging GitHub deployment and matching staging tag.
+on:
+  workflow_dispatch:
+    inputs:
+      promotion:
+        description: Staging preview deploy or production ship
+        required: true
+        default: staging
+        type: choice
+        options:
+          - staging
+          - production
+      sha:
+        description: Commit SHA (staging defaults to main HEAD; production must match a staging tag)
+        required: false
+        type: string
+      staging_tag:
+        description: Existing staging tag to promote (production only; legacy preview/* accepted)
+        required: false
+        type: string
+  push:
+    tags:
+      - staging/*
+
+permissions:
+  actions: read
+  contents: write
+  deployments: write
+
+concurrency:
+  group: ci-promotion-${{ github.event_name == 'workflow_dispatch' && inputs.promotion || 'staging' }}
+  cancel-in-progress: false
+
+jobs:
+  resolve:
+    name: Resolve promotion target
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    outputs:
+      promotion: ${{ steps.resolve.outputs.promotion }}
+      deploy_sha: ${{ steps.resolve.outputs.deploy_sha }}
+      staging_tag: ${{ steps.resolve.outputs.staging_tag }}
+      skip_tag: ${{ steps.resolve.outputs.skip_tag }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+
+      - name: Resolve promotion inputs
+        id: resolve
+        uses: actions/github-script@v7
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          INPUT_PROMOTION: ${{ github.event_name == 'workflow_dispatch' && inputs.promotion || 'staging' }}
+          INPUT_SHA: ${{ github.event_name == 'workflow_dispatch' && inputs.sha || '' }}
+          INPUT_STAGING_TAG: ${{ github.event_name == 'workflow_dispatch' && inputs.staging_tag || '' }}
+          TAG_REF: ${{ github.ref }}
+        with:
+          script: |
+            const { execFileSync } = require("node:child_process");
+            const { pathToFileURL } = require("node:url");
+            const {
+              formatStagingTagName,
+              isStagingTag,
+              listPromotionTags,
+              normalizeSha,
+              parseStagingTag,
+              peelTagToCommitSha,
+              resolvePromotionSha,
+              shortSha,
+            } = await import(pathToFileURL(`${process.env.GITHUB_WORKSPACE}/scripts/ci-promotion.mjs`).href);
+
+            const git = (args) =>
+              execFileSync("git", args, { encoding: "utf8" }).trim();
+
+            const promotion =
+              process.env.EVENT_NAME === "push" ? "staging" : process.env.INPUT_PROMOTION;
+            core.setOutput("promotion", promotion);
+
+            if (process.env.EVENT_NAME === "push") {
+              const tag = process.env.TAG_REF.replace(/^refs\/tags\//, "");
+              if (!isStagingTag(tag)) {
+                core.setFailed(`Unsupported staging tag: ${tag}`);
+                return;
+              }
+              const sha = normalizeSha(
+                peelTagToCommitSha(tag, process.env.GITHUB_WORKSPACE)
+              );
+              const parsed = parseStagingTag(tag);
+              if (parsed.shortSha !== shortSha(sha)) {
+                core.setFailed(`Staging tag short SHA does not match ${shortSha(sha)}`);
+                return;
+              }
+              core.setOutput("deploy_sha", sha);
+              core.setOutput("staging_tag", tag);
+              core.setOutput("skip_tag", "true");
+              return;
+            }
+
+            if (promotion === "staging") {
+              let deploySha = process.env.INPUT_SHA;
+              if (!deploySha) {
+                execFileSync("git", ["fetch", "--no-tags", "origin", "main"], {
+                  stdio: "inherit",
+                });
+                deploySha = git(["rev-parse", "origin/main"]);
+              }
+              deploySha = normalizeSha(deploySha);
+              core.setOutput("deploy_sha", deploySha);
+              core.setOutput("staging_tag", "");
+              core.setOutput("skip_tag", "false");
+              return;
+            }
+
+            const tags = listPromotionTags(process.env.GITHUB_WORKSPACE);
+            const resolved = resolvePromotionSha({
+              promotion: "production",
+              requestedSha: process.env.INPUT_SHA || undefined,
+              stagingTag: process.env.INPUT_STAGING_TAG || undefined,
+              tags,
+            });
+            if (resolved.sha) {
+              core.setOutput("deploy_sha", resolved.sha);
+            } else {
+              const tagSha = normalizeSha(
+                peelTagToCommitSha(
+                  resolved.stagingTag,
+                  process.env.GITHUB_WORKSPACE
+                )
+              );
+              core.setOutput("deploy_sha", tagSha);
+            }
+            core.setOutput("staging_tag", resolved.stagingTag);
+            core.setOutput("skip_tag", "true");
+
+  verify-staging:
+    name: Verify staging promotion record
+    needs: resolve
+    if: needs.resolve.outputs.promotion == 'production'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Require successful staging deployment
+        uses: actions/github-script@v7
+        env:
+          DEPLOY_SHA: ${{ needs.resolve.outputs.deploy_sha }}
+          STAGING_TAG: ${{ needs.resolve.outputs.staging_tag }}
+        with:
+          script: |
+            const { pathToFileURL } = require("node:url");
+            const { assertStagingDeployment } = await import(
+              pathToFileURL(`${process.env.GITHUB_WORKSPACE}/scripts/ci-promotion.mjs`).href
+            );
+            const deployments = await github.paginate(
+              github.rest.repos.listDeployments,
+              {
+                ...context.repo,
+                sha: process.env.DEPLOY_SHA,
+                per_page: 100,
+              }
+            );
+            const statuses = [];
+            for (const deployment of deployments) {
+              const status = await github.rest.repos.listDeploymentStatuses({
+                ...context.repo,
+                deployment_id: deployment.id,
+                per_page: 1,
+              });
+              statuses.push({
+                environment: deployment.environment,
+                sha: deployment.sha,
+                state: status.data[0]?.state ?? "unknown",
+              });
+            }
+            assertStagingDeployment({
+              sha: process.env.DEPLOY_SHA,
+              deployments: statuses,
+            });
+            core.info(`Verified staging deployment for ${process.env.STAGING_TAG}`);
+
+  quality:
+    needs: resolve
+    if: needs.resolve.outputs.promotion == 'staging'
+    uses: ./.github/workflows/ci.yml
+    with:
+      deploy-sha: ${{ needs.resolve.outputs.deploy_sha }}
+
+  deploy-staging:
+    needs: [resolve, quality]
+    if: >-
+      needs.resolve.outputs.promotion == 'staging'
+      && needs.quality.result == 'success'
+    uses: ./.github/workflows/cloudflare-deploy.yml
+    with:
+      deploy-sha: ${{ needs.resolve.outputs.deploy_sha }}
+      profile: develop
+    secrets:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+
+  staging-gate:
+    name: Evaluate staging promotion gate
+    needs: [resolve, quality, deploy-staging]
+    if: >-
+      always()
+      && needs.resolve.outputs.promotion == 'staging'
+      && needs.resolve.outputs.skip_tag != 'true'
+      && !cancelled()
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    outputs:
+      can_tag: ${{ steps.evaluate.outputs.can_tag }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.resolve.outputs.deploy_sha }}
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Evaluate staging gate
+        id: evaluate
+        env:
+          QUALITY_RESULT: ${{ needs.quality.result }}
+          DEPLOY_STAGING_RESULT: ${{ needs.deploy-staging.result }}
+        run: node scripts/ci-staging-promotion.mjs
+
+  tag-staging:
+    name: Tag staging promotion
+    needs: [resolve, deploy-staging, staging-gate]
+    if: >-
+      needs.resolve.outputs.promotion == 'staging'
+      && needs.resolve.outputs.skip_tag != 'true'
+      && needs.staging-gate.outputs.can_tag == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      staging_tag: ${{ steps.tag.outputs.staging_tag }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.resolve.outputs.deploy_sha }}
+          fetch-depth: 1
+          persist-credentials: true
+
+      - name: Create staging tag
+        id: tag
+        uses: actions/github-script@v7
+        env:
+          DEPLOY_SHA: ${{ needs.resolve.outputs.deploy_sha }}
+        with:
+          script: |
+            const { execFileSync } = require("node:child_process");
+            const { pathToFileURL } = require("node:url");
+            const { formatStagingTagName } = await import(
+              pathToFileURL(`${process.env.GITHUB_WORKSPACE}/scripts/ci-promotion.mjs`).href
+            );
+            const tag = formatStagingTagName(process.env.DEPLOY_SHA);
+            execFileSync("git", ["config", "user.email", "github-actions[bot]@users.noreply.github.com"], {
+              stdio: "inherit",
+            });
+            execFileSync("git", ["config", "user.name", "github-actions[bot]"], {
+              stdio: "inherit",
+            });
+            execFileSync("git", ["tag", "-a", tag, "-m", `Staging promotion ${tag}`], {
+              stdio: "inherit",
+            });
+            execFileSync("git", ["push", "origin", tag], { stdio: "inherit" });
+            core.setOutput("staging_tag", tag);
+
+  record-staging:
+    name: Record staging deployment
+    needs: [resolve, deploy-staging, tag-staging, staging-gate]
+    if: >-
+      always()
+      && needs.resolve.outputs.promotion == 'staging'
+      && needs.deploy-staging.result == 'success'
+      && !cancelled()
+      && (
+        needs.resolve.outputs.skip_tag == 'true'
+        || (
+          needs.staging-gate.outputs.can_tag == 'true'
+          && needs.tag-staging.result == 'success'
+        )
+      )
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    environment:
+      name: Staging
+    steps:
+      - name: Create GitHub deployment
+        uses: actions/github-script@v7
+        env:
+          DEPLOY_SHA: ${{ needs.resolve.outputs.deploy_sha }}
+          STAGING_TAG: ${{ needs.resolve.outputs.skip_tag == 'true' && needs.resolve.outputs.staging_tag || needs.tag-staging.outputs.staging_tag }}
+        with:
+          script: |
+            const deployment = await github.rest.repos.createDeployment({
+              ...context.repo,
+              ref: process.env.DEPLOY_SHA,
+              environment: "Staging",
+              auto_merge: false,
+              required_contexts: [],
+              description: `Staging promotion ${process.env.STAGING_TAG}`,
+              production_environment: false,
+            });
+            await github.rest.repos.createDeploymentStatus({
+              ...context.repo,
+              deployment_id: deployment.data.id,
+              state: "success",
+              environment_url: "https://staging-iuvui.workers.dev",
+              description: "Staging Worker previews deployed",
+            });
+
+  update-production-ref:
+    name: Fast-forward production ref
+    needs: [resolve, verify-staging]
+    if: needs.resolve.outputs.promotion == 'production'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.resolve.outputs.deploy_sha }}
+          fetch-depth: 0
+          persist-credentials: true
+
+      - name: Move production branch to staging SHA
+        env:
+          DEPLOY_SHA: ${{ needs.resolve.outputs.deploy_sha }}
+        run: |
+          set -euo pipefail
+          git fetch origin production || true
+          git push origin "${DEPLOY_SHA}:refs/heads/production"
+
+  deploy-production:
+    needs: [resolve, update-production-ref]
+    if: needs.resolve.outputs.promotion == 'production'
+    uses: ./.github/workflows/cloudflare-deploy.yml
+    with:
+      deploy-sha: ${{ needs.resolve.outputs.deploy_sha }}
+      profile: production
+    secrets:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+
+  record-production:
+    name: Record production deployment
+    needs: [resolve, deploy-production]
+    if: needs.resolve.outputs.promotion == 'production' && needs.deploy-production.result == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    environment:
+      name: Production
+    steps:
+      - name: Create GitHub deployment
+        uses: actions/github-script@v7
+        env:
+          DEPLOY_SHA: ${{ needs.resolve.outputs.deploy_sha }}
+          STAGING_TAG: ${{ needs.resolve.outputs.staging_tag }}
+        with:
+          script: |
+            const deployment = await github.rest.repos.createDeployment({
+              ...context.repo,
+              ref: process.env.DEPLOY_SHA,
+              environment: "Production",
+              auto_merge: false,
+              required_contexts: [],
+              description: `Production promotion of ${process.env.STAGING_TAG}`,
+              production_environment: true,
+            });
+            await github.rest.repos.createDeploymentStatus({
+              ...context.repo,
+              deployment_id: deployment.data.id,
+              state: "success",
+              environment_url: "https://iuvui.com",
+              description: "Production Workers deployed",
+            });

@@ -42,62 +42,46 @@ iuv-tech/iuvui-mcp                   planned separate public repository
 
 Each repository owns its application-specific presentation layer. Shared
 branding may be synchronized deliberately, but the repositories do not use a
-cross-repository workspace dependency. Public packages and Registry source must
-never depend on HeroUI or import HeroUI Pro code, styles, assets, or types. The
+cross-repository workspace dependency. Public packages and Registry source share
+the same canonical iuvui components and provenance records. The
 future private dashboard may consume public packages through released versions,
 but the public repository must never import private dashboard code or paid
 assets.
 
-## UI foundation and bootstrap strategy
+## Open-source UI foundation
 
-The initial websites use React 19, Tailwind CSS v4, `@heroui/react`,
-and `@heroui/styles`. HeroUI OSS default components, semantic tokens, system
-typography, restrained surfaces, and documentation information patterns remain
-the application baseline until iuvui meets its own production requirements. The
-public site is a documentation and discovery surface for real components,
-variants, styles, icons, Registry artifacts, and releases; it is not currently a
-Dashboard promotion surface.
+The public website uses React 19 and Tailwind CSS v4. Website chrome and
+documentation previews consume the existing `@iuvui/react` components and `@iuvui/styles`
+semantic tokens. Website-only composition, including action links and status
+labels, lives in the private `@iuvui/site-ui` workspace and does not expand the
+public component catalog.
 
-The documentation structure was reviewed against the official HeroUI v3 OSS
-repository at immutable commit
-`82e8db281f94457a6d72e046645123b698576757`. This reference informs navigation,
-catalog grouping, search, and content hierarchy only. HeroUI Pro source and
-licensed assets must not be committed to the public repository. Any future
-application-layer integration must comply with the purchased license, keep
-protected credentials outside source control, and remain isolated from public
-component and Registry implementations.
+The site is a documentation and discovery surface for real components,
+variants, styles, icons, Registry artifacts, and releases, not a dashboard
+promotion surface. Catalog claims must match actual exports and Registry
+availability rather than planned capabilities. Existing component provenance
+and third-party notices remain authoritative; paid third-party source and
+design assets must not enter this repository.
 
-Actual iuvui package components may be rendered inside documentation previews so
-the catalog never presents a HeroUI component as an iuvui implementation. The
-surrounding website chrome remains on HeroUI until the self-bootstrap gate is
-met. Catalog content must reflect current repository exports and Registry
-availability rather than planned or invented capabilities.
-
-The minimum self-bootstrap gate includes:
-
-- coverage of every foundational and complex component used by the sites;
-- verified keyboard, focus, screen-reader, and automated accessibility contracts;
-- production-ready themes, responsive behavior, dark mode, and stable DOM anatomy;
-- reliable package delivery, source delivery, variants, and upgrade paths;
-- evidence from independent production trials.
-
-After the gate is met, migration proceeds component by component and page by page. HeroUI stays in production until each replacement is verified.
+Website utilities and Fumadocs colors map to the same `--ui-*` semantic tokens,
+including light, dark, and forced-colors values. Components retain their
+keyboard, focus, accessibility, responsive-layout, and source-delivery
+contracts as the website continuously exercises them.
 
 ## Application frameworks and data
 
 The public website is deliberately TanStack-first. TanStack Start and TanStack
 Router own the application shell, routing, server rendering, server functions,
-and Cloudflare Worker runtime boundary. This is a durable architectural
-difference from HeroUI's Next.js documentation application: HeroUI remains a
-product and visual reference, not the source of iuvui's application framework.
+and Cloudflare Worker runtime boundary. The component design baseline does not
+dictate the application framework.
 
 Fumadocs is embedded inside TanStack Start as the documentation engine. It owns
 MDX compilation, documentation navigation, table-of-contents data, and the
 public search index. It does not own the application runtime or routing boundary,
 and its Next.js adapters, App Router conventions, and Nitro integration are not
 part of this repository. Interactive examples render real local iuvui packages
-inside the Fumadocs content layer, while HeroUI OSS remains the surrounding
-website chrome until self-bootstrap.
+inside the Fumadocs content layer; the surrounding website chrome also consumes
+local iuvui components.
 
 `apps/web` is the single public web and documentation project. Its `/` route is
 a concise brand entry point, while the Fumadocs routes own the Overview,
@@ -145,51 +129,65 @@ English is the canonical source language and the default display language. Engli
 ```text
 iuvui repository:
 iuvui           -> iuvui.com (production custom domain)
-                -> Worker preview URLs / version URLs (branch previews in CI)
-iuvui-storybook -> ui.iuvui.com
+                -> staging-<worker>.<subdomain>.workers.dev (staging version alias)
+iuvui-storybook -> ui.iuvui.com (production custom domain)
+                -> staging-<worker>.<subdomain>.workers.dev (staging version alias)
 ```
 
 The public website uses one Cloudflare Worker named `iuvui`. Production traffic
-serves `iuvui.com`. Branch and pull-request previews upload Worker versions in
-CI (`wrangler versions upload`) and expose preview URLs; there is no separate
-development Worker and no `*.iuvdev.com` hostname for the public site.
+serves `iuvui.com`. Staging uploads a Worker version with the `staging` preview
+alias (`wrangler versions upload --preview-alias staging`) and exposes a stable
+version URL; there is no separate development Worker and no `*.iuvdev.com`
+hostname for the public site.
 
 The Vite plugin produces the flattened Wrangler deployment configuration at build
-time. Storybook has one production Worker. Each Worker owns its custom domain,
-deployment, rollback, logs, and observability. R2 or KV may still be introduced
-later for immutable asset delivery or edge caching when a concrete requirement
-exists.
+time. Storybook uses one Worker named `iuvui-storybook` with the same staging and
+production promotion model. Each Worker owns its custom domain, deployment,
+rollback, logs, and observability. R2 or KV may still be introduced later for
+immutable asset delivery or edge caching when a concrete requirement exists.
 
-Preview uploads do not imply a production promotion. A successful preview version
-URL verifies the uploaded build; production promotion requires an explicit CI
-deploy to the `iuvui` Worker.
+A staging version upload does not imply a production promotion. Production
+promotion requires a matching `staging/*` tag, a successful `Staging` GitHub
+Deployment for the same SHA, and an explicit workflow dispatch to `production`.
 
 Only the two public Workers are configured or deployed from this repository. No
 dashboard Worker is configured here. Future private dashboard Worker configuration
 and operations belong in `iuv-pro` after that repository exists.
 
-### CI deployment
+### Promotion deployment
 
-Deployments run only in CI. Authenticate Wrangler in CI with
-`CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` repository secrets.
+Deployments run only through the `CI Staging and Production Promotion` workflow
+(`ci-deploy.yml`). Merges, pushes to `main`, and pull requests do not trigger
+deploys. Configure `CLOUDFLARE_ACCOUNT_ID` as a repository variable and
+`CLOUDFLARE_API_TOKEN` as a repository secret.
 
-Pull requests to `main` upload a preview Worker version:
+#### Staging promotion
+
+Trigger: Actions → **CI Staging and Production Promotion** → `promotion=staging`
+(optional `sha`; default resolves to `origin/main` HEAD). Pushing an existing
+`staging/*` tag re-runs staging deploy without creating a new tag.
+
+1. Run reusable quality checks (`ci.yml`) against the target SHA.
+2. Deploy `iuvui` and `iuvui-storybook` staging previews
+   (`wrangler versions upload --preview-alias staging`).
+3. Create annotated tag `staging/<UTC>-<shortsha>` when all gates pass.
+4. Record a successful GitHub Deployment in environment `Staging`.
+
+#### Production promotion
+
+Trigger: same workflow with `promotion=production` and `sha` or `staging_tag`.
+
+1. Verify the SHA has a `staging/*` tag and a successful `Staging` deployment.
+2. Fast-forward the `production` git branch to that SHA.
+3. Deploy `iuvui` to `iuvui.com` and `iuvui-storybook` to `ui.iuvui.com`.
+4. Record a successful GitHub Deployment in environment `Production`.
+
+Local deploy scripts remain available for debugging only:
 
 ```bash
-pnpm web:preview
-```
-
-Production promotion deploys the built site to the `iuvui` Worker and serves
-`iuvui.com`. This runs manually from the `Deploy Web Production` workflow
-(protected by the `production` GitHub environment):
-
-```bash
+pnpm web:deploy:staging
 pnpm web:deploy
-```
-
-Storybook deploys separately through the `Deploy Storybook` workflow:
-
-```bash
+pnpm storybook:deploy:staging
 pnpm storybook:deploy
 ```
 
@@ -247,23 +245,13 @@ The first milestone provides the shell, navigation, empty states,
 authentication, and account entry points. Billing and entitlement workflows
 follow after their data model is defined.
 
-## HeroUI Pro license boundary
-
-- Use HeroUI OSS until a Pro license is purchased and activated.
-- Install Pro through its official licensed workflow; do not copy or transform unlicensed assets.
-- Keep local credentials and CI tokens separate.
-- Store `HEROUI_AUTH_TOKEN` only in CI or protected Cloudflare build secrets.
-- Never expose the token to client code, logs, or the repository.
-- Do not commit HeroUI Pro source or licensed assets to this public repository.
-- Never use Pro assets as input for iuvui component or Registry implementations.
-
 ## Delivery phases
 
-1. Public foundation: HeroUI OSS, brand system, landing page, component and documentation entry points, `iuvui.com` Worker.
+1. Public foundation: iuvui components and website chrome, brand system, Fumadocs documentation, and the `iuvui.com` Worker.
 2. Dashboard shell: Clerk session boundary, organization switching, navigation,
    and empty states in the future private `iuv-pro` repository. No dashboard
    deployment is implied until that repository exists and its own verification
    plan is approved.
-3. Pro features: licensed HeroUI Pro, entitlements, downloads, Registry access, teams, and billing.
+3. Pro features: iuvui premium design assets, entitlements, downloads, Registry access, teams, and billing, isolated in the future private repository.
 4. Product integration: CLI login and tokens, authenticated Pro Registry, project and download history, license seats.
-5. Self-bootstrap: audit iuvui against production gates, replace HeroUI incrementally, and make both sites continuous dogfooding and regression consumers.
+5. Continuous dogfooding: audit the public site, Storybook, and examples against iuvui's accessibility and compatibility contracts; extend coverage as new components become available.

@@ -87,7 +87,7 @@ installation protocol.
 V0 may use MIT-licensed shadcn component source as an implementation starting point. Each imported component is adapted into iuvui's canonical component model rather than redistributed under a different package name without modification. The adaptation establishes:
 
 - iuvui-owned public APIs, compound anatomy, semantic variants, and stable contracts;
-- HeroUI-inspired package structure and product delivery without copying HeroUI source;
+- a maintained package API and source delivery built on the same canonical implementation;
 - shared package and Registry outputs from the same canonical component;
 - iuvui styles, tokens, icons, tests, Storybook stories, and lifecycle metadata;
 - explicit upstream provenance, version or commit, source path, license, and modification history.
@@ -177,4 +177,4 @@ All components remain free, including complex components. Styles and variants ha
 Because shipped CSS is observable in a browser, premium protection applies to authorized distribution, updates, and service access rather than runtime DRM. See [Commercial model](./COMMERCIAL_MODEL.md) for the Style Pack contract, entitlement flow, and licensing principles.
 
 See [Web platform](./WEB_PLATFORM.md) for the public site, future private
-dashboard boundary, HeroUI boundary, and deployment plan.
+dashboard boundary, open-source UI foundation, and deployment plan.

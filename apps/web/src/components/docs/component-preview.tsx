@@ -37,7 +37,7 @@ export function ComponentPreview({ id }: { id: ComponentId }) {
           <CardTitle>{m.web_preview_card_title()}</CardTitle>
           <CardDescription>{m.web_preview_card_description()}</CardDescription>
         </CardHeader>
-        <CardContent className="text-sm text-muted">
+        <CardContent className="text-sm text-muted-foreground">
           {m.web_preview_card_content()}
         </CardContent>
       </Card>
@@ -117,7 +117,7 @@ export function ComponentPreview({ id }: { id: ComponentId }) {
   return (
     <div className="grid gap-4">
       <Separator />
-      <div className="flex h-8 items-center gap-4 text-sm text-muted">
+      <div className="flex h-8 items-center gap-4 text-sm text-muted-foreground">
         <span>{m.web_preview_before()}</span>
         <Separator className="h-6" orientation="vertical" />
         <span>{m.web_preview_after()}</span>

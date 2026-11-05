@@ -5,6 +5,7 @@ import {
   createRootRoute,
 } from "@tanstack/react-router";
 import { RootProvider } from "fumadocs-ui/provider/tanstack";
+import { ActionLink } from "@iuvui/site-ui";
 
 import { fumadocsI18n } from "../docs/fumadocs-i18n";
 import * as m from "../paraglide/messages.js";
@@ -32,17 +33,17 @@ export const Route = createRootRoute({
 function NotFoundComponent() {
   return (
     <main className="grid min-h-screen place-items-center bg-background px-6 py-12 text-foreground">
-      <div className="w-full max-w-xl rounded-2xl border border-separator bg-surface p-8 shadow-sm">
-        <p className="text-sm font-medium text-muted">404</p>
+      <div className="w-full max-w-xl rounded-2xl border border-border bg-card p-8 shadow-sm">
+        <p className="text-sm font-medium text-muted-foreground">404</p>
         <h1 className="mt-3 text-3xl font-semibold tracking-tight">
           {m.web_not_found_title()}
         </h1>
-        <p className="mt-3 leading-7 text-muted">
+        <p className="mt-3 leading-7 text-muted-foreground">
           {m.web_not_found_description()}
         </p>
-        <a className="mt-6 inline-flex text-sm font-medium text-link" href="/">
+        <ActionLink className="mt-6" href="/">
           {m.web_not_found_action()}
-        </a>
+        </ActionLink>
       </div>
     </main>
   );
@@ -69,7 +70,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
             enabled: true,
             options: { api: "/api/search" },
           }}
-          theme={{ enabled: false }}
+          theme={{ attribute: ["class", "data-theme"], hotKey: false }}
         >
           {children}
         </RootProvider>

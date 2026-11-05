@@ -10,40 +10,111 @@ operational authority. A future private `iuv-pro` repository will own the
 dashboard and protected assets when it is created. This memo records only the
 public integration boundary with that future system.
 
-Last local verification: 2026-09-28.
+Last local verification: 2026-11-05.
 Last recorded external deployment: 2026-08-20.
 
-## 2026-09-28 — Single Worker and preview-based deployment
+## 2026-11-05 — Local and upstream history reconciliation
+
+Merged the local Navbar work with upstream Base UI, website chrome, and CI
+promotion updates. Resolved the adjacent package exports, source exports, build
+entries, and stylesheet imports by retaining both Navbar and Select. Preserved
+the local preview preference and generative UI research note. Regenerated
+Registry artifacts; Navbar remains a local workspace preview.
+
+Local verification passed for the frozen lockfile, language, formatting, release
+policy, Registry contracts and artifacts, upstream provenance, CI helper tests,
+workspace typecheck, unit tests, lint, package builds, Storybook, and the public
+website production build. Package archive checks and the independent consumer
+install passed. A runtime import check confirmed that Navbar and Select resolve
+through both the root package and their individual subpaths. No npm package was
+published and no Worker was deployed.
+
+## 2026-10-26 — Base UI spike for Button, Dialog, and Select
+
+Button and Dialog now use `@base-ui/react` behind the existing public props.
+Select did not exist, so this spike adds it as a package and CSS export with
+the same compound shape. It is not in the website catalog or Registry.
+Text Field and Separator still use React Aria Components. No package was
+published and no Worker was deployed.
+
+Local verification passed for language, formatting, release policy, component
+contracts, upstream provenance, lint, typecheck, workspace tests, the frozen
+lockfile, package archives, and an independent consumer install. Button,
+Dialog, and Select unit tests passed, including the closed Select axe check.
+Storybook contract tests passed in Chromium for keyboard activation, dialog
+focus restoration, and the representative axe scan. The Select story shows the
+item label for its default value and updates that label after a selection.
+Registry output was regenerated so the owned Button source imports
+`@base-ui/react/button`. No package was published and no Worker was deployed.
+
+## 2026-10-15 — Open-source website chrome
+
+The public website now uses the existing `@iuvui/react` Button
+and Card, with website-only action links and status labels in `@iuvui/site-ui`.
+Application utilities and Fumadocs colors share `@iuvui/styles` semantic tokens.
+TanStack Start, Fumadocs Glass, MDX, search, and Paraglide remain in place.
+The proposed English slogan is "React components, made yours."; the
+Simplified Chinese translation lives in the message catalog.
+
+Local verification passed for repository tests, lint, typecheck, build,
+language, release policy, Registry, and upstream provenance. The web-scoped
+typecheck, tests, and production build also passed, as did the repository
+formatting check after formatting the ignored generated
+`project.inlang/.meta.json` and `project.inlang/README.md` locally; only
+`settings.json` is tracked in that directory. Desktop visual checks passed for
+the homepage, docs, search, and variant interaction. The English mobile homepage
+and dark documentation were also checked; Fumadocs and iuvui share the resolved
+theme so syntax highlighting remains legible. Locale switching and Chinese
+content were verified, but Chinese glyph rendering remains unverified because
+the local browser lacks working CJK font fallback. Package archive and consumer
+checks were not run because public component outputs were unchanged. No
+deployment or npm publication is part of this change.
+
+## 2026-09-28 — iuv-stack promotion coordinator for staging and production
 
 Status: **Configuration updated locally; external deployment pending Cloudflare dashboard and CI setup.**
 
-The public website moves from separate `iuvui-web-dev` and `iuvui-web-prod`
-Workers to one Worker named `iuvui`. Production keeps the `iuvui.com` custom
-domain. Branch and pull-request previews use Cloudflare Worker preview URLs via
-`wrangler versions upload` in CI; there is no development Worker and no
-`*.iuvdev.com` hostname for the public site.
+The public website uses one Worker named `iuvui` with production at
+`iuvui.com`. Storybook uses `iuvui-storybook` at `ui.iuvui.com`. Deploys run
+only through `ci-deploy.yml`; merges, pushes to `main`, and pull requests do
+not trigger deploys or quality checks.
 
-Storybook moves from `storybook.iuvui.com` to `ui.iuvui.com`.
+Staging promotion (default SHA = `origin/main` HEAD):
+
+1. reusable `ci.yml` quality checks against the target SHA;
+2. staging preview deploy for `iuvui` and `iuvui-storybook`
+   (`wrangler versions upload --preview-alias staging`);
+3. annotated tag `staging/<UTC>-<shortsha>` when gates pass;
+4. GitHub Deployment recorded in environment `Staging`.
+
+Production promotion:
+
+1. requires a matching `staging/*` tag and successful `Staging` deployment;
+2. fast-forwards `production` branch to the promoted SHA;
+3. `wrangler deploy` for `iuvui.com` and `ui.iuvui.com`;
+4. GitHub Deployment recorded in environment `Production`.
 
 Changes:
 
-- `apps/web/wrangler.jsonc` consolidated to Worker `iuvui` with
-  `preview_urls: true`, production route `iuvui.com`, and no `env` block;
-- `apps/storybook/wrangler.jsonc` route updated to `ui.iuvui.com`;
-- root and `@iuvui/web` scripts replaced `web:deploy:dev` / `web:deploy:prod`
-  with `web:preview` and `web:deploy`; removed `CLOUDFLARE_ENV` build split;
-- CI workflows added for preview upload, production deploy, and Storybook
-  deploy;
+- added `ci-deploy.yml` promotion coordinator and `cloudflare-deploy.yml`
+  reusable deploy workflow;
+- converted `ci.yml` to `workflow_call` only (no `pull_request` / `push`
+  triggers);
+- removed standalone `deploy-web.yml` and `deploy-storybook.yml`;
+- added `scripts/ci-promotion.mjs`, `scripts/ci-staging-promotion.mjs`, and
+  `scripts/ci-cloudflare-deploy.mjs`;
 - README, `AGENTS.md`, and `WEB_PLATFORM.md` updated to match.
 
 Owner follow-up in Cloudflare and GitHub:
 
 - create or rename the production Worker to `iuvui` and attach `iuvui.com`;
-- enable preview URLs on the Worker;
+- enable preview URLs on `iuvui` and `iuvui-storybook`;
 - bind `ui.iuvui.com` to `iuvui-storybook` and remove `storybook.iuvui.com`;
 - remove retired `iuvui-web-dev`, `iuvui-web-prod`, and `*.iuvdev.com` routes;
-- configure `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` repository
-  secrets and protect the `production` GitHub environment for promotion deploys.
+- set repository variable `CLOUDFLARE_ACCOUNT_ID` and secret
+  `CLOUDFLARE_API_TOKEN`;
+- create GitHub environments `Staging` and `Production`, and protect
+  `Production` with required reviewers.
 
 No Worker, Storybook, or npm package was deployed from this revision.
 
@@ -71,11 +142,12 @@ package was changed in this revision.
 
 ## Decision baseline
 
-- The product shorthand is "Use shadcn like HeroUI": shadcn/ui is the design,
-  source, and ecosystem baseline; HeroUI is the maintained-package and product
-  experience reference; React Aria Components remain replaceable behavior behind
-  iuvui-owned adapters. Reference products do not supply copied implementation
-  code.
+- The product shorthand is "React components, made yours.": iuvui provides
+  accessible React components through maintained packages and ownable source.
+  Website chrome consumes the same local components and semantic tokens.
+  Button, Dialog, and Select use Base UI behind iuvui-owned adapters. Text
+  Field and Separator still use React Aria Components. Primitive types stay
+  private, with provenance retained for adapted upstream code.
 - `iuvapp/iuvui` is the canonical public repository for components, public npm
   packages, the CLI, Registry output, public documentation, Storybook, and the
   public website.
@@ -222,7 +294,7 @@ Status: **Verified locally; development deployment recorded below.**
 The public documentation remains inside `apps/web`; no documentation-only app,
 Cloudflare Worker, or hostname was added. The existing TanStack Start routes now
 embed the Fumadocs Glass layout pattern used by `iuv-stack/apps/iuv-docs`, while
-retaining iuvui's MDX source, Paraglide localization, HeroUI application chrome,
+retaining iuvui's MDX source, Paraglide localization, application chrome,
 component previews, and Cloudflare build boundary.
 
 The documentation now distinguishes the actual public package surface (Button,
@@ -357,17 +429,19 @@ Status: **In progress**.
 Started: 2026-08-06.
 
 This workstream records the adopted outcomes of an implementation review of
-Cloudflare Kumo at commit `e9f8f93e8221b665caa5262bcd05d81dba854be9`
-and HeroUI v3 at package version `3.2.3`. Kumo is an engineering reference for
+Cloudflare Kumo at commit `e9f8f93e8221b665caa5262bcd05d81dba854be9`.
+Kumo is an engineering reference for
 machine-readable component metadata, generated Registry documentation,
-source-owned Blocks, design-tool synchronization, and agent guidance. HeroUI
-remains the product-experience and styling-boundary reference. Neither project
-defines iuvui's public API or supplies unreviewed implementation code.
+source-owned Blocks, design-tool synchronization, and agent guidance. It does
+not define iuvui's public API or supply unreviewed implementation code. The
+component design and source contracts remain owned by iuvui.
 
 Adopted decisions:
 
-- preserve the existing React Aria adapter boundary and do not expose or switch
-  the public component API to Base UI primitives;
+- keep primitive types out of the public component API. The 2026-08-06 note
+  deferred a Base UI switch; the 2026-10-26 spike moves Button, Dialog, and
+  Select behavior to Base UI while Text Field, Separator, and future date,
+  table, and tree work stay on React Aria Components;
 - preserve precompiled `@iuvui/styles` CSS and do not require consumers to scan
   package source with Tailwind `@source` directives;
 - introduce a private build-time component contract that records identity,
@@ -420,9 +494,8 @@ Current work log:
 - **2026-08-06 — Research and adoption:** inspected Kumo's Base UI wrappers,
   Tailwind token generation, component Registry pipeline, CLI Blocks, JSON UI
   catalog, Figma generators, build packaging, and representative Button, Dialog,
-  Select, and Table implementations; compared them with HeroUI v3 React Aria
-  components, independent styles package, compound anatomy, semantic themes,
-  and agent tooling.
+  Select, and Table implementations, alongside React Aria behavior,
+  independent styles, compound anatomy, semantic themes, and agent tooling.
 - **2026-08-06 — Repository fit audit:** confirmed that iuvui already has the
   required behavior boundary, precompiled style delivery, stable slots and
   states, versioned Registry provenance, package/source parity, Storybook
@@ -494,10 +567,11 @@ blocked by the unpublished CLI package.
 The public website uses one TanStack Start build and one Cloudflare Worker:
 
 - `iuvui` serves `iuvui.com` in production;
-- CI preview uploads expose version URLs on the same Worker.
+- staging promotion uploads a Worker version with the `staging` preview alias on
+  the same Worker.
 
-The following entries separate the latest preview deployment from older
-historical records:
+The following entries separate the latest historical deployment from older
+records:
 
 - `iuvui-web-dev` was deployed as Worker version
   `e3237e6e-efff-4a25-add9-375f0022e25f` on 2026-08-20. External smoke checks
@@ -522,8 +596,7 @@ Glass documentation surface in the same `apps/web` project:
 - Overview, Components, Variants, Styles, Icons, Brand, and Guides content with
   truthful package, Registry, and `@iuvui/styles` availability labels;
 - live previews and the Button variant matrix rendered by real local iuvui
-  components inside documentation pages while HeroUI remains the application
-  chrome;
+  components inside documentation pages;
 - no Dashboard link and no unpublished CLI installation command;
 - English-default Paraglide copy with Simplified Chinese switching;
 - one Cloudflare Web build for both landing and documentation routes, rather
@@ -603,7 +676,7 @@ Status: **In progress**.
 
 Completed:
 
-- HeroUI OSS website baseline and an English-first localized documentation
+- Public website foundation and an English-first localized documentation
   catalog candidate with actual components, variants, and style exports;
 - TanStack Start SSR and separate dev and prod Cloudflare environments;
 - Button, Text Field, Dialog, and Separator public package outputs at `0.0.1`;
@@ -666,15 +739,13 @@ entitlement verification, protected artifact delivery, project tokens, integrity
 verification, and non-secret provenance. Free commands and free component access
 must remain usable without an account.
 
-## Phase 5 — Self-bootstrap
+## Phase 5 — Continuous dogfooding
 
-Status: **Not started**.
-
-The self-bootstrap phase will audit iuvui components against the production
-accessibility and compatibility gates, replace HeroUI incrementally, and use the
-public site, future private dashboard, Storybook, and examples as continuous
-dogfooding consumers. HeroUI OSS remains in production until each replacement
-satisfies the contracts already exercised by those surfaces.
+The public site consumes local iuvui components for both chrome
+and previews. Continue auditing those components against accessibility and
+compatibility contracts through the public site, Storybook, and examples.
+Future private dashboard adoption belongs to its own repository and verification
+plan, not a prerequisite for the public website's component baseline.
 
 ## `0.0.x` release gate
 

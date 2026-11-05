@@ -29,11 +29,12 @@ Published `0.0.1` entry points are `@iuvui/react/button`,
 
 ## Workspace package
 
-The canonical workspace also exports Card, Input, Label, and Textarea on the
-same package path, with matching CSS and local Registry artifacts. Those files
-are verified by local pack and consumer checks. They are not part of the
-already-published `@iuvui/react@0.0.1` npm artifact; installing the public
-package and copying the workspace example will fail until a later authorized
-`0.0.x` publication.
+The canonical workspace also exports Card, Input, Label, Select, and Textarea
+on the same package path, with matching CSS. Card, Input, Label, and Textarea
+also have local Registry artifacts. Select is a package export only and is not
+a Registry or catalog item yet. These workspace files are verified by local
+pack and consumer checks. They are not part of the already-published
+`@iuvui/react@0.0.1` npm artifact; installing the public package and copying
+the workspace example will fail until a later authorized `0.0.x` publication.
 
 See [iuvui.com](https://iuvui.com) for documentation.

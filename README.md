@@ -2,9 +2,9 @@
 
 iuvui is an ownable, customizable, and continuously upgradeable React UI system. It combines a maintained design system, installable React packages, source delivery, and lifecycle tooling.
 
-**Use shadcn/ui like HeroUI.**
+**React components, made yours.**
 
-iuvui is an independent project and is not affiliated with shadcn/ui or HeroUI. shadcn/ui is the design and source reference baseline, React Aria Components provide replaceable behavior behind an internal adapter, and the package API and delivery experience follow the convenience expected from a maintained component library.
+iuvui is an independent React UI system with accessible components, semantic styles, and a maintained package API. Use ready-to-install packages or own the source, with consistent behavior and versioned provenance across both delivery forms.
 
 The canonical public repository is
 [`iuvapp/iuvui`](https://github.com/iuvapp/iuvui). The former private
@@ -12,7 +12,7 @@ The canonical public repository is
 repository will own the shared Free and Pro account dashboard and protected
 product assets; no dashboard application code or paid asset is maintained here.
 
-The repository currently implements package delivery first. Public packages use the `@iuvui/*` scope. Consumers customize components through stable props, CSS variables, `className`, and `extendVariants`. React Aria Components provide behavior behind a private adapter; their types, contexts, and DOM structure are not public API.
+The repository currently implements package delivery first. Public packages use the `@iuvui/*` scope. Consumers customize components through stable props, CSS variables, `className`, and `extendVariants`. Button, Dialog, and Select take their behavior from Base UI. Text Field and Separator still take theirs from React Aria Components. Both sit behind a private adapter, and neither primitive's types, contexts, nor DOM structure is public API.
 
 Source delivery is a first-class product mode. The local `@iuvui/cli` workspace
 installs component source into a consumer project, records iuvui and exact
@@ -124,7 +124,7 @@ Tailwind CSS v4 is the recommended utility extension environment. `tailwind-merg
 
 ## Accessibility and support
 
-The private React Aria adapter implements keyboard interaction, focus visibility, dialog focus containment and restoration, and form relationships. Unit tests, Playwright, and axe treat essential behavior and stable `data-slot` or state attributes as contracts. Automated scans do not replace manual assistive-technology testing.
+The private behavior adapter implements keyboard interaction, focus visibility, dialog focus containment and restoration, and form relationships. Button, Dialog, and Select use Base UI for that behavior. Text Field and Separator still use React Aria Components. Unit tests, Playwright, and axe treat essential behavior and stable `data-slot` or state attributes as contracts. Automated scans do not replace manual assistive-technology testing.
 
 The browser policy targets the current two stable releases of Chromium, Firefox, and Safari, with React 18.3+ and React 19 while those releases receive upstream security support. Packages are ESM-only unless real consumer data establishes a CJS requirement.
 
@@ -166,9 +166,14 @@ pnpm public:check
 ## Web platform
 
 - `iuvui.com` is the public brand, component, and documentation site.
-- Branch and pull-request previews use Cloudflare Worker preview URLs on the
-  single `iuvui` Worker (`wrangler versions upload` in CI). There is no
-  separate development Worker or `*.iuvdev.com` hostname for the public site.
+- Staging and production deploys run only through the
+  `CI Staging and Production Promotion` workflow. Staging validates
+  `origin/main` (or an explicit SHA),
+  uploads Worker preview versions with the `staging` alias, tags
+  `staging/<UTC>-<shortsha>`, and records a `Staging` GitHub Deployment.
+  Production ships only SHAs that already have a staging tag and successful
+  `Staging` deployment, then serves `iuvui.com` and `ui.iuvui.com`. Merges and
+  pull requests do not trigger deploys.
 - The future private dashboard has no configured domain or deployment in this
   repository. Its implementation and server-side entitlement boundary will live
   in `iuv-pro` when that repository is created.
@@ -178,10 +183,9 @@ pnpm public:check
   contents.
 - Each surface has an independent Cloudflare Worker, configuration, secrets, and
   release process in its owning repository.
-- HeroUI OSS is the production UI baseline until iuvui can safely bootstrap
-  itself. HeroUI Pro source and licensed assets must not be committed to this
-  public repository; any future application-layer integration must comply with
-  its purchased license.
+- Website chrome uses local `@iuvui/*` components and semantic tokens.
+  Fumadocs remains the documentation layer inside TanStack Start. Paid
+  third-party source and licensed assets must not enter this public repository.
 - Paraglide provides the shared localization foundation. English and Simplified Chinese are enabled, with English as the canonical source locale.
 
 See [Web platform](./docs/WEB_PLATFORM.md) for the complete boundary and rollout plan.

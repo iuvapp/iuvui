@@ -20,7 +20,7 @@
   "web_home_status": "React UI 系统",
   "web_home_docs_action": "浏览文档",
   "web_status": "React 组件 · 已发布包与工作区预览",
-  "web_slogan": "像使用 HeroUI 一样使用 shadcn/ui。",
+  "web_slogan": "React 组件，由你掌控。",
   "web_summary": "一套可拥有的 React 组件系统，支持组件包分发、源码交付和版本化上游追溯。所有组件都免费，你的团队可以决定维护多少代码。",
   "web_component_count": "{count} 个组件",
   "web_package_version": "工作区组件包版本 {version}",
@@ -113,5 +113,5 @@
   "web_fumadocs_search": "搜索",
   "web_fumadocs_show_sidebar": "显示侧边栏",
   "web_fumadocs_toggle_menu": "切换菜单",
-  "web_independence_notice": "iuvui 是独立项目，与 shadcn/ui 或 HeroUI 没有隶属或关联关系。"
+  "web_independence_notice": "iuvui 是独立的开源 React UI 系统。"
 }
